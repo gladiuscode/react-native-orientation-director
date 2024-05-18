@@ -10,6 +10,8 @@
 #import "react_native_orientation_handler/react_native_orientation_handler-Swift"
 #endif
 
+static OrientationHandlerImpl *_handler = [OrientationHandlerImpl new];
+
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///https://github.com/react-native-community/RNNewArchitectureLibraries/tree/feat/swift-event-emitter
@@ -18,40 +20,39 @@
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
 
-@implementation OrientationHandler {
-    OrientationHandlerImpl *handler;
-}
+@implementation OrientationHandler
 RCT_EXPORT_MODULE()
-
-static OrientationHandlerImpl *_handler = [OrientationHandlerImpl new];
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        handler = [OrientationHandlerImpl new];
-        handler.sensorListener.delegate = self;
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ///         EVENT EMITTER SETUP
+        [_handler setEventManagerDelegateWithDelegate:self];
+        ///
+        //////////////////////////////////////////////////////////////////////////////////////////
     }
     return self;
-}
-
-+ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
-{
-    return [_handler supportedInterfaceOrientation];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
 - (NSArray<NSString *> *)supportedEvents {
-    return [OrientationEventEmitter supportedEvents];
+    return [OrientationEventManager supportedEvents];
 }
 
-- (void)sendEventWithName:(NSString * _Nonnull)name result:(NSDictionary *)result {
-    [self sendEventWithName:name body:result];
+- (void)sendEventWithName:(NSString * _Nonnull)name params:(NSDictionary *)params {
+    [self sendEventWithName:name body:params];
 }
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
+
++ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
+{
+    return [_handler supportedInterfaceOrientation];
+}
 
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)

@@ -9,12 +9,25 @@ import Foundation
 import UIKit
 
 @objc public class OrientationHandlerImpl : NSObject {
-    @objc public var sensorListener = OrientationSensorListener()
-    
     private static let TAG = "OrientationHandlerImpl"
+    private let sensorListener: OrientationSensorListener
+    private let eventManager: OrientationEventManager
     
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
 
+    @objc public override init() {
+        eventManager = OrientationEventManager()
+        sensorListener = OrientationSensorListener(fromEventEmitter:eventManager)
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////
+    ///         EVENT EMITTER SETUP
+    @objc public func setEventManagerDelegate(delegate: OrientationEventEmitterDelegate) {
+        self.eventManager.delegate = delegate
+    }
+    ///
+    //////////////////////////////////////////////////////////////////////////////////////////
+    
     @objc public func getInterfaceOrientation() -> UIInterfaceOrientation {
         return OrientationHandlerUtils.getInterfaceOrientation()
     }
@@ -47,6 +60,8 @@ import UIKit
                 UIViewController.attemptRotationToDeviceOrientation()
             }
         }
+        
+        eventManager.sendInterfaceOrientationDidChange(orientationValue: Int(truncating: orientation))
     }
 
 }

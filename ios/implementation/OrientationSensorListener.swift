@@ -7,10 +7,12 @@
 
 import Foundation
 
-@objc public class OrientationSensorListener: OrientationEventEmitter {
+public class OrientationSensorListener {
+    private let eventEmitter: OrientationEventManager
     
-    override public init() {
-        super.init()
+    public init(fromEventEmitter: OrientationEventManager) {
+        self.eventEmitter = fromEventEmitter
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(orientationDidChange),
@@ -24,12 +26,6 @@ import Foundation
     }
 
     @objc func orientationDidChange(_ notification: Notification) {
-        let deviceOrientation = UIDevice.current.orientation
-        
-        guard let delegate = self.delegate else {
-            return
-        }
-        
-        delegate.sendEvent(name: OrientationEventEmitter.Event.OrientationDidChange.rawValue, result: ["orientation":deviceOrientation.rawValue])
+        self.eventEmitter.sendDeviceOrientationDidChange(orientationValue: UIDevice.current.orientation.rawValue)
     }
 }
