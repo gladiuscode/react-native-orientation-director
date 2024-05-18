@@ -12,17 +12,17 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
 
     val activityOrientation = context.currentActivity!!.requestedOrientation
     if (
-      !mUtils.isEitherPortraitOrReversePortrait(activityOrientation) &&
-      !mUtils.isEitherLandscapeOrReverseLandscape(activityOrientation)
+      mUtils.isActivityInPortraitOrientation(activityOrientation) ||
+      mUtils.isActivityInLandscapeOrientation(activityOrientation)
     ) {
-      return mUtils.getDeviceOrientation().ordinal
+      return mUtils.getInterfaceOrientationFromActivityOrientation(activityOrientation).ordinal
     }
 
-    return mUtils.getActivityOrientation(activityOrientation).ordinal
+    return mUtils.getInterfaceOrientationFromDeviceOrientation().ordinal
   }
 
   fun lockTo(rawOrientation: Int) {
-    val screenOrientation = mUtils.getActivityInfoScreenOrientationFrom(rawOrientation)
+    val screenOrientation = mUtils.getActivityOrientationFromInterfaceOrientation(rawOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
   }
 

@@ -6,7 +6,7 @@ import android.view.Surface
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) {
-  fun getDeviceOrientation(): InterfaceOrientation {
+  fun getInterfaceOrientationFromDeviceOrientation(): InterfaceOrientation {
     val rotation = getDeviceRotation()
 
     return when (rotation) {
@@ -19,8 +19,8 @@ class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) 
     }
   }
 
-  fun getActivityOrientation(activityOrientation: Int): InterfaceOrientation {
-    return when (activityOrientation) {
+  fun getInterfaceOrientationFromActivityOrientation(activityInfo: Int): InterfaceOrientation {
+    return when (activityInfo) {
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_LEFT
       ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_RIGHT
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
@@ -28,22 +28,22 @@ class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) 
     };
   }
 
-  fun isEitherLandscapeOrReverseLandscape(orientation: Int): Boolean {
+  fun isActivityInLandscapeOrientation(orientation: Int): Boolean {
     return listOf(
       ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
     ).contains(orientation);
   }
 
-  fun isEitherPortraitOrReversePortrait(orientation: Int): Boolean {
+  fun isActivityInPortraitOrientation(orientation: Int): Boolean {
     return listOf(
       ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
     ).contains(orientation);
   }
 
-  fun getActivityInfoScreenOrientationFrom(rawOrientation: Int): Int {
-    return when (rawOrientation) {
+  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientationValue: Int): Int {
+    return when (interfaceOrientationValue) {
       InterfaceOrientation.PORTRAIT_UPSIDE_DOWN.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
       InterfaceOrientation.LANDSCAPE_LEFT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
       InterfaceOrientation.LANDSCAPE_RIGHT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
