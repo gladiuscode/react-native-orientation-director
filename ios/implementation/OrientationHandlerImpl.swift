@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 @objc public class OrientationHandlerImpl : NSObject {
-
+    @objc public var sensorListener = OrientationSensorListener()
+    
     private static let TAG = "OrientationHandlerImpl"
     
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all

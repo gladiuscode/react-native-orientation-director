@@ -10,15 +10,48 @@
 #import "react_native_orientation_handler/react_native_orientation_handler-Swift"
 #endif
 
-@implementation OrientationHandler
+///////////////////////////////////////////////////////////////////////////////////////
+///         EVENT EMITTER SETUP
+///https://github.com/react-native-community/RNNewArchitectureLibraries/tree/feat/swift-event-emitter
+@interface OrientationHandler() <OrientationEventEmitterDelegate>
+@end
+///
+//////////////////////////////////////////////////////////////////////////////////////////
+
+@implementation OrientationHandler {
+    OrientationHandlerImpl *handler;
+}
 RCT_EXPORT_MODULE()
 
 static OrientationHandlerImpl *_handler = [OrientationHandlerImpl new];
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        handler = [OrientationHandlerImpl new];
+        handler.sensorListener.delegate = self;
+    }
+    return self;
+}
 
 + (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
 {
     return [_handler supportedInterfaceOrientation];
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+///         EVENT EMITTER SETUP
+///
+- (NSArray<NSString *> *)supportedEvents {
+    return [OrientationEventEmitter supportedEvents];
+}
+
+- (void)sendEventWithName:(NSString * _Nonnull)name result:(NSDictionary *)result {
+    [self sendEventWithName:name body:result];
+}
+///
+///////////////////////////////////////////////////////////////////////////////////////
 
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
