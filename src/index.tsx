@@ -1,4 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
+import type { Spec } from './NativeOrientationHandler';
+import type InterfaceOrientation from './types/InterfaceOrientation.enum';
 
 const LINKING_ERROR =
   `The package 'react-native-orientation-handler' doesn't seem to be linked. Make sure: \n\n` +
@@ -13,17 +15,23 @@ const OrientationHandlerModule = isTurboModuleEnabled
   ? require('./NativeOrientationHandler').default
   : NativeModules.OrientationHandler;
 
-const OrientationHandler = OrientationHandlerModule
-  ? OrientationHandlerModule
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+const OrientationHandler = (
+  OrientationHandlerModule
+    ? OrientationHandlerModule
+    : new Proxy(
+        {},
+        {
+          get() {
+            throw new Error(LINKING_ERROR);
+          },
+        }
+      )
+) as Spec;
 
-export function multiply(a: number, b: number): Promise<number> {
-  return OrientationHandler.multiply(a, b);
+class RNOrientationHandler {
+  static getInterfaceOrientation(): Promise<InterfaceOrientation> {
+    return OrientationHandler.getInterfaceOrientation();
+  }
 }
+
+export default RNOrientationHandler;
