@@ -7,6 +7,6 @@ enum class InterfaceOrientation {
   UNKNOWN,
   PORTRAIT,
   PORTRAIT_UPSIDE_DOWN,
-  LANDSCAPE_RIGHT,
   LANDSCAPE_LEFT,
+  LANDSCAPE_RIGHT,
 }
