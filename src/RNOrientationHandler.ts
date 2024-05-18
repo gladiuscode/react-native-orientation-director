@@ -15,7 +15,7 @@ class RNOrientationHandler {
   static listenForDeviceOrientationChanges(
     callback: (orientation: DeviceOrientationChangesEvent) => void
   ) {
-    EventEmitter.addListener(Event.OrientationDidChange, callback);
+    EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
   }
 }
 

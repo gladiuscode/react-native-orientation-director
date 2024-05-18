@@ -1,11 +1,12 @@
 package com.orientationhandler.implementation
 
-import android.util.Log
+import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = OrientationHandlerUtilsImpl(context)
-  private var mSensorListener = OrientationSensorListener(context)
+  private var mEventEmitter = OrientationEventManager(context)
+  private var mSensorListener = OrientationSensorListener(context, mEventEmitter)
 
   init {
     if (mSensorListener.canDetectOrientation()) {
@@ -32,8 +33,10 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
   }
 
   fun lockTo(rawOrientation: Int) {
-    val screenOrientation = mUtils.getActivityOrientationFromInterfaceOrientation(rawOrientation)
+    val interfaceOrientation = mUtils.mapToInterfaceOrientation(rawOrientation)
+    val screenOrientation = mUtils.getActivityOrientationFromInterfaceOrientation(interfaceOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
+    mEventEmitter.sendInterfaceOrientationDidChange(interfaceOrientation.ordinal)
   }
 
   companion object {

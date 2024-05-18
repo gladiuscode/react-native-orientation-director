@@ -42,12 +42,21 @@ class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) 
     ).contains(orientation);
   }
 
-  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientationValue: Int): Int {
-    return when (interfaceOrientationValue) {
-      InterfaceOrientation.PORTRAIT_UPSIDE_DOWN.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-      InterfaceOrientation.LANDSCAPE_LEFT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-      InterfaceOrientation.LANDSCAPE_RIGHT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientation: InterfaceOrientation): Int {
+    return when (interfaceOrientation) {
+      InterfaceOrientation.PORTRAIT_UPSIDE_DOWN -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+      InterfaceOrientation.LANDSCAPE_LEFT -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+      InterfaceOrientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
       else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+  }
+
+  fun mapToInterfaceOrientation(rawOrientation: Int): InterfaceOrientation {
+    return when (rawOrientation) {
+      2 -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
+      3 -> InterfaceOrientation.LANDSCAPE_LEFT
+      4 -> InterfaceOrientation.LANDSCAPE_RIGHT
+      else -> InterfaceOrientation.PORTRAIT
     }
   }
 

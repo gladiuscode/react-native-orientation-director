@@ -1,5 +1,5 @@
 enum Event {
-  OrientationDidChange = 'OrientationDidChange',
+  DeviceOrientationDidChange = 'DeviceOrientationDidChange',
 }
 
 export default Event;
