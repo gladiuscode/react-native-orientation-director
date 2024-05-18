@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { InterfaceOrientation } from '../../src/types/InterfaceOrientation.enum';
 import RNOrientationHandler from 'react-native-orientation-handler';
 
@@ -16,7 +16,33 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Current Interface Orientation: {interfaceOrientation}</Text>
+      <Text style={styles.interfaceOrientation}>
+        Current Interface Orientation: {interfaceOrientation}
+      </Text>
+      <Button
+        title={'Lock To Portrait'}
+        onPress={() => {
+          RNOrientationHandler.lockTo(InterfaceOrientation.portrait);
+        }}
+      />
+      <Button
+        title={'Lock To Portrait Upside Down'}
+        onPress={() => {
+          RNOrientationHandler.lockTo(InterfaceOrientation.portraitUpsideDown);
+        }}
+      />
+      <Button
+        title={'Lock To Landscape Left'}
+        onPress={() => {
+          RNOrientationHandler.lockTo(InterfaceOrientation.landscapeLeft);
+        }}
+      />
+      <Button
+        title={'Lock To Landscape Right'}
+        onPress={() => {
+          RNOrientationHandler.lockTo(InterfaceOrientation.landscapeRight);
+        }}
+      />
     </View>
   );
 }
@@ -26,6 +52,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  interfaceOrientation: {
+    marginBottom: 12,
   },
   box: {
     width: 60,
