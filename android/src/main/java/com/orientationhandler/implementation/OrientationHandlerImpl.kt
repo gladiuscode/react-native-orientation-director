@@ -1,9 +1,19 @@
 package com.orientationhandler.implementation
 
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = OrientationHandlerUtilsImpl(context)
+  private var mSensorListener = OrientationSensorListener(context)
+
+  init {
+    if (mSensorListener.canDetectOrientation()) {
+      mSensorListener.enable()
+    } else {
+      mSensorListener.disable()
+    }
+  }
 
   fun getInterfaceOrientation(): Int {
     if (context.currentActivity == null) {

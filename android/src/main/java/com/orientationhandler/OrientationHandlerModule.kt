@@ -28,6 +28,12 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
     orientationHandlerImpl.lockTo(orientation)
   }
 
+  @ReactMethod
+  fun addListener(eventName: String) {}
+
+  @ReactMethod
+  fun removeListeners(count: Int) {}
+
   companion object {
     const val NAME = "OrientationHandler"
   }
