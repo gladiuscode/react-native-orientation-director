@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import RNOrientationHandler, {
-  InterfaceOrientation,
+  Orientation,
   useDeviceOrientation,
   useInterfaceOrientation,
 } from 'react-native-orientation-handler';
@@ -25,41 +25,41 @@ export default function App() {
     <View style={styles.container}>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Interface Orientation:
-        {RNOrientationHandler.convertInterfaceOrientationToHumanReadableString(
+        {RNOrientationHandler.convertOrientationToHumanReadableStrings(
           interfaceOrientation
         )}
       </Text>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Device Orientation:
-        {RNOrientationHandler.convertInterfaceOrientationToHumanReadableString(
+        {RNOrientationHandler.convertOrientationToHumanReadableStrings(
           deviceOrientation
         )}
       </Text>
       <Button
         title={'Lock To Portrait'}
         onPress={() => {
-          RNOrientationHandler.lockTo(InterfaceOrientation.portrait);
+          RNOrientationHandler.lockTo(Orientation.portrait);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Portrait Upside Down'}
         onPress={() => {
-          RNOrientationHandler.lockTo(InterfaceOrientation.portraitUpsideDown);
+          RNOrientationHandler.lockTo(Orientation.portraitUpsideDown);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Landscape Left'}
         onPress={() => {
-          RNOrientationHandler.lockTo(InterfaceOrientation.landscapeLeft);
+          RNOrientationHandler.lockTo(Orientation.landscapeLeft);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Landscape Right'}
         onPress={() => {
-          RNOrientationHandler.lockTo(InterfaceOrientation.landscapeRight);
+          RNOrientationHandler.lockTo(Orientation.landscapeRight);
         }}
       />
     </View>

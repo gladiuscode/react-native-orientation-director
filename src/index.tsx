@@ -1,5 +1,4 @@
-import InterfaceOrientation from './types/InterfaceOrientation.enum';
-export { InterfaceOrientation };
+export { Orientation } from './types/Orientation.enum';
 
 import useDeviceOrientation from './hooks/useDeviceOrientation.hook';
 export { useDeviceOrientation };

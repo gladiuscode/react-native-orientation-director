@@ -1,6 +1,6 @@
-import { InterfaceOrientation } from 'react-native-orientation-handler';
+import type { Orientation } from './Orientation.enum';
 
 export type InterfaceOrientationToLocalizedStringProvider = Record<
-  InterfaceOrientation,
+  Orientation,
   string
 >;

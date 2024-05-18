@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import RNOrientationHandler from '../RNOrientationHandler';
-import type { InterfaceOrientationChangesEvent } from '../types/InterfaceOrientationChangesEvent.interface';
-import { InterfaceOrientation } from 'react-native-orientation-handler';
+import type { OrientationEvent } from '../types/OrientationEvent.interface';
+import { Orientation } from 'react-native-orientation-handler';
 
 /**
  * A custom hook to get the device orientation
@@ -9,9 +9,7 @@ import { InterfaceOrientation } from 'react-native-orientation-handler';
  */
 const useInterfaceOrientation = () => {
   const initialRender = useRef(false);
-  const [orientation, setOrientation] = React.useState<InterfaceOrientation>(0);
-
-  console.log('useInterfaceOrientation - orientation: ', orientation);
+  const [orientation, setOrientation] = React.useState<Orientation>(0);
 
   React.useEffect(() => {
     if (initialRender.current) {
@@ -23,7 +21,7 @@ const useInterfaceOrientation = () => {
   }, []);
 
   React.useEffect(() => {
-    const onChange = (event: InterfaceOrientationChangesEvent) => {
+    const onChange = (event: OrientationEvent) => {
       setOrientation(event.orientation);
     };
 

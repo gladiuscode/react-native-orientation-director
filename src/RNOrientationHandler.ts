@@ -1,18 +1,17 @@
-import InterfaceOrientation from './types/InterfaceOrientation.enum';
 import Module, { EventEmitter } from './module';
-import type { DeviceOrientationChangesEvent } from './types/DeviceOrientationChangesEvent.interface';
 import Event from './types/Event.enum';
-import type { InterfaceOrientationChangesEvent } from './types/InterfaceOrientationChangesEvent.interface';
 import type { InterfaceOrientationToLocalizedStringProvider } from './types/InterfaceOrientationToLocalizedStringProvider.type';
+import { Orientation } from './types/Orientation.enum';
+import type { OrientationEvent } from './types/OrientationEvent.interface';
 
 class RNOrientationHandler {
   private static _localizedStringProvider: InterfaceOrientationToLocalizedStringProvider =
     {
-      [InterfaceOrientation.unknown]: 'Unknown',
-      [InterfaceOrientation.portrait]: 'Portrait',
-      [InterfaceOrientation.portraitUpsideDown]: 'Portrait Upside Down',
-      [InterfaceOrientation.landscapeLeft]: 'Landscape Left',
-      [InterfaceOrientation.landscapeRight]: 'Landscape Right',
+      [Orientation.unknown]: 'Unknown',
+      [Orientation.portrait]: 'Portrait',
+      [Orientation.portraitUpsideDown]: 'Portrait Upside Down',
+      [Orientation.landscapeLeft]: 'Landscape Left',
+      [Orientation.landscapeRight]: 'Landscape Right',
     };
 
   setLocalizedStringProvider(
@@ -21,28 +20,28 @@ class RNOrientationHandler {
     RNOrientationHandler._localizedStringProvider = provider;
   }
 
-  static getInterfaceOrientation(): Promise<InterfaceOrientation> {
+  static getInterfaceOrientation(): Promise<Orientation> {
     return Module.getInterfaceOrientation();
   }
 
-  static lockTo(orientation: InterfaceOrientation) {
+  static lockTo(orientation: Orientation) {
     Module.lockTo(orientation);
   }
 
   static listenForDeviceOrientationChanges(
-    callback: (orientation: DeviceOrientationChangesEvent) => void
+    callback: (orientation: OrientationEvent) => void
   ) {
     EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
   }
 
   static listenForInterfaceOrientationChanges(
-    callback: (orientation: InterfaceOrientationChangesEvent) => void
+    callback: (orientation: OrientationEvent) => void
   ) {
     EventEmitter.addListener(Event.InterfaceOrientationDidChange, callback);
   }
 
-  static convertInterfaceOrientationToHumanReadableString(
-    orientation: InterfaceOrientation
+  static convertOrientationToHumanReadableStrings(
+    orientation: Orientation
   ): string {
     return RNOrientationHandler._localizedStringProvider[orientation];
   }

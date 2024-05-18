@@ -1,6 +1,6 @@
 import React from 'react';
-import type { DeviceOrientationChangesEvent } from '../types/DeviceOrientationChangesEvent.interface';
 import RNOrientationHandler from '../RNOrientationHandler';
+import type { OrientationEvent } from '../types/OrientationEvent.interface';
 
 /**
  * A custom hook to get the device orientation
@@ -10,7 +10,7 @@ const useDeviceOrientation = () => {
   const [orientation, setOrientation] = React.useState<number>(0);
 
   React.useEffect(() => {
-    const onChange = (event: DeviceOrientationChangesEvent) => {
+    const onChange = (event: OrientationEvent) => {
       setOrientation(event.orientation);
     };
 
