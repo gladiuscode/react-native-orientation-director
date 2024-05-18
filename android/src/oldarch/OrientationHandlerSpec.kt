@@ -7,5 +7,5 @@ import com.facebook.react.bridge.Promise
 abstract class OrientationHandlerSpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
 
-  abstract fun multiply(a: Double, b: Double, promise: Promise)
+  abstract fun getInterfaceOrientation(promise: Promise)
 }
