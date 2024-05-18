@@ -1,18 +1,35 @@
 #import "OrientationHandler.h"
 
-@implementation OrientationHandler
+/*
+ This condition is needed to support use_frameworks.
+ https://github.com/callstack/react-native-builder-bob/discussions/412#discussioncomment-6352402
+ */
+#if __has_include("react_native_orientation_handler-Swift.h")
+#import "react_native_orientation_handler-Swift.h"
+#else
+#import "react_native_orientation_handler/react_native_orientation_handler-Swift"
+#endif
+
+@implementation OrientationHandler {
+    OrientationHandlerImpl *_handler;
+}
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_EXPORT_METHOD(multiply:(double)a
-                  b:(double)b
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+- (instancetype)init
 {
-    NSNumber *result = @(a * b);
+    self = [super init];
+    if (self) {
+        _handler = [[OrientationHandlerImpl alloc] init];
+    }
+    return self;
+}
 
-    resolve(result);
+RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        resolve(@([self->_handler getInterfaceOrientation]));
+    });
 }
 
 // Don't compile this code when we build for the old architecture.
