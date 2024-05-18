@@ -6,8 +6,13 @@ import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationSensorListener(
   context: ReactApplicationContext,
-  private val eventEmitter: OrientationEventManager
+  private val eventEmitter: OrientationEventManager,
 ) : OrientationEventListener(context, SensorManager.SENSOR_DELAY_UI) {
+  private var checkInterfaceOrientationCallback: ((deviceOrientation: Int) -> Unit)? = null
+
+  fun setCheckInterfaceOrientationCallback(callback: (deviceOrientation: Int) -> Unit) {
+    checkInterfaceOrientationCallback = callback
+  }
 
   override fun onOrientationChanged(orientation: Int) {
     var orientationValue: Int = 0;
@@ -30,5 +35,6 @@ class OrientationSensorListener(
     }
 
     eventEmitter.sendDeviceOrientationDidChange(orientationValue)
+    checkInterfaceOrientationCallback?.invoke(orientationValue)
   }
 }
