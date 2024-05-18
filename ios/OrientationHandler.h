@@ -1,4 +1,3 @@
-
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "RNOrientationHandlerSpec.h"
 
@@ -8,5 +7,7 @@
 
 @interface OrientationHandler : NSObject <RCTBridgeModule>
 #endif
+
++(UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow;
 
 @end

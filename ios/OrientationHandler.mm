@@ -10,25 +10,28 @@
 #import "react_native_orientation_handler/react_native_orientation_handler-Swift"
 #endif
 
-@implementation OrientationHandler {
-    OrientationHandlerImpl *_handler;
-}
+@implementation OrientationHandler
 RCT_EXPORT_MODULE()
 
-- (instancetype)init
+static OrientationHandlerImpl *_handler = [OrientationHandlerImpl new];
+
++ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
 {
-    self = [super init];
-    if (self) {
-        _handler = [[OrientationHandlerImpl alloc] init];
-    }
-    return self;
+    return [_handler supportedInterfaceOrientation];
 }
 
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        resolve(@([self->_handler getInterfaceOrientation]));
+        resolve(@([_handler getInterfaceOrientation]));
+    });
+}
+
+RCT_EXPORT_METHOD(lockTo:(nonnull NSNumber *)rawOrientation)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_handler lockToOrientation:rawOrientation];
     });
 }
 
