@@ -1,18 +1,22 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-orientation-handler';
+import { StyleSheet, Text, View } from 'react-native';
+import { InterfaceOrientation } from '../../src/types/InterfaceOrientation.enum';
+import RNOrientationHandler from 'react-native-orientation-handler';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [interfaceOrientation, setInterfaceOrientation] =
+    React.useState<InterfaceOrientation>(InterfaceOrientation.unknown);
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    RNOrientationHandler.getInterfaceOrientation().then(
+      setInterfaceOrientation
+    );
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Current Interface Orientation: {interfaceOrientation}</Text>
     </View>
   );
 }
