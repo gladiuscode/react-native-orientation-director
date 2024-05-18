@@ -32,6 +32,10 @@ class RNOrientationHandler {
   static getInterfaceOrientation(): Promise<InterfaceOrientation> {
     return OrientationHandler.getInterfaceOrientation();
   }
+
+  static lockTo(orientation: InterfaceOrientation) {
+    OrientationHandler.lockTo(orientation);
+  }
 }
 
 export default RNOrientationHandler;
