@@ -5,28 +5,26 @@ import android.os.Build
 import android.view.Surface
 import com.facebook.react.bridge.ReactApplicationContext
 
-class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext)  {
-  private val UNKNOWN_ROTATION = -1;
-
-  fun getDeviceOrientation(): Int {
+class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) {
+  fun getDeviceOrientation(): InterfaceOrientation {
     val rotation = getDeviceRotation()
 
     return when (rotation) {
-      Surface.ROTATION_0 -> 1
+      Surface.ROTATION_0 -> InterfaceOrientation.PORTRAIT
       // TODO: Check in real device, since in emulator it doesn't work
-      Surface.ROTATION_180 -> 2
-      Surface.ROTATION_90 -> 3
-      Surface.ROTATION_270 -> 4
-      else -> UNKNOWN_ROTATION
+      Surface.ROTATION_180 -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
+      Surface.ROTATION_90 -> InterfaceOrientation.LANDSCAPE_RIGHT
+      Surface.ROTATION_270 -> InterfaceOrientation.LANDSCAPE_LEFT
+      else -> InterfaceOrientation.UNKNOWN
     }
   }
 
-  fun getActivityOrientation(activityOrientation: Int): Int {
+  fun getActivityOrientation(activityOrientation: Int): InterfaceOrientation {
     return when (activityOrientation) {
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> 4
-      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> 3
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> 2
-      else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_LEFT
+      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_RIGHT
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
+      else -> InterfaceOrientation.PORTRAIT
     };
   }
 
@@ -42,6 +40,15 @@ class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) 
       ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
     ).contains(orientation);
+  }
+
+  fun getActivityInfoScreenOrientationFrom(rawOrientation: Int): Int {
+    return when (rawOrientation) {
+      InterfaceOrientation.PORTRAIT_UPSIDE_DOWN.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+      InterfaceOrientation.LANDSCAPE_LEFT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+      InterfaceOrientation.LANDSCAPE_RIGHT.ordinal -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+      else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
   }
 
   private fun getDeviceRotation(): Int? {

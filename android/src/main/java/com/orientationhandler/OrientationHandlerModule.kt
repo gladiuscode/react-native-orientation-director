@@ -23,6 +23,11 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
     promise.resolve(orientationHandlerImpl.getInterfaceOrientation())
   }
 
+  @ReactMethod()
+  override fun lockTo(orientation: Int) {
+    orientationHandlerImpl.lockTo(orientation)
+  }
+
   companion object {
     const val NAME = "OrientationHandler"
   }

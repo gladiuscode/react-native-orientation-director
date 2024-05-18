@@ -1,6 +1,5 @@
 package com.orientationhandler.implementation
 
-import android.content.res.Configuration
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
@@ -8,7 +7,7 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
 
   fun getInterfaceOrientation(): Int {
     if (context.currentActivity == null) {
-      return Configuration.ORIENTATION_UNDEFINED;
+      return InterfaceOrientation.UNKNOWN.ordinal
     }
 
     val activityOrientation = context.currentActivity!!.requestedOrientation
@@ -16,10 +15,15 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
       !mUtils.isEitherPortraitOrReversePortrait(activityOrientation) &&
       !mUtils.isEitherLandscapeOrReverseLandscape(activityOrientation)
     ) {
-      return mUtils.getDeviceOrientation()
+      return mUtils.getDeviceOrientation().ordinal
     }
 
-    return mUtils.getActivityOrientation(activityOrientation)
+    return mUtils.getActivityOrientation(activityOrientation).ordinal
+  }
+
+  fun lockTo(rawOrientation: Int) {
+    val screenOrientation = mUtils.getActivityInfoScreenOrientationFrom(rawOrientation)
+    context.currentActivity?.requestedOrientation = screenOrientation
   }
 
   companion object {
