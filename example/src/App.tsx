@@ -1,33 +1,39 @@
 import * as React from 'react';
 
 import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
-import { InterfaceOrientation } from '../../src/types/InterfaceOrientation.enum';
 import RNOrientationHandler, {
+  InterfaceOrientation,
   useDeviceOrientation,
+  useInterfaceOrientation,
 } from 'react-native-orientation-handler';
 
 export default function App() {
   const isDark = useColorScheme() === 'dark';
-  const deviceOrientation = useDeviceOrientation();
 
-  const [interfaceOrientation, setInterfaceOrientation] =
-    React.useState<InterfaceOrientation>(InterfaceOrientation.unknown);
+  const interfaceOrientation = useInterfaceOrientation();
+  const deviceOrientation = useDeviceOrientation();
 
   const textStyle = { color: isDark ? 'white' : 'black' };
 
   React.useEffect(() => {
-    RNOrientationHandler.getInterfaceOrientation().then(
-      setInterfaceOrientation
-    );
+    RNOrientationHandler.getInterfaceOrientation().then((orientation) => {
+      console.log('Current Interface Orientation:', orientation);
+    });
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={[textStyle, styles.marginBottom]}>
-        Current Interface Orientation: {interfaceOrientation}
+        Current Interface Orientation:
+        {RNOrientationHandler.convertInterfaceOrientationToHumanReadableString(
+          interfaceOrientation
+        )}
       </Text>
       <Text style={[textStyle, styles.marginBottom]}>
-        Current Device Orientation: {deviceOrientation}
+        Current Device Orientation:
+        {RNOrientationHandler.convertInterfaceOrientationToHumanReadableString(
+          deviceOrientation
+        )}
       </Text>
       <Button
         title={'Lock To Portrait'}
