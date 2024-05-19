@@ -15,12 +15,6 @@ export default function App() {
 
   const textStyle = { color: isDark ? 'white' : 'black' };
 
-  React.useEffect(() => {
-    RNOrientationHandler.getInterfaceOrientation().then((orientation) => {
-      console.log('Current Interface Orientation:', orientation);
-    });
-  }, []);
-
   return (
     <View style={styles.container}>
       <Text style={[textStyle, styles.marginBottom]}>
@@ -35,6 +29,24 @@ export default function App() {
           deviceOrientation
         )}
       </Text>
+      <Button
+        title={'Log Interface Orientation'}
+        onPress={() => {
+          RNOrientationHandler.getInterfaceOrientation().then((orientation) => {
+            console.log('Current Interface Orientation:', orientation);
+          });
+        }}
+      />
+      <View style={styles.marginBottom} />
+      <Button
+        title={'Log Device Orientation'}
+        onPress={() => {
+          RNOrientationHandler.getDeviceOrientation().then((orientation) => {
+            console.log('Current Device Orientation:', orientation);
+          });
+        }}
+      />
+      <View style={styles.marginBottom} />
       <Button
         title={'Lock To Portrait'}
         onPress={() => {
