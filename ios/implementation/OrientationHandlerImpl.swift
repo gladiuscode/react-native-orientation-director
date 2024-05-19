@@ -50,6 +50,21 @@ import UIKit
         let orientation = OrientationHandlerUtils.getOrientationFrom(jsOrientation: jsOrientation)
         let mask = OrientationHandlerUtils.getMaskFrom(orientation: orientation)
 
+        self.requestInterfaceUpdate(mask: mask)
+
+        eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
+        lastInterfaceOrientation = orientation
+        isLocked = true
+    }
+    
+    @objc public func unlock() {
+        self.requestInterfaceUpdate(mask: UIInterfaceOrientationMask.all)
+        let deviceOrientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+        isLocked = false
+        self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
+    }
+    
+    private func requestInterfaceUpdate(mask: UIInterfaceOrientationMask) {
         self.supportedInterfaceOrientation = mask
 
         DispatchQueue.main.async {
@@ -76,10 +91,6 @@ import UIKit
                 UIViewController.attemptRotationToDeviceOrientation()
             }
         }
-
-        eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
-        lastInterfaceOrientation = orientation
-        isLocked = true
     }
 
     public func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
