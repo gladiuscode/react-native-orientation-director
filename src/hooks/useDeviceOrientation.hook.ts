@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import RNOrientationHandler from '../RNOrientationHandler';
 import type { OrientationEvent } from '../types/OrientationEvent.interface';
 
@@ -7,7 +7,17 @@ import type { OrientationEvent } from '../types/OrientationEvent.interface';
  * By default, it returns `DeviceOrientation.unknown` on iOS
  */
 const useDeviceOrientation = () => {
+  const initialRender = useRef(false);
   const [orientation, setOrientation] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (initialRender.current) {
+      return;
+    }
+
+    initialRender.current = true;
+    RNOrientationHandler.getDeviceOrientation().then(setOrientation);
+  }, []);
 
   React.useEffect(() => {
     const onChange = (event: OrientationEvent) => {

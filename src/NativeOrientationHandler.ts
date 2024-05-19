@@ -3,6 +3,7 @@ import { TurboModuleRegistry } from 'react-native';
 
 export interface Spec extends TurboModule {
   getInterfaceOrientation(): Promise<number>;
+  getDeviceOrientation(): Promise<number>;
   lockTo(orientation: number): void;
 
   addListener: (eventType: string) => void;
