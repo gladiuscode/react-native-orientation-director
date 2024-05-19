@@ -33,6 +33,11 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
     orientationHandlerImpl.lockTo(orientation)
   }
 
+  @ReactMethod()
+  override fun unlock() {
+    orientationHandlerImpl.unlock()
+  }
+
   @ReactMethod
   fun addListener(eventName: String) {}
 

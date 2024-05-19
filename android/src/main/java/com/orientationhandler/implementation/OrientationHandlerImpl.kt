@@ -1,5 +1,7 @@
 package com.orientationhandler.implementation
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
@@ -61,6 +63,12 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
     mEventEmitter.sendInterfaceOrientationDidChange(interfaceOrientation.ordinal)
     lastInterfaceOrientation = interfaceOrientation
     isLocked = true
+  }
+
+  fun unlock() {
+    context.currentActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    isLocked = false
+    adaptInterfaceTo(getDeviceOrientation())
   }
 
   private fun onOrientationChanged(rawDeviceOrientation: Int) {
