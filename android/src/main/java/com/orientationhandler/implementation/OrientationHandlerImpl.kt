@@ -52,6 +52,7 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
       mUtils.getActivityOrientationFrom(interfaceOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
     mEventEmitter.sendInterfaceOrientationDidChange(interfaceOrientation.ordinal)
+    lastInterfaceOrientation = interfaceOrientation
     isLocked = true
   }
 
