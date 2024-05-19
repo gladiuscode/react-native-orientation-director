@@ -1,30 +1,33 @@
 package com.orientationhandler.implementation
 
 import android.content.pm.ActivityInfo
-import android.os.Build
-import android.view.Surface
-import com.facebook.react.bridge.ReactApplicationContext
 
-class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) {
-  fun getInterfaceOrientationFromDeviceOrientation(): InterfaceOrientation {
-    val rotation = getDeviceRotation()
+class OrientationHandlerUtilsImpl() {
 
-    return when (rotation) {
-      Surface.ROTATION_0 -> InterfaceOrientation.PORTRAIT
-      // TODO: Check in real device, since in emulator it doesn't work
-      Surface.ROTATION_180 -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
-      Surface.ROTATION_90 -> InterfaceOrientation.LANDSCAPE_RIGHT
-      Surface.ROTATION_270 -> InterfaceOrientation.LANDSCAPE_LEFT
-      else -> InterfaceOrientation.UNKNOWN
+  fun getDeviceOrientationFrom(rotation: Int): Orientation {
+    var orientation = Orientation.UNKNOWN
+
+    if (rotation == -1) {
+      orientation = Orientation.UNKNOWN
+    } else if (rotation > 355 || rotation < 5) {
+      orientation = Orientation.PORTRAIT
+    } else if (rotation in 86..94) {
+      orientation = Orientation.LANDSCAPE_RIGHT
+    } else if (rotation in 176..184) {
+      orientation = Orientation.PORTRAIT_UPSIDE_DOWN
+    } else if (rotation in 266..274) {
+      orientation = Orientation.LANDSCAPE_LEFT
     }
+
+    return orientation
   }
 
-  fun getInterfaceOrientationFromActivityOrientation(activityInfo: Int): InterfaceOrientation {
+  fun getInterfaceOrientationFromActivityOrientation(activityInfo: Int): Orientation {
     return when (activityInfo) {
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_LEFT
-      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> InterfaceOrientation.LANDSCAPE_RIGHT
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
-      else -> InterfaceOrientation.PORTRAIT
+      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> Orientation.LANDSCAPE_RIGHT
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> Orientation.PORTRAIT_UPSIDE_DOWN
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> Orientation.LANDSCAPE_LEFT
+      else -> Orientation.PORTRAIT
     };
   }
 
@@ -42,31 +45,21 @@ class OrientationHandlerUtilsImpl(private val context: ReactApplicationContext) 
     ).contains(orientation);
   }
 
-  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientation: InterfaceOrientation): Int {
+  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientation: Orientation): Int {
     return when (interfaceOrientation) {
-      InterfaceOrientation.PORTRAIT_UPSIDE_DOWN -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-      InterfaceOrientation.LANDSCAPE_LEFT -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-      InterfaceOrientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+      Orientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+      Orientation.PORTRAIT_UPSIDE_DOWN -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+      Orientation.LANDSCAPE_LEFT -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
       else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
   }
 
-  fun mapToInterfaceOrientation(rawOrientation: Int): InterfaceOrientation {
+  fun mapToInterfaceOrientation(rawOrientation: Int): Orientation {
     return when (rawOrientation) {
-      2 -> InterfaceOrientation.PORTRAIT_UPSIDE_DOWN
-      3 -> InterfaceOrientation.LANDSCAPE_LEFT
-      4 -> InterfaceOrientation.LANDSCAPE_RIGHT
-      else -> InterfaceOrientation.PORTRAIT
+      2 -> Orientation.LANDSCAPE_RIGHT
+      3 -> Orientation.PORTRAIT_UPSIDE_DOWN
+      4 -> Orientation.LANDSCAPE_LEFT
+      else -> Orientation.PORTRAIT
     }
   }
-
-  private fun getDeviceRotation(): Int? {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-      return context.display?.rotation
-    }
-
-    @Suppress("DEPRECATION")
-    return context.currentActivity?.windowManager?.defaultDisplay?.rotation
-  }
-
 }

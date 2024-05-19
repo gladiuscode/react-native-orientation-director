@@ -20,7 +20,7 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
 
   @ReactMethod()
   override fun getInterfaceOrientation(promise: Promise) {
-    promise.resolve(orientationHandlerImpl.getInterfaceOrientation())
+    promise.resolve(orientationHandlerImpl.getInterfaceOrientation().ordinal)
   }
 
   @ReactMethod()

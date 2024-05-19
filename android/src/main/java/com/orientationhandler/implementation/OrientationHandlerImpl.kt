@@ -3,14 +3,15 @@ package com.orientationhandler.implementation
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
-  private var mUtils = OrientationHandlerUtilsImpl(context)
+  private var mUtils = OrientationHandlerUtilsImpl()
   private var mEventEmitter = OrientationEventManager(context)
-  private var mSensorListener = OrientationSensorListener(context, mEventEmitter)
+  private var mSensorListener = OrientationSensorListener(context)
   private var isLocked: Boolean = false
+  private var lastInterfaceOrientation = Orientation.UNKNOWN
 
   init {
-    mSensorListener.setCheckInterfaceOrientationCallback { deviceOrientation ->
-      checkInterfaceOrientation(deviceOrientation)
+    mSensorListener.setOnOrientationChangedCallback { orientation ->
+      onOrientationChanged(orientation)
     }
 
     if (mSensorListener.canDetectOrientation()) {
@@ -18,11 +19,17 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
     } else {
       mSensorListener.disable()
     }
+
+    lastInterfaceOrientation = getInterfaceOrientation()
   }
 
-  fun getInterfaceOrientation(): Int {
+  fun getInterfaceOrientation(): Orientation {
+    if (isLocked) {
+      return lastInterfaceOrientation
+    }
+
     if (context.currentActivity == null) {
-      return InterfaceOrientation.UNKNOWN.ordinal
+      return lastInterfaceOrientation
     }
 
     val activityOrientation = context.currentActivity!!.requestedOrientation
@@ -30,10 +37,13 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
       mUtils.isActivityInPortraitOrientation(activityOrientation) ||
       mUtils.isActivityInLandscapeOrientation(activityOrientation)
     ) {
-      return mUtils.getInterfaceOrientationFromActivityOrientation(activityOrientation).ordinal
+      return mUtils.getInterfaceOrientationFromActivityOrientation(activityOrientation)
     }
 
-    return mUtils.getInterfaceOrientationFromDeviceOrientation().ordinal
+    val lastRotationDetected = mSensorListener.getLastRotationDetected()
+      ?: return lastInterfaceOrientation
+
+    return mUtils.getDeviceOrientationFrom(lastRotationDetected)
   }
 
   fun lockTo(rawOrientation: Int) {
@@ -45,17 +55,23 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
     isLocked = true
   }
 
-  private fun checkInterfaceOrientation(deviceOrientation: Int) {
+  private fun onOrientationChanged(rawDeviceOrientation: Int) {
+    val deviceOrientation = mUtils.getDeviceOrientationFrom(rawDeviceOrientation)
+    mEventEmitter.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
+    adaptInterfaceToDeviceOrientation(deviceOrientation)
+  }
+
+  private fun adaptInterfaceToDeviceOrientation(deviceOrientation: Orientation) {
     if (isLocked) {
       return
     }
 
-    val interfaceOrientation = getInterfaceOrientation()
-    if (interfaceOrientation == deviceOrientation) {
+    if (lastInterfaceOrientation == deviceOrientation) {
       return
     }
 
-    mEventEmitter.sendInterfaceOrientationDidChange(deviceOrientation)
+    lastInterfaceOrientation = deviceOrientation
+    mEventEmitter.sendInterfaceOrientationDidChange(lastInterfaceOrientation.ordinal)
   }
 
   companion object {

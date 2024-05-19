@@ -29,6 +29,7 @@ class OrientationEventManager(private val context: ReactApplicationContext) {
 
   private fun sendEvent(eventName: Event, params: WritableMap?) {
     Log.d(NAME, "sendEvent - $eventName")
+    Log.d(NAME, "sendEvent - $params")
     context
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
       .emit(eventName.name, params)
