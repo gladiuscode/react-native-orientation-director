@@ -11,51 +11,86 @@ class OrientationHandlerUtils {
 
     private static let TAG = "OrientationHandlerUtils"
 
+    public static func getOrientationFrom(uiInterfaceOrientation: UIInterfaceOrientation) -> Orientation {
+        var orientation = Orientation.UNKNOWN
+        
+        switch(uiInterfaceOrientation) {
+        case UIInterfaceOrientation.landscapeRight: // Home button on the right
+            orientation = Orientation.LANDSCAPE_LEFT
+        case UIInterfaceOrientation.portraitUpsideDown:
+            orientation = Orientation.PORTRAIT_UPSIDE_DOWN
+        case UIInterfaceOrientation.landscapeLeft: // Home button on the left
+            orientation = Orientation.LANDSCAPE_RIGHT
+        default:
+            orientation = Orientation.PORTRAIT
+        }
+        
+        return orientation
+    }
+
+    public static func getOrientationFrom(deviceOrientation: UIDeviceOrientation) -> Orientation {
+        var orientation = Orientation.UNKNOWN
+
+        switch(deviceOrientation) {
+        case UIDeviceOrientation.landscapeRight:
+            orientation = Orientation.LANDSCAPE_RIGHT
+        case UIDeviceOrientation.portraitUpsideDown:
+            orientation = Orientation.PORTRAIT_UPSIDE_DOWN
+        case UIDeviceOrientation.landscapeLeft:
+            orientation = Orientation.LANDSCAPE_LEFT
+        case UIDeviceOrientation.faceUp:
+            orientation = Orientation.LANDSCAPE_RIGHT
+        default:
+            orientation = Orientation.PORTRAIT
+        }
+
+        return orientation
+    }
+
+    public static func getOrientationFrom(jsOrientation: NSNumber) -> Orientation {
+        var orientation = Orientation.UNKNOWN
+
+        switch(jsOrientation) {
+        case 2:
+            orientation = Orientation.LANDSCAPE_RIGHT
+        case 3:
+            orientation = Orientation.PORTRAIT_UPSIDE_DOWN
+        case 4:
+            orientation = Orientation.LANDSCAPE_LEFT
+        default:
+            orientation = Orientation.PORTRAIT
+        }
+
+        return orientation
+    }
+
+    /*
+        Note: .portraitUpsideDown only works for devices with home button
+        //https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
+     */
+    public static func getMaskFrom(orientation: Orientation) -> UIInterfaceOrientationMask {
+        var mask = UIInterfaceOrientationMask.portrait
+
+        switch(orientation) {
+        case Orientation.LANDSCAPE_RIGHT:
+            mask = UIInterfaceOrientationMask.landscapeRight
+        case Orientation.PORTRAIT_UPSIDE_DOWN:
+            mask = UIInterfaceOrientationMask.portraitUpsideDown
+        case Orientation.LANDSCAPE_LEFT:
+            mask = UIInterfaceOrientationMask.landscapeLeft
+        default:
+            mask = UIInterfaceOrientationMask.portrait
+        }
+
+        return mask
+    }
+
     public static func getInterfaceOrientation() -> UIInterfaceOrientation {
         guard let windowScene = self.getCurrentWindow()?.windowScene else {
             return UIInterfaceOrientation.unknown
         }
 
         return windowScene.interfaceOrientation;
-    }
-    
-    /*
-        Note: .portraitUpsideDown only works for devices with home button
-        //https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
-     */
-    public static func getMaskFrom(jsOrientation: NSNumber) -> UIInterfaceOrientationMask {
-        var mask = UIInterfaceOrientationMask.portrait
-        switch(jsOrientation) {
-        case 2:
-            mask = UIInterfaceOrientationMask.landscapeRight
-        case 3:
-            mask = UIInterfaceOrientationMask.portraitUpsideDown
-        case 4:
-            mask = UIInterfaceOrientationMask.landscapeLeft
-        default:
-            mask = UIInterfaceOrientationMask.portrait
-        }
-        
-        return mask
-    }
-    
-    public static func getJsOrientationFrom(deviceOrientation: UIDeviceOrientation) -> Int {
-        var jsOrientation = 1
-        
-        switch(deviceOrientation) {
-        case UIDeviceOrientation.landscapeRight:
-            jsOrientation = 2
-        case UIDeviceOrientation.portraitUpsideDown:
-            jsOrientation = 3
-        case UIDeviceOrientation.landscapeLeft:
-            jsOrientation = 4
-        case UIDeviceOrientation.faceUp:
-            jsOrientation = 4
-        default:
-            jsOrientation = 1
-        }
-        
-        return jsOrientation
     }
 
     /* This function is needed to get the current available window.

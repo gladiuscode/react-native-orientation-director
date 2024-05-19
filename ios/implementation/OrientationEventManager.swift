@@ -12,11 +12,15 @@ import Foundation
     
     func sendDeviceOrientationDidChange(orientationValue: Int) {
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
+        print(Event.InterfaceOrientationDidChange)
+        print(params)
         delegate?.sendEvent(name: Event.DeviceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
 
     func sendInterfaceOrientationDidChange(orientationValue: Int) {
-      let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
+        let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
+        print(Event.InterfaceOrientationDidChange)
+        print(params)
         delegate?.sendEvent(name: Event.InterfaceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
 }

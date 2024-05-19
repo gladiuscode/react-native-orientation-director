@@ -13,7 +13,8 @@ import UIKit
     private let sensorListener: OrientationSensorListener
     private let eventManager: OrientationEventManager
     private var isLocked: Bool = false
-    
+    private var lastInterfaceOrientation: Orientation = Orientation.UNKNOWN
+
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
 
     @objc public override init() {
@@ -21,8 +22,9 @@ import UIKit
         sensorListener = OrientationSensorListener()
         super.init()
         sensorListener.setOnOrientationChangedCallback(callback: self.onOrientationChanged)
+        lastInterfaceOrientation = getInterfaceOrientation()
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////
     ///         EVENT EMITTER SETUP
     @objc public func setEventManagerDelegate(delegate: OrientationEventEmitterDelegate) {
@@ -30,15 +32,22 @@ import UIKit
     }
     ///
     //////////////////////////////////////////////////////////////////////////////////////////
-    
-    @objc public func getInterfaceOrientation() -> UIInterfaceOrientation {
-        return OrientationHandlerUtils.getInterfaceOrientation()
+
+    @objc public func getInterfaceOrientation() -> Orientation {
+        if (isLocked) {
+            return lastInterfaceOrientation
+        }
+
+        let interfaceOrientation = OrientationHandlerUtils.getInterfaceOrientation()
+        return OrientationHandlerUtils.getOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
     }
-    
+
     @objc public func lockTo(jsOrientation: NSNumber) {
-        let mask = OrientationHandlerUtils.getMaskFrom(jsOrientation: jsOrientation)
+        let orientation = OrientationHandlerUtils.getOrientationFrom(jsOrientation: jsOrientation)
+        let mask = OrientationHandlerUtils.getMaskFrom(orientation: orientation)
+
         self.supportedInterfaceOrientation = mask
-        
+
         DispatchQueue.main.async {
             if #available(iOS 16.0, *) {
                 guard let window = OrientationHandlerUtils.getCurrentWindow() else {
@@ -63,14 +72,28 @@ import UIKit
                 UIViewController.attemptRotationToDeviceOrientation()
             }
         }
-        
-        eventManager.sendInterfaceOrientationDidChange(orientationValue: Int(truncating: jsOrientation))
+
+        eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
+        lastInterfaceOrientation = orientation
         isLocked = true
     }
-    
+
     public func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
-        let jsOrientation = OrientationHandlerUtils.getJsOrientationFrom(deviceOrientation: deviceOrientation)
-        self.eventManager.sendDeviceOrientationDidChange(orientationValue: jsOrientation)
+        let orientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: deviceOrientation)
+        self.eventManager.sendDeviceOrientationDidChange(orientationValue: orientation.rawValue)
+        adaptInterfaceTo(deviceOrientation: orientation)
     }
 
+    private func adaptInterfaceTo(deviceOrientation: Orientation) {
+        if (isLocked) {
+          return
+        }
+
+        if (lastInterfaceOrientation == deviceOrientation) {
+          return
+        }
+
+        lastInterfaceOrientation = deviceOrientation
+        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: lastInterfaceOrientation.rawValue)
+      }
 }
