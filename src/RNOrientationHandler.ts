@@ -32,6 +32,10 @@ class RNOrientationHandler {
     Module.lockTo(orientation);
   }
 
+  static unlock() {
+    Module.unlock();
+  }
+
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
