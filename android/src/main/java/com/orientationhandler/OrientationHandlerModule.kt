@@ -24,6 +24,11 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
   }
 
   @ReactMethod()
+  override fun getDeviceOrientation(promise: Promise) {
+    promise.resolve(orientationHandlerImpl.getDeviceOrientation().ordinal)
+  }
+
+  @ReactMethod()
   override fun lockTo(orientation: Int) {
     orientationHandlerImpl.lockTo(orientation)
   }

@@ -46,6 +46,13 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
     return mUtils.getDeviceOrientationFrom(lastRotationDetected)
   }
 
+  fun getDeviceOrientation(): Orientation {
+    val lastRotationDetected = mSensorListener.getLastRotationDetected()
+      ?: return Orientation.UNKNOWN
+
+    return mUtils.getDeviceOrientationFrom(lastRotationDetected)
+  }
+
   fun lockTo(jsOrientation: Int) {
     val interfaceOrientation = mUtils.getOrientationEnumFrom(jsOrientation)
     val screenOrientation =
