@@ -22,7 +22,7 @@ class OrientationHandlerUtilsImpl() {
     return orientation
   }
 
-  fun getInterfaceOrientationFromActivityOrientation(activityInfo: Int): Orientation {
+  fun getInterfaceOrientationFrom(activityInfo: Int): Orientation {
     return when (activityInfo) {
       ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> Orientation.LANDSCAPE_RIGHT
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> Orientation.PORTRAIT_UPSIDE_DOWN
@@ -45,7 +45,7 @@ class OrientationHandlerUtilsImpl() {
     ).contains(orientation);
   }
 
-  fun getActivityOrientationFromInterfaceOrientation(interfaceOrientation: Orientation): Int {
+  fun getActivityOrientationFrom(interfaceOrientation: Orientation): Int {
     return when (interfaceOrientation) {
       Orientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
       Orientation.PORTRAIT_UPSIDE_DOWN -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
@@ -54,8 +54,8 @@ class OrientationHandlerUtilsImpl() {
     }
   }
 
-  fun mapToInterfaceOrientation(rawOrientation: Int): Orientation {
-    return when (rawOrientation) {
+  fun getOrientationEnumFrom(jsOrientation: Int): Orientation {
+    return when (jsOrientation) {
       2 -> Orientation.LANDSCAPE_RIGHT
       3 -> Orientation.PORTRAIT_UPSIDE_DOWN
       4 -> Orientation.LANDSCAPE_LEFT
