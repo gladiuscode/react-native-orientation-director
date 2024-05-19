@@ -62,10 +62,10 @@ RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
     });
 }
 
-RCT_EXPORT_METHOD(lockTo:(nonnull NSNumber *)rawOrientation)
+RCT_EXPORT_METHOD(lockTo:(nonnull NSNumber *)jsOrientation)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_handler lockToOrientation:rawOrientation];
+        [_handler lockToJsOrientation:jsOrientation];
     });
 }
 

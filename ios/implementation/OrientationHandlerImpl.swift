@@ -12,12 +12,15 @@ import UIKit
     private static let TAG = "OrientationHandlerImpl"
     private let sensorListener: OrientationSensorListener
     private let eventManager: OrientationEventManager
+    private var isLocked: Bool = false
     
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
 
     @objc public override init() {
         eventManager = OrientationEventManager()
-        sensorListener = OrientationSensorListener(fromEventEmitter:eventManager)
+        sensorListener = OrientationSensorListener()
+        super.init()
+        sensorListener.setOnOrientationChangedCallback(callback: self.onOrientationChanged)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -32,8 +35,8 @@ import UIKit
         return OrientationHandlerUtils.getInterfaceOrientation()
     }
     
-    @objc public func lockTo(orientation: NSNumber) {
-        let mask = OrientationHandlerUtils.getMaskFromOrientation(orientation: orientation)
+    @objc public func lockTo(jsOrientation: NSNumber) {
+        let mask = OrientationHandlerUtils.getMaskFrom(jsOrientation: jsOrientation)
         self.supportedInterfaceOrientation = mask
         
         DispatchQueue.main.async {
@@ -61,7 +64,13 @@ import UIKit
             }
         }
         
-        eventManager.sendInterfaceOrientationDidChange(orientationValue: Int(truncating: orientation))
+        eventManager.sendInterfaceOrientationDidChange(orientationValue: Int(truncating: jsOrientation))
+        isLocked = true
+    }
+    
+    public func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
+        let jsOrientation = OrientationHandlerUtils.getJsOrientationFrom(deviceOrientation: deviceOrientation)
+        self.eventManager.sendDeviceOrientationDidChange(orientationValue: jsOrientation)
     }
 
 }

@@ -8,11 +8,9 @@
 import Foundation
 
 public class OrientationSensorListener {
-    private let eventEmitter: OrientationEventManager
+    private var onOrientationChangedCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)? = nil
     
-    public init(fromEventEmitter: OrientationEventManager) {
-        self.eventEmitter = fromEventEmitter
-        
+    public init() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(orientationDidChange),
@@ -24,8 +22,16 @@ public class OrientationSensorListener {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    func setOnOrientationChangedCallback(callback: @escaping (_ deviceOrientation: UIDeviceOrientation) -> Void) {
+        self.onOrientationChangedCallback = callback
+    }
 
     @objc func orientationDidChange(_ notification: Notification) {
-        self.eventEmitter.sendDeviceOrientationDidChange(orientationValue: UIDevice.current.orientation.rawValue)
+        guard let onOrientationChangedCallback = self.onOrientationChangedCallback else {
+            return
+        }
+        
+        onOrientationChangedCallback(UIDevice.current.orientation)
     }
 }
