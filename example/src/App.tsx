@@ -74,6 +74,13 @@ export default function App() {
           RNOrientationHandler.lockTo(Orientation.landscapeRight);
         }}
       />
+      <View style={styles.marginBottom} />
+      <Button
+        title={'Unlock'}
+        onPress={() => {
+          RNOrientationHandler.unlock();
+        }}
+      />
     </View>
   );
 }
