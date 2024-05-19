@@ -41,6 +41,10 @@ import UIKit
         let interfaceOrientation = OrientationHandlerUtils.getInterfaceOrientation()
         return OrientationHandlerUtils.getOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
     }
+    
+    @objc public func getDeviceOrientation() -> Orientation {
+        return OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+    }
 
     @objc public func lockTo(jsOrientation: NSNumber) {
         let orientation = OrientationHandlerUtils.getOrientationFrom(jsOrientation: jsOrientation)
