@@ -13,7 +13,7 @@ class OrientationHandlerUtils {
 
     public static func getOrientationFrom(uiInterfaceOrientation: UIInterfaceOrientation) -> Orientation {
         var orientation = Orientation.UNKNOWN
-        
+
         switch(uiInterfaceOrientation) {
         case UIInterfaceOrientation.landscapeRight: // Home button on the right
             orientation = Orientation.LANDSCAPE_LEFT
@@ -24,7 +24,7 @@ class OrientationHandlerUtils {
         default:
             orientation = Orientation.PORTRAIT
         }
-        
+
         return orientation
     }
 

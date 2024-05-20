@@ -21,13 +21,13 @@ import UIKit
         eventManager = OrientationEventManager()
         sensorListener = OrientationSensorListener()
         super.init()
-        sensorListener.setOnOrientationChangedCallback(callback: self.onOrientationChanged)
+        sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
         lastInterfaceOrientation = getInterfaceOrientation()
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
     ///         EVENT EMITTER SETUP
-    @objc public func setEventManagerDelegate(delegate: OrientationEventEmitterDelegate) {
+    @objc public func setEventManager(delegate: OrientationEventEmitterDelegate) {
         self.eventManager.delegate = delegate
     }
     ///
@@ -50,7 +50,7 @@ import UIKit
         let orientation = OrientationHandlerUtils.getOrientationFrom(jsOrientation: jsOrientation)
         let mask = OrientationHandlerUtils.getMaskFrom(orientation: orientation)
 
-        self.requestInterfaceUpdate(mask: mask)
+        self.requestInterfaceUpdateTo(mask: mask)
 
         eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
         lastInterfaceOrientation = orientation
@@ -58,13 +58,14 @@ import UIKit
     }
     
     @objc public func unlock() {
-        self.requestInterfaceUpdate(mask: UIInterfaceOrientationMask.all)
+        self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
+        
         let deviceOrientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
         isLocked = false
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
     
-    private func requestInterfaceUpdate(mask: UIInterfaceOrientationMask) {
+    private func requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask) {
         self.supportedInterfaceOrientation = mask
 
         DispatchQueue.main.async {
@@ -93,7 +94,7 @@ import UIKit
         }
     }
 
-    public func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
+    private func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
         let orientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: deviceOrientation)
         self.eventManager.sendDeviceOrientationDidChange(orientationValue: orientation.rawValue)
         adaptInterfaceTo(deviceOrientation: orientation)
