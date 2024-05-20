@@ -73,11 +73,11 @@ class OrientationHandlerUtils {
 
         switch(orientation) {
         case Orientation.LANDSCAPE_RIGHT:
-            mask = UIInterfaceOrientationMask.landscapeRight
+            mask = UIInterfaceOrientationMask.landscapeLeft
         case Orientation.PORTRAIT_UPSIDE_DOWN:
             mask = UIInterfaceOrientationMask.portraitUpsideDown
         case Orientation.LANDSCAPE_LEFT:
-            mask = UIInterfaceOrientationMask.landscapeLeft
+            mask = UIInterfaceOrientationMask.landscapeRight
         default:
             mask = UIInterfaceOrientationMask.portrait
         }
