@@ -39,7 +39,9 @@ class OrientationHandlerUtils {
         case UIDeviceOrientation.landscapeLeft:
             orientation = Orientation.LANDSCAPE_LEFT
         case UIDeviceOrientation.faceUp:
-            orientation = Orientation.LANDSCAPE_RIGHT
+            orientation = Orientation.FACE_UP
+        case UIDeviceOrientation.faceDown:
+            orientation = Orientation.FACE_DOWN
         default:
             orientation = Orientation.PORTRAIT
         }

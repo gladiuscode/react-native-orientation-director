@@ -3,6 +3,7 @@ import Event from './types/Event.enum';
 import type { InterfaceOrientationToLocalizedStringProvider } from './types/InterfaceOrientationToLocalizedStringProvider.type';
 import { Orientation } from './types/Orientation.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
+import type { LockableOrientation } from './types/LockableOrientation.type';
 
 class RNOrientationHandler {
   private static _localizedStringProvider: InterfaceOrientationToLocalizedStringProvider =
@@ -12,6 +13,8 @@ class RNOrientationHandler {
       [Orientation.portraitUpsideDown]: 'Portrait Upside Down',
       [Orientation.landscapeLeft]: 'Landscape Left',
       [Orientation.landscapeRight]: 'Landscape Right',
+      [Orientation.faceUp]: 'Face Up',
+      [Orientation.faceDown]: 'Face Down',
     };
 
   setLocalizedStringProvider(
@@ -28,7 +31,7 @@ class RNOrientationHandler {
     return Module.getDeviceOrientation();
   }
 
-  static lockTo(orientation: Orientation) {
+  static lockTo(orientation: LockableOrientation) {
     Module.lockTo(orientation);
   }
 

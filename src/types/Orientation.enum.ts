@@ -4,4 +4,8 @@ export enum Orientation {
   landscapeRight = 2,
   portraitUpsideDown = 3,
   landscapeLeft = 4,
+
+  // iOS only
+  faceUp = 5,
+  faceDown = 6,
 }
