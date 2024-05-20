@@ -10,6 +10,8 @@
 @interface OrientationHandler : RCTEventEmitter <RCTBridgeModule>
 #endif
 
+@property (nonatomic, assign) BOOL isJsListening;
+
 +(UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow;
 
 @end

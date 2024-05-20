@@ -39,6 +39,14 @@ RCT_EXPORT_MODULE()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
+-(void)startObserving {
+    self.isJsListening = YES;
+}
+
+-(void)stopObserving {
+    self.isJsListening = NO;
+}
+
 - (NSArray<NSString *> *)supportedEvents {
     return [OrientationEventManager supportedEvents];
 }
