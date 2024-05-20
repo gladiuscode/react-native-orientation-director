@@ -1,13 +1,14 @@
 package com.orientationhandler.implementation
 
-import android.app.Activity
 import android.content.pm.ActivityInfo
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationHandlerImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = OrientationHandlerUtilsImpl()
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
+  private var mLifecycleListener = OrientationLifecycleListener()
   private var isLocked: Boolean = false
   private var lastInterfaceOrientation = Orientation.UNKNOWN
 
@@ -19,6 +20,19 @@ class OrientationHandlerImpl internal constructor(private val context: ReactAppl
     if (mSensorListener.canDetectOrientation()) {
       mSensorListener.enable()
     } else {
+      mSensorListener.disable()
+    }
+
+    context.addLifecycleEventListener(mLifecycleListener)
+    mLifecycleListener.setOnHostResumeCallback {
+      if (mSensorListener.canDetectOrientation()) {
+        mSensorListener.enable()
+      }
+    }
+    mLifecycleListener.setOnHostPauseCallback {
+      mSensorListener.disable()
+    }
+    mLifecycleListener.setOnHostDestroyCallback {
       mSensorListener.disable()
     }
 

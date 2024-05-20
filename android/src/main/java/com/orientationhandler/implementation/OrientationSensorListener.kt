@@ -9,11 +9,12 @@ class OrientationSensorListener(
 ) : OrientationEventListener(context, SensorManager.SENSOR_DELAY_UI) {
 
   private var lastRotationDetected: Int? = null
+  private var onOrientationChangedCallback: ((orientation: Int) -> Unit)? = null
+
   fun getLastRotationDetected(): Int? {
     return lastRotationDetected
   }
 
-  private var onOrientationChangedCallback: ((orientation: Int) -> Unit)? = null
   fun setOnOrientationChangedCallback(callback: (orientation: Int) -> Unit) {
     onOrientationChangedCallback = callback
   }
