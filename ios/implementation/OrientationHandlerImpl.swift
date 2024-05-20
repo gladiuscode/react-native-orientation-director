@@ -14,6 +14,7 @@ import UIKit
     private let eventManager: OrientationEventManager
     private var isLocked: Bool = false
     private var lastInterfaceOrientation: Orientation = Orientation.UNKNOWN
+    private var lastDeviceOrientation: Orientation = Orientation.UNKNOWN
 
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
 
@@ -22,7 +23,8 @@ import UIKit
         sensorListener = OrientationSensorListener()
         super.init()
         sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
-        lastInterfaceOrientation = getInterfaceOrientation()
+        lastInterfaceOrientation = initInterfaceOrientation()
+        lastDeviceOrientation = initDeviceOrientation()
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -34,16 +36,11 @@ import UIKit
     //////////////////////////////////////////////////////////////////////////////////////////
 
     @objc public func getInterfaceOrientation() -> Orientation {
-        if (isLocked) {
-            return lastInterfaceOrientation
-        }
-
-        let interfaceOrientation = OrientationHandlerUtils.getInterfaceOrientation()
-        return OrientationHandlerUtils.getOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
+        return lastInterfaceOrientation
     }
-    
+
     @objc public func getDeviceOrientation() -> Orientation {
-        return OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+        return lastDeviceOrientation
     }
 
     @objc public func lockTo(jsOrientation: NSNumber) {
@@ -56,15 +53,24 @@ import UIKit
         lastInterfaceOrientation = orientation
         isLocked = true
     }
-    
+
     @objc public func unlock() {
         self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
-        
+
         let deviceOrientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
         isLocked = false
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
-    
+
+    private func initInterfaceOrientation() -> Orientation {
+        let interfaceOrientation = OrientationHandlerUtils.getInterfaceOrientation()
+        return OrientationHandlerUtils.getOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
+    }
+
+    private func initDeviceOrientation() -> Orientation {
+        return OrientationHandlerUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+    }
+
     private func requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask) {
         self.supportedInterfaceOrientation = mask
 
@@ -94,10 +100,11 @@ import UIKit
         }
     }
 
-    private func onOrientationChanged(deviceOrientation: UIDeviceOrientation) {
-        let orientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: deviceOrientation)
-        self.eventManager.sendDeviceOrientationDidChange(orientationValue: orientation.rawValue)
-        adaptInterfaceTo(deviceOrientation: orientation)
+    private func onOrientationChanged(uiDeviceOrientation: UIDeviceOrientation) {
+        let deviceOrientation = OrientationHandlerUtils.getOrientationFrom(deviceOrientation: uiDeviceOrientation)
+        self.eventManager.sendDeviceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
+        lastDeviceOrientation = deviceOrientation
+        adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
 
     private func adaptInterfaceTo(deviceOrientation: Orientation) {
@@ -109,7 +116,11 @@ import UIKit
           return
         }
 
+        if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
+          return
+        }
+
+        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
         lastInterfaceOrientation = deviceOrientation
-        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: lastInterfaceOrientation.rawValue)
       }
 }
