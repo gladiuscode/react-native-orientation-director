@@ -17,7 +17,6 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
   init {
     orientationHandlerImpl = OrientationHandlerImpl(context)
   }
-
   @ReactMethod()
   override fun getInterfaceOrientation(promise: Promise) {
     promise.resolve(orientationHandlerImpl.getInterfaceOrientation().ordinal)
@@ -29,8 +28,8 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
   }
 
   @ReactMethod()
-  override fun lockTo(orientation: Int) {
-    orientationHandlerImpl.lockTo(orientation)
+  override fun lockTo(orientation: Double) {
+    orientationHandlerImpl.lockTo(orientation.toInt())
   }
 
   @ReactMethod()
@@ -39,10 +38,10 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
   }
 
   @ReactMethod
-  fun addListener(eventName: String) {}
+  override fun addListener(eventName: String) {}
 
   @ReactMethod
-  fun removeListeners(count: Int) {}
+  override fun removeListeners(count: Double) {}
 
   companion object {
     const val NAME = "OrientationHandler"
