@@ -19,13 +19,13 @@ export default function App() {
     <View style={styles.container}>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Interface Orientation:
-        {RNOrientationHandler.convertOrientationToHumanReadableStrings(
+        {RNOrientationHandler.convertOrientationToHumanReadableString(
           interfaceOrientation
         )}
       </Text>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Device Orientation:
-        {RNOrientationHandler.convertOrientationToHumanReadableStrings(
+        {RNOrientationHandler.convertOrientationToHumanReadableString(
           deviceOrientation
         )}
       </Text>

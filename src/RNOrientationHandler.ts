@@ -51,7 +51,7 @@ class RNOrientationHandler {
     EventEmitter.addListener(Event.InterfaceOrientationDidChange, callback);
   }
 
-  static convertOrientationToHumanReadableStrings(
+  static convertOrientationToHumanReadableString(
     orientation: Orientation
   ): string {
     return RNOrientationHandler._localizedStringProvider[orientation];
