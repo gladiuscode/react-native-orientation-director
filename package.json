@@ -1,7 +1,7 @@
 {
   "name": "react-native-orientation-handler",
   "version": "0.1.0",
-  "description": "A simple library to access, listen to and adapt to device orientation",
+  "description": "A React Native library that allows you to handle orientation changes.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
