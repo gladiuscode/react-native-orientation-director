@@ -3,8 +3,8 @@ import RNOrientationHandler from '../RNOrientationHandler';
 import type { OrientationEvent } from '../types/OrientationEvent.interface';
 
 /**
- * A custom hook to get the device orientation
- * By default, it returns `DeviceOrientation.unknown` on iOS
+ * Hook that returns the current device orientation.
+ * It listens for orientation changes and updates the state accordingly.
  */
 const useDeviceOrientation = () => {
   const initialRender = useRef(false);
@@ -24,7 +24,11 @@ const useDeviceOrientation = () => {
       setOrientation(event.orientation);
     };
 
-    return RNOrientationHandler.listenForDeviceOrientationChanges(onChange);
+    const subscription =
+      RNOrientationHandler.listenForDeviceOrientationChanges(onChange);
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   return orientation;

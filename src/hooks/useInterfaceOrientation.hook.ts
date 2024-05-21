@@ -4,8 +4,8 @@ import type { OrientationEvent } from '../types/OrientationEvent.interface';
 import { Orientation } from 'react-native-orientation-handler';
 
 /**
- * A custom hook to get the device orientation
- * By default, it returns `DeviceOrientation.unknown` on iOS
+ * Hook that returns the current interface orientation.
+ * It listens for orientation changes and updates the state accordingly.
  */
 const useInterfaceOrientation = () => {
   const initialRender = useRef(false);
@@ -25,7 +25,11 @@ const useInterfaceOrientation = () => {
       setOrientation(event.orientation);
     };
 
-    return RNOrientationHandler.listenForInterfaceOrientationChanges(onChange);
+    const subscription =
+      RNOrientationHandler.listenForInterfaceOrientationChanges(onChange);
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   return orientation;

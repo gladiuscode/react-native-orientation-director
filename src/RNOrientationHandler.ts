@@ -42,13 +42,16 @@ class RNOrientationHandler {
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
-    EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
+    return EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
   }
 
   static listenForInterfaceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
-    EventEmitter.addListener(Event.InterfaceOrientationDidChange, callback);
+    return EventEmitter.addListener(
+      Event.InterfaceOrientationDidChange,
+      callback
+    );
   }
 
   static convertOrientationToHumanReadableString(
