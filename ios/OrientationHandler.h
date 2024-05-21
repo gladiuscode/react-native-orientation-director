@@ -1,9 +1,14 @@
 #import <React/RCTEventEmitter.h>
 
 #ifdef RCT_NEW_ARCH_ENABLED
-#import "RNOrientationHandlerSpec.h"
+#import <RNOrientationHandlerSpec/RNOrientationHandlerSpec.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface OrientationHandler : RCTEventEmitter <NativeOrientationHandlerSpec>
+
+NS_ASSUME_NONNULL_END
+
 #else
 #import <React/RCTBridgeModule.h>
 

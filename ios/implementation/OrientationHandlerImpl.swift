@@ -43,7 +43,7 @@ import UIKit
         return lastDeviceOrientation
     }
 
-    @objc public func lockTo(jsOrientation: NSNumber) {
+    @objc public func lockTo(jsOrientation: Double) {
         let orientation = OrientationHandlerUtils.getOrientationFrom(jsOrientation: jsOrientation)
         let mask = OrientationHandlerUtils.getMaskFrom(orientation: orientation)
 

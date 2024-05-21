@@ -62,6 +62,37 @@ RCT_EXPORT_MODULE()
     return [_handler supportedInterfaceOrientation];
 }
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (void)getInterfaceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject 
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        resolve(@([_handler getInterfaceOrientation]));
+    });
+}
+
+
+- (void)getDeviceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject 
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        resolve(@([_handler getDeviceOrientation]));
+    });
+}
+
+- (void)lockTo:(double)jsOrientation
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_handler lockToJsOrientation:jsOrientation];
+    });
+}
+
+- (void)unlock
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_handler unlock];
+    });
+}
+
+#else
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -78,7 +109,7 @@ RCT_EXPORT_METHOD(getDeviceOrientation:(RCTPromiseResolveBlock)resolve
     });
 }
 
-RCT_EXPORT_METHOD(lockTo:(nonnull NSNumber *)jsOrientation)
+RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_handler lockToJsOrientation:jsOrientation];
@@ -91,6 +122,7 @@ RCT_EXPORT_METHOD(unlock)
         [_handler unlock];
     });
 }
+#endif
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
