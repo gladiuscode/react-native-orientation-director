@@ -49,7 +49,7 @@ class OrientationHandlerUtils {
         return orientation
     }
 
-    public static func getOrientationFrom(jsOrientation: Double) -> Orientation {
+    public static func getOrientationFrom(jsOrientation: NSNumber) -> Orientation {
         var orientation = Orientation.UNKNOWN
 
         switch(jsOrientation) {

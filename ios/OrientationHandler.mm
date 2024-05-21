@@ -63,66 +63,51 @@ RCT_EXPORT_MODULE()
 }
 
 #ifdef RCT_NEW_ARCH_ENABLED
-- (void)getInterfaceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject 
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        resolve(@([_handler getInterfaceOrientation]));
-    });
-}
-
-
-- (void)getDeviceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject 
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        resolve(@([_handler getDeviceOrientation]));
-    });
-}
-
-- (void)lockTo:(double)jsOrientation
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_handler lockToJsOrientation:jsOrientation];
-    });
-}
-
-- (void)unlock
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_handler unlock];
-    });
-}
-
+- (void)getInterfaceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
 #else
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
+#endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_handler getInterfaceOrientation]));
     });
 }
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (void)getDeviceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
+#else
 RCT_EXPORT_METHOD(getDeviceOrientation:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
+#endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_handler getDeviceOrientation]));
     });
 }
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (void)lockTo:(double)jsOrientation
+#else
 RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
+#endif
 {
+    NSNumber *jsOrientationNumber = @(jsOrientation);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_handler lockToJsOrientation:jsOrientation];
+        [_handler lockToJsOrientation:jsOrientationNumber];
     });
 }
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (void)unlock
+#else
 RCT_EXPORT_METHOD(unlock)
+#endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_handler unlock];
     });
 }
-#endif
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
