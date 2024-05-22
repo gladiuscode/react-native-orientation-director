@@ -17,6 +17,7 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
   init {
     orientationHandlerImpl = OrientationHandlerImpl(context)
   }
+
   @ReactMethod()
   override fun getInterfaceOrientation(promise: Promise) {
     promise.resolve(orientationHandlerImpl.getInterfaceOrientation().ordinal)
@@ -37,10 +38,10 @@ class OrientationHandlerModule internal constructor(context: ReactApplicationCon
     orientationHandlerImpl.unlock()
   }
 
-  @ReactMethod
+  @ReactMethod()
   override fun addListener(eventName: String) {}
 
-  @ReactMethod
+  @ReactMethod()
   override fun removeListeners(count: Double) {}
 
   companion object {

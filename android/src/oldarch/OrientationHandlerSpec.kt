@@ -9,7 +9,8 @@ abstract class OrientationHandlerSpec internal constructor(context: ReactApplica
 
   abstract fun getInterfaceOrientation(promise: Promise)
   abstract fun getDeviceOrientation(promise: Promise)
-  abstract fun lockTo(orientation: Int)
-
+  abstract fun lockTo(orientation: Double)
   abstract fun unlock()
+  abstract fun addListener(eventName: String)
+  abstract fun removeListeners(count: Double)
 }
