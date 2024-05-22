@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import RNOrientationDirector from '../RNOrientationDirector';
 import type { OrientationEvent } from '../types/OrientationEvent.interface';
+import { Orientation } from '../types/Orientation.enum';
 
 /**
  * Hook that returns the current device orientation.
@@ -8,7 +9,9 @@ import type { OrientationEvent } from '../types/OrientationEvent.interface';
  */
 const useDeviceOrientation = () => {
   const initialRender = useRef(false);
-  const [orientation, setOrientation] = React.useState<number>(0);
+  const [orientation, setOrientation] = React.useState<Orientation>(
+    Orientation.unknown
+  );
 
   React.useEffect(() => {
     if (initialRender.current) {

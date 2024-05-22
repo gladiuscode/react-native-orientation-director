@@ -9,7 +9,9 @@ import { Orientation } from '../types/Orientation.enum';
  */
 const useInterfaceOrientation = () => {
   const initialRender = useRef(false);
-  const [orientation, setOrientation] = React.useState<Orientation>(0);
+  const [orientation, setOrientation] = React.useState<Orientation>(
+    Orientation.unknown
+  );
 
   React.useEffect(() => {
     if (initialRender.current) {
