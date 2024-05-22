@@ -20,8 +20,6 @@ import Foundation
         }
 
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
-        print(Event.InterfaceOrientationDidChange)
-        print(params)
         delegate.sendEvent(name: Event.DeviceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
 
@@ -35,8 +33,6 @@ import Foundation
         }
 
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
-        print(Event.InterfaceOrientationDidChange)
-        print(params)
         delegate.sendEvent(name: Event.InterfaceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
 }
