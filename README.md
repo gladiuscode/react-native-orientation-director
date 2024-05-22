@@ -67,6 +67,13 @@ In addition, the library exposes the following hooks:
 
 Head over to the [example project](example) to see how to use the library.
 
+## Roadmap
+
+- [ ] Add support for Expo
+- [ ] Add JS side tests
+- [ ] Add Android side tests
+- [ ] Add iOS side tests
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
