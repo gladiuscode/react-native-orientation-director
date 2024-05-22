@@ -7,7 +7,7 @@
 #if __has_include("react_native_orientation_director-Swift.h")
 #import "react_native_orientation_director-Swift.h"
 #else
-#import "react_native_orientation_director/react_native_orientation_director-Swift"
+#import "react_native_orientation_director/react_native_orientation_director-Swift.h"
 #endif
 
 static OrientationDirectorImpl *_director = [OrientationDirectorImpl new];
