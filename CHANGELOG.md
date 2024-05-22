@@ -1,5 +1,13 @@
 
 
+## [1.0.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.0.0...v1.0.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* broken swift header import when using use_frameworks! ([2d27d4b](https://github.com/gladiuscode/react-native-orientation-director/commit/2d27d4b693f97be67353b1f10839b695dfe8e996))
+* module requires main queue setup since it overrides init ([4cfbd1e](https://github.com/gladiuscode/react-native-orientation-director/commit/4cfbd1ea141e540f6cfde8b58bd2cc8f41d05390))
+
 # 1.0.0 (2024-05-22)
 
 
