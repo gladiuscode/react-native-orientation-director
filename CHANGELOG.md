@@ -1,0 +1,55 @@
+
+
+# 1.0.0 (2024-05-22)
+
+
+### Bug Fixes
+
+* **android:** gradle.properties ([96e7e7e](https://github.com/gladiuscode/react-native-orientation-director/commit/96e7e7e23268edad6e62ec00e091a22bb5b0242a))
+* **android:** interface orientation enum to match iOS ([853a3d9](https://github.com/gladiuscode/react-native-orientation-director/commit/853a3d9109bed3ef6ff2e94e26a0efcbfc8f24c2))
+* **android:** interfaceOrientation logic based on deviceOrientation ([610e4cb](https://github.com/gladiuscode/react-native-orientation-director/commit/610e4cb2561c7d11360ec98242e084e678903e31))
+* **android:** missing lastInterfaceOrientation set in lockTo method ([2eae9ae](https://github.com/gladiuscode/react-native-orientation-director/commit/2eae9aeb9a2003e6783de288fb33108eb8224ca7))
+* **iOS:** interface orientation behavior to follow device orientation ([8c2f2a1](https://github.com/gladiuscode/react-native-orientation-director/commit/8c2f2a1934434506fc6c661cbdd9eaf12962a479))
+* **js:** both hooks now use Orientation enum ([f88d6d5](https://github.com/gladiuscode/react-native-orientation-director/commit/f88d6d57ffd736a56a3d70896ea1e173025c0218))
+* **js:** broken labels rendering ([664993b](https://github.com/gladiuscode/react-native-orientation-director/commit/664993b7b1cf6bc51c740c47ab8211ae83f633b5))
+* **js:** hooks listeners missing remove call ([9a61173](https://github.com/gladiuscode/react-native-orientation-director/commit/9a61173cd392d11106d16a91355ab727f4cf1937))
+
+
+### Features
+
+* add both iOS and Android app icons ([a38e8a3](https://github.com/gladiuscode/react-native-orientation-director/commit/a38e8a3542633e739ac2c7f2c047863893d3c48b))
+* **android:** implement getDeviceOrientation method ([1955530](https://github.com/gladiuscode/react-native-orientation-director/commit/19555300572b265a85ee7b40fca09293a1253863))
+* **android:** implement getInterfaceOrientation ([a3e7c6b](https://github.com/gladiuscode/react-native-orientation-director/commit/a3e7c6b225495ec6621a2d58c62ebf8aaeca5dae))
+* **android:** implement interface orientation update on device orientation change ([959f30f](https://github.com/gladiuscode/react-native-orientation-director/commit/959f30f93d012171d5af5515675405ece92ec166))
+* **android:** implement InterfaceOrientationDidChange event emit ([9c18485](https://github.com/gladiuscode/react-native-orientation-director/commit/9c184854f09cb45b2b4d5062c50add223bfa2276))
+* **android:** implement lifecycle event listeners to properly enable/disable sensor listener ([4613976](https://github.com/gladiuscode/react-native-orientation-director/commit/4613976dbd02426c045bb4ac9ca46adbb42f4e4e))
+* **android:** implement lockTo given orientation ([d40a7cd](https://github.com/gladiuscode/react-native-orientation-director/commit/d40a7cdceec31b835c44a3e063fb8eeaf65dbd98))
+* **android:** implement sensor listener ([1131eb7](https://github.com/gladiuscode/react-native-orientation-director/commit/1131eb7f702f44766c525df7b38f45a21e132fce))
+* **android:** implement unlock method ([c43c4f4](https://github.com/gladiuscode/react-native-orientation-director/commit/c43c4f40908f44c0660e7d91b8c653eef7ce829c))
+* **android:** improve interfaceOrientation and deviceOrientation computation ([d22dcb6](https://github.com/gladiuscode/react-native-orientation-director/commit/d22dcb6d9d0624381960b4295faf16660da28445))
+* **android:** setup new arch compatibility ([c36cfc3](https://github.com/gladiuscode/react-native-orientation-director/commit/c36cfc30f0361e7ee0d5a8ad827511ddd003b87a))
+* **android:** setup new arch compatibility ([d896f98](https://github.com/gladiuscode/react-native-orientation-director/commit/d896f981a62ec4495dcbb82b1ebeb0557884a154))
+* **example:** showcase getDeviceOrientation usages ([6e65853](https://github.com/gladiuscode/react-native-orientation-director/commit/6e6585324ea3c6369cdefd03f1633656f0d54409))
+* **example:** showcase getInterfaceOrientation usages ([4f93e56](https://github.com/gladiuscode/react-native-orientation-director/commit/4f93e565d9ef557cdd7d778e33ea9ba91b13570a))
+* **example:** showcase lockTo usages ([7d4f2f6](https://github.com/gladiuscode/react-native-orientation-director/commit/7d4f2f6539e3d817426c42768b724c47cc693593))
+* **example:** showcase unlock method usages ([689d915](https://github.com/gladiuscode/react-native-orientation-director/commit/689d9156070c6f13048ecfbd49b90a43fabcb396))
+* **example:** showcase useDeviceOrientation usages ([b0eca7f](https://github.com/gladiuscode/react-native-orientation-director/commit/b0eca7fe74eb919928f984724b42b321e3606209))
+* **example:** showcase useInterfaceOrientation usages ([ef7d2bf](https://github.com/gladiuscode/react-native-orientation-director/commit/ef7d2bf8a5b81f54c7120b6eb32bde468d326f37))
+* **iOS:** adapt logic to android and implement interface orientation update on device orientation ([f7be922](https://github.com/gladiuscode/react-native-orientation-director/commit/f7be92205d226b42d317f5d08aea12cbfd3a4b07))
+* **iOS:** implement faceUp and faceDown deviceOrientation handling ([83d05e4](https://github.com/gladiuscode/react-native-orientation-director/commit/83d05e452561af9e5028903f7d58b31c5fa8606b))
+* **iOS:** implement getDeviceOrientation method ([a6b700a](https://github.com/gladiuscode/react-native-orientation-director/commit/a6b700a44372946b6fa44da38c69186d25c2c226))
+* **iOS:** implement getInterfaceOrientation ([112a9f2](https://github.com/gladiuscode/react-native-orientation-director/commit/112a9f241a5d99511dc88f125f4cb6dc6f2ae9d4))
+* **iOS:** implement InterfaceOrientationDidChange event emit ([4f7843c](https://github.com/gladiuscode/react-native-orientation-director/commit/4f7843c9232034b1f8eaca4bba15e8b9b9aaf62e))
+* **iOS:** implement listeners observers to avoid sending events if js is not listening ([d957dc5](https://github.com/gladiuscode/react-native-orientation-director/commit/d957dc525c12df6c0a41fd8e0d5abda81927ea33))
+* **iOS:** implement lockTo given orientation ([28e0cc1](https://github.com/gladiuscode/react-native-orientation-director/commit/28e0cc111da6b32a27514cc6c6ca2164cac25add))
+* **iOS:** implement sensor listener ([c47a46e](https://github.com/gladiuscode/react-native-orientation-director/commit/c47a46e6eb09c9baccb9a184dbb53c47ef2a26e5))
+* **iOS:** implement unlock method ([b6f7826](https://github.com/gladiuscode/react-native-orientation-director/commit/b6f7826be123998f1ba39c31912d70faf2794efa))
+* **iOS:** improve code structure and fix device orientation event ([64a65ca](https://github.com/gladiuscode/react-native-orientation-director/commit/64a65cabaa8d067b611cb7a35b5a1c3f39618244))
+* **iOS:** improve interfaceOrientation and deviceOrientation computation ([914c3d5](https://github.com/gladiuscode/react-native-orientation-director/commit/914c3d5cff88fa520a12a606a83db5605def5fe9))
+* **iOS:** setup new arch compatibility ([ff37c5f](https://github.com/gladiuscode/react-native-orientation-director/commit/ff37c5fdb18510d54498e7222ce574e788fdbf76))
+* **js:** implement getDeviceOrientation method ([f6f768f](https://github.com/gladiuscode/react-native-orientation-director/commit/f6f768fbdfa27c1528be57d9fa7657bae73ebbce))
+* **js:** implement getInterfaceOrientation ([f3d581b](https://github.com/gladiuscode/react-native-orientation-director/commit/f3d581bbd93e50193ea82785827b098350d1af9c))
+* **js:** implement interfaceOrientationDidChange event emit ([58784d5](https://github.com/gladiuscode/react-native-orientation-director/commit/58784d5f4e25ddcf77f48aaa5661ba7b261a6872))
+* **js:** implement listenForDeviceOrientationChanges and enhance code structure ([12a8184](https://github.com/gladiuscode/react-native-orientation-director/commit/12a81843717a4ec5536e12bea2e6faa1ccb54936))
+* **js:** implement lockTo given orientation ([8c42c23](https://github.com/gladiuscode/react-native-orientation-director/commit/8c42c23e14cf055a21e853e6ef1dba33998c72e2))
+* **js:** implement unlock method ([c063acc](https://github.com/gladiuscode/react-native-orientation-director/commit/c063acc4280e4b4a1844096340992089bf890563))
