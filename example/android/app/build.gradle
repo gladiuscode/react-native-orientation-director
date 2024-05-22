@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.orientationhandlerexample"
+    namespace "com.orientationdirectorexample"
     defaultConfig {
-        applicationId "com.orientationhandlerexample"
+        applicationId "com.orientationdirectorexample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

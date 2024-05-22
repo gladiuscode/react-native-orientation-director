@@ -1,7 +1,7 @@
 {
-  "name": "react-native-orientation-handler",
+  "name": "react-native-orientation-director",
   "version": "0.1.0",
-  "description": "A React Native library that allows you to handle orientation changes.",
+  "description": "A Modern React Native library that allows you to access orientation",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -26,7 +26,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-orientation-handler-example",
+    "example": "yarn workspace react-native-orientation-director-example",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -41,14 +41,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gladiuscode/react-native-orientation-handler.git"
+    "url": "git+https://github.com/gladiuscode/react-native-orientation-director.git"
   },
   "author": "gladius <gladiusservices@protonmail.com> (https://github.com/gladiuscode)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gladiuscode/react-native-orientation-handler/issues"
+    "url": "https://github.com/gladiuscode/react-native-orientation-director/issues"
   },
-  "homepage": "https://github.com/gladiuscode/react-native-orientation-handler#readme",
+  "homepage": "https://github.com/gladiuscode/react-native-orientation-director#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -158,7 +158,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNOrientationHandlerSpec",
+    "name": "RNOrientationDirectorSpec",
     "type": "modules",
     "jsSrcsDir": "src"
   }

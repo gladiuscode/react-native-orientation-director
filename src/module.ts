@@ -1,8 +1,8 @@
 import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
-import type { Spec } from './NativeOrientationHandler';
+import type { Spec } from './NativeOrientationDirector';
 
 const LINKING_ERROR =
-  `The package 'react-native-orientation-handler' doesn't seem to be linked. Make sure: \n\n` +
+  `The package 'react-native-orientation-director' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -11,10 +11,10 @@ const LINKING_ERROR =
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
 const Module = isTurboModuleEnabled
-  ? require('./NativeOrientationHandler').default
-  : NativeModules.OrientationHandler;
+  ? require('./NativeOrientationDirector').default
+  : NativeModules.OrientationDirector;
 
-const OrientationHandlerModule = Module
+const OrientationDirectorModule = Module
   ? Module
   : new Proxy(
       {},
@@ -27,4 +27,4 @@ const OrientationHandlerModule = Module
 
 export const EventEmitter = new NativeEventEmitter(Module);
 
-export default OrientationHandlerModule as Spec;
+export default OrientationDirectorModule as Spec;

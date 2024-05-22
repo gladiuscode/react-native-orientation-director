@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import RNOrientationHandler from '../RNOrientationHandler';
+import RNOrientationDirector from '../RNOrientationDirector';
 import type { OrientationEvent } from '../types/OrientationEvent.interface';
-import { Orientation } from 'react-native-orientation-handler';
+import { Orientation } from '../types/Orientation.enum';
 
 /**
  * Hook that returns the current interface orientation.
@@ -17,7 +17,7 @@ const useInterfaceOrientation = () => {
     }
 
     initialRender.current = true;
-    RNOrientationHandler.getInterfaceOrientation().then(setOrientation);
+    RNOrientationDirector.getInterfaceOrientation().then(setOrientation);
   }, []);
 
   React.useEffect(() => {
@@ -26,7 +26,7 @@ const useInterfaceOrientation = () => {
     };
 
     const subscription =
-      RNOrientationHandler.listenForInterfaceOrientationChanges(onChange);
+      RNOrientationDirector.listenForInterfaceOrientationChanges(onChange);
     return () => {
       subscription.remove();
     };

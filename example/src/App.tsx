@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
-import RNOrientationHandler, {
+import RNOrientationDirector, {
   Orientation,
   useDeviceOrientation,
   useInterfaceOrientation,
-} from 'react-native-orientation-handler';
+} from 'react-native-orientation-director';
 
 export default function App() {
   const isDark = useColorScheme() === 'dark';
@@ -19,29 +19,31 @@ export default function App() {
     <View style={styles.container}>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Interface Orientation:
-        {RNOrientationHandler.convertOrientationToHumanReadableString(
+        {RNOrientationDirector.convertOrientationToHumanReadableString(
           interfaceOrientation
         )}
       </Text>
       <Text style={[textStyle, styles.marginBottom]}>
         Current Device Orientation:
-        {RNOrientationHandler.convertOrientationToHumanReadableString(
+        {RNOrientationDirector.convertOrientationToHumanReadableString(
           deviceOrientation
         )}
       </Text>
       <Button
         title={'Log Interface Orientation'}
         onPress={() => {
-          RNOrientationHandler.getInterfaceOrientation().then((orientation) => {
-            console.log('Current Interface Orientation:', orientation);
-          });
+          RNOrientationDirector.getInterfaceOrientation().then(
+            (orientation) => {
+              console.log('Current Interface Orientation:', orientation);
+            }
+          );
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Log Device Orientation'}
         onPress={() => {
-          RNOrientationHandler.getDeviceOrientation().then((orientation) => {
+          RNOrientationDirector.getDeviceOrientation().then((orientation) => {
             console.log('Current Device Orientation:', orientation);
           });
         }}
@@ -50,35 +52,35 @@ export default function App() {
       <Button
         title={'Lock To Portrait'}
         onPress={() => {
-          RNOrientationHandler.lockTo(Orientation.portrait);
+          RNOrientationDirector.lockTo(Orientation.portrait);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Portrait Upside Down'}
         onPress={() => {
-          RNOrientationHandler.lockTo(Orientation.portraitUpsideDown);
+          RNOrientationDirector.lockTo(Orientation.portraitUpsideDown);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Landscape Left'}
         onPress={() => {
-          RNOrientationHandler.lockTo(Orientation.landscapeLeft);
+          RNOrientationDirector.lockTo(Orientation.landscapeLeft);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Lock To Landscape Right'}
         onPress={() => {
-          RNOrientationHandler.lockTo(Orientation.landscapeRight);
+          RNOrientationDirector.lockTo(Orientation.landscapeRight);
         }}
       />
       <View style={styles.marginBottom} />
       <Button
         title={'Unlock'}
         onPress={() => {
-          RNOrientationHandler.unlock();
+          RNOrientationDirector.unlock();
         }}
       />
     </View>

@@ -1,24 +1,24 @@
 //
 //  OrientationEventEmitter.swift
-//  react-native-orientation-handler
+//  react-native-orientation-director
 //
-//  Created by Mirko Quaglia on 18/05/2024.
+//  Created by gladiuscode on 18/05/2024.
 //
 
 import Foundation
 
 @objc public class OrientationEventManager : NSObject {
     @objc public weak var delegate: OrientationEventEmitterDelegate? = nil
-    
+
     func sendDeviceOrientationDidChange(orientationValue: Int) {
         guard let delegate = delegate else {
             return
         }
-        
+
         if (!delegate.isJsListening) {
             return
         }
-        
+
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
         print(Event.InterfaceOrientationDidChange)
         print(params)
@@ -29,11 +29,11 @@ import Foundation
         guard let delegate = delegate else {
             return
         }
-        
+
         if (!delegate.isJsListening) {
             return
         }
-        
+
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
         print(Event.InterfaceOrientationDidChange)
         print(params)
@@ -43,12 +43,12 @@ import Foundation
 
 @objc public protocol OrientationEventEmitterDelegate {
     var isJsListening: Bool { get set }
-    
+
     func sendEvent(name: String, params: NSDictionary)
 }
 
 public extension OrientationEventManager {
-  
+
   enum Event: String, CaseIterable {
     case DeviceOrientationDidChange
     case InterfaceOrientationDidChange

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-orientation-handler": ["./src/index"]
+      "react-native-orientation-director": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

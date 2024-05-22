@@ -1,6 +1,6 @@
 //
 //  Orientation.swift
-//  react-native-orientation-handler
+//  react-native-orientation-director
 //
 //  Created by gladiuscode on 19/05/2024.
 //

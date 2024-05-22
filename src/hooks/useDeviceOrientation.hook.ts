@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import RNOrientationHandler from '../RNOrientationHandler';
+import RNOrientationDirector from '../RNOrientationDirector';
 import type { OrientationEvent } from '../types/OrientationEvent.interface';
 
 /**
@@ -16,7 +16,7 @@ const useDeviceOrientation = () => {
     }
 
     initialRender.current = true;
-    RNOrientationHandler.getDeviceOrientation().then(setOrientation);
+    RNOrientationDirector.getDeviceOrientation().then(setOrientation);
   }, []);
 
   React.useEffect(() => {
@@ -25,7 +25,7 @@ const useDeviceOrientation = () => {
     };
 
     const subscription =
-      RNOrientationHandler.listenForDeviceOrientationChanges(onChange);
+      RNOrientationDirector.listenForDeviceOrientationChanges(onChange);
     return () => {
       subscription.remove();
     };

@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  OrientationHandlerExample
+//  OrientationDirectorExample
 //
 
 import Foundation

@@ -1,15 +1,15 @@
 //
 //  OrientationSensorListener.swift
-//  react-native-orientation-handler
+//  react-native-orientation-director
 //
-//  Created by Mirko Quaglia on 18/05/2024.
+//  Created by gladiuscode on 18/05/2024.
 //
 
 import Foundation
 
 public class OrientationSensorListener {
     private var onOrientationChangedCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)? = nil
-    
+
     init() {
         NotificationCenter.default.addObserver(
             self,
@@ -18,11 +18,11 @@ public class OrientationSensorListener {
             object: nil
         )
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     func setOnOrientationChanged(callback: @escaping (_ deviceOrientation: UIDeviceOrientation) -> Void) {
         self.onOrientationChangedCallback = callback
     }
@@ -31,7 +31,7 @@ public class OrientationSensorListener {
         guard let onOrientationChangedCallback = self.onOrientationChangedCallback else {
             return
         }
-        
+
         onOrientationChangedCallback(UIDevice.current.orientation)
     }
 }

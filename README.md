@@ -1,4 +1,4 @@
-# react-native-orientation-handler
+# react-native-orientation-director
 
 A simple library that allows you to handle orientation changes in your React Native app.
 Written in Kotlin, Swift and Typescript. It supports both the Old and New React Native architecture.
@@ -17,10 +17,10 @@ Written in Kotlin, Swift and Typescript. It supports both the Old and New React 
 You can install the package via npm or yarn:
 
 ```sh
-npm install react-native-orientation-handler
+npm install react-native-orientation-director
 ```
 ```sh
-yarn add react-native-orientation-handler
+yarn add react-native-orientation-director
 ```
 
 Don't forget to run pod-install
@@ -28,14 +28,14 @@ Don't forget to run pod-install
 ## Setup
 
 To properly handle interface orientation changes in iOS, you need to update your AppDelegate.mm file.
-In your AppDelegate.mm file, import "OrientationHandler.h" and implement supportedInterfaceOrientationsForWindow method as follows:
+In your AppDelegate.mm file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
 
 ```objc
-#import <OrientationHandler.h>
+#import <OrientationDirector.h>
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-  return [OrientationHandler getSupportedInterfaceOrientationsForWindow];
+  return [OrientationDirector getSupportedInterfaceOrientationsForWindow];
 }
 ```
 
@@ -45,7 +45,7 @@ There is no need to do anything in Android, it works out of the box.
 
 ## Usage
 
-This library exports a class called: [RNOrientationHandler](https://github.com/gladiuscode/react-native-orientation-handler/blob/main/src/RNOrientationHandler.ts) that exposes the following methods:
+This library exports a class called: [RNOrientationDirector](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/RNOrientationDirector.ts) that exposes the following methods:
 
 | Method                                  | Description                                                                     |
 |-----------------------------------------|---------------------------------------------------------------------------------|
@@ -60,10 +60,10 @@ This library exports a class called: [RNOrientationHandler](https://github.com/g
 
 In addition, the library exposes the following hooks:
 
-| Hook                                                                                                                                           | Description                                                      |
-|------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-handler/blob/main/src/hooks/useInterfaceOrientation.hook.ts) | Returns the current interface orientation and listens to changes |
-| [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-handler/blob/main/src/hooks/useDeviceOrientation.hook.ts)       | Returns the current device orientation and listens to changes    |
+| Hook                                                                                                                                            | Description                                                      |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
+| [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts) | Returns the current interface orientation and listens to changes |
+| [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)       | Returns the current device orientation and listens to changes    |
 
 Head over to the [example project](example) to see how to use the library.
 

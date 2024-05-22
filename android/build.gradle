@@ -1,6 +1,6 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["OrientationHandler_kotlinVersion"]
+  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["OrientationDirector_kotlinVersion"]
 
   repositories {
     google()
@@ -26,11 +26,11 @@ if (isNewArchitectureEnabled()) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["OrientationHandler_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["OrientationDirector_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["OrientationHandler_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["OrientationDirector_" + name]).toInteger()
 }
 
 def supportsNamespace() {
@@ -44,7 +44,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.orientationhandler"
+    namespace "com.orientationdirector"
 
     sourceSets {
       main {
@@ -114,7 +114,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "OrientationHandler"
-    codegenJavaPackageName = "com.orientationhandler"
+    libraryName = "OrientationDirector"
+    codegenJavaPackageName = "com.orientationdirector"
   }
 }
