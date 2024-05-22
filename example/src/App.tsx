@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import RNOrientationDirector, {
   Orientation,
   useDeviceOrientation,
@@ -8,22 +8,18 @@ import RNOrientationDirector, {
 } from 'react-native-orientation-director';
 
 export default function App() {
-  const isDark = useColorScheme() === 'dark';
-
   const interfaceOrientation = useInterfaceOrientation();
   const deviceOrientation = useDeviceOrientation();
 
-  const textStyle = { color: isDark ? 'white' : 'black' };
-
   return (
     <View style={styles.container}>
-      <Text style={[textStyle, styles.marginBottom]}>
+      <Text style={[styles.text, styles.marginBottom]}>
         Current Interface Orientation:
         {RNOrientationDirector.convertOrientationToHumanReadableString(
           interfaceOrientation
         )}
       </Text>
-      <Text style={[textStyle, styles.marginBottom]}>
+      <Text style={[styles.text, styles.marginBottom]}>
         Current Device Orientation:
         {RNOrientationDirector.convertOrientationToHumanReadableString(
           deviceOrientation
@@ -92,6 +88,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text: {
+    color: 'black',
   },
   marginBottom: {
     marginBottom: 12,
