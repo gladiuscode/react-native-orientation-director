@@ -8,10 +8,11 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
   private var mLifecycleListener = OrientationLifecycleListener()
-  private var isLocked: Boolean = false
   private var lastInterfaceOrientation = Orientation.UNKNOWN
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
+
+  var isLocked: Boolean = false
 
   init {
     mSensorListener.setOnOrientationChangedCallback { orientation ->
@@ -60,11 +61,13 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     context.currentActivity?.requestedOrientation = screenOrientation
     mEventEmitter.sendInterfaceOrientationDidChange(interfaceOrientation.ordinal)
     lastInterfaceOrientation = interfaceOrientation
+    mEventEmitter.sendLockDidChange(true)
     isLocked = true
   }
 
   fun unlock() {
     context.currentActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    mEventEmitter.sendLockDidChange(false)
     isLocked = false
     adaptInterfaceTo(getDeviceOrientation())
   }

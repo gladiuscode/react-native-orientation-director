@@ -9,6 +9,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 enum class Event {
   DeviceOrientationDidChange,
   InterfaceOrientationDidChange,
+  LockDidChange,
 }
 
 class OrientationEventManager(private val context: ReactApplicationContext) {
@@ -25,6 +26,13 @@ class OrientationEventManager(private val context: ReactApplicationContext) {
       putInt("orientation", orientationValue)
     }
     sendEvent(Event.InterfaceOrientationDidChange, params)
+  }
+
+  fun sendLockDidChange(value: Boolean) {
+    val params = Arguments.createMap().apply {
+      putBoolean("locked", value)
+    }
+    sendEvent(Event.LockDidChange, params)
   }
 
   private fun sendEvent(eventName: Event, params: WritableMap?) {
