@@ -25,6 +25,7 @@ import UIKit
         sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
         lastInterfaceOrientation = initInterfaceOrientation()
         lastDeviceOrientation = initDeviceOrientation()
+        isLocked = initIsLocked()
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +72,15 @@ import UIKit
 
     private func initDeviceOrientation() -> Orientation {
         return OrientationDirectorUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+    }
+    
+    private func initIsLocked() -> Bool {
+        let supportedOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
+        if (supportedOrientations.count > 1) {
+            return false
+        }
+        
+        return supportedOrientations.first != UIInterfaceOrientationMask.all
     }
 
     private func requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask) {
@@ -124,5 +134,5 @@ import UIKit
 
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
         lastInterfaceOrientation = deviceOrientation
-      }
+    }
 }
