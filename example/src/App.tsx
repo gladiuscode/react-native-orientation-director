@@ -5,11 +5,13 @@ import RNOrientationDirector, {
   Orientation,
   useDeviceOrientation,
   useInterfaceOrientation,
+  useIsInterfaceOrientationLocked,
 } from 'react-native-orientation-director';
 
 export default function App() {
   const interfaceOrientation = useInterfaceOrientation();
   const deviceOrientation = useDeviceOrientation();
+  const isInterfaceOrientationLocked = useIsInterfaceOrientationLocked();
 
   return (
     <View style={styles.container}>
@@ -24,6 +26,10 @@ export default function App() {
         {RNOrientationDirector.convertOrientationToHumanReadableString(
           deviceOrientation
         )}
+      </Text>
+      <Text style={[styles.text, styles.marginBottom]}>
+        Is Interface Orientation Locked:
+        {isInterfaceOrientationLocked ? 'Yes' : 'No'}
       </Text>
       <Button
         title={'Log Interface Orientation'}
@@ -42,6 +48,13 @@ export default function App() {
           RNOrientationDirector.getDeviceOrientation().then((orientation) => {
             console.log('Current Device Orientation:', orientation);
           });
+        }}
+      />
+      <View style={styles.marginBottom} />
+      <Button
+        title={'Log is Interface Orientation Locked'}
+        onPress={() => {
+          console.log('isLocked: ', RNOrientationDirector.isLocked());
         }}
       />
       <View style={styles.marginBottom} />
