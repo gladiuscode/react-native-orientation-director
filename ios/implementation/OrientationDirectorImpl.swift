@@ -12,11 +12,11 @@ import UIKit
     private static let TAG = "OrientationDirectorImpl"
     private let sensorListener: OrientationSensorListener
     private let eventManager: OrientationEventManager
-    private var isLocked: Bool = false
     private var lastInterfaceOrientation: Orientation = Orientation.UNKNOWN
     private var lastDeviceOrientation: Orientation = Orientation.UNKNOWN
 
     @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
+    @objc public var isLocked = false
 
     @objc public override init() {
         eventManager = OrientationEventManager()
@@ -51,6 +51,7 @@ import UIKit
 
         eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
         lastInterfaceOrientation = orientation
+        eventManager.sendLockDidChange(value: true)
         isLocked = true
     }
 
@@ -58,6 +59,7 @@ import UIKit
         self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
 
         let deviceOrientation = OrientationDirectorUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+        eventManager.sendLockDidChange(value: false)
         isLocked = false
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
