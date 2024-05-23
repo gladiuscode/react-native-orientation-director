@@ -6,6 +6,7 @@ export interface Spec extends TurboModule {
   getDeviceOrientation(): Promise<number>;
   lockTo(orientation: number): void;
   unlock(): void;
+  isLocked(): boolean;
 
   addListener: (eventType: string) => void;
   removeListeners: (count: number) => void;
