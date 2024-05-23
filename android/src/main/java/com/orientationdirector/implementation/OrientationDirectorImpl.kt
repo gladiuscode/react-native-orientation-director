@@ -42,6 +42,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
 
     lastInterfaceOrientation = initInterfaceOrientation()
     lastDeviceOrientation = initDeviceOrientation()
+    isLocked = initIsLocked()
 
     initialized = true
   }
@@ -92,6 +93,17 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       ?: return Orientation.UNKNOWN
 
     return mUtils.getDeviceOrientationFrom(lastRotationDetected)
+  }
+
+  private fun initIsLocked(): Boolean {
+    val activity = context.currentActivity ?: return false
+    return listOf(
+      ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
+      ActivityInfo.SCREEN_ORIENTATION_LOCKED,
+    ).contains(activity.requestedOrientation)
   }
 
   private fun onOrientationChanged(rawDeviceOrientation: Int) {
