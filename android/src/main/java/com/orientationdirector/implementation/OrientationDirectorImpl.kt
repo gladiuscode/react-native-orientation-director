@@ -106,7 +106,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {
-    if (isLocked && lastInterfaceOrientation != Orientation.UNKNOWN) {
+    if (isLocked) {
       return
     }
 
