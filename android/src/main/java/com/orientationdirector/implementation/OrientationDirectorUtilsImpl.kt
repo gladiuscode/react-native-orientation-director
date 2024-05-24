@@ -46,7 +46,7 @@ class OrientationDirectorUtilsImpl(val context: ReactContext) {
     }
   }
 
-  fun getOrientationEnumFrom(jsOrientation: Int): Orientation {
+  fun getOrientationFromJsOrientation(jsOrientation: Int): Orientation {
     return when (jsOrientation) {
       2 -> Orientation.LANDSCAPE_RIGHT
       3 -> Orientation.PORTRAIT_UPSIDE_DOWN

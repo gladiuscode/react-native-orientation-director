@@ -60,7 +60,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   fun lockTo(jsOrientation: Int) {
-    val interfaceOrientation = mUtils.getOrientationEnumFrom(jsOrientation)
+    val interfaceOrientation = mUtils.getOrientationFromJsOrientation(jsOrientation)
     val screenOrientation =
       mUtils.getActivityOrientationFrom(interfaceOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
