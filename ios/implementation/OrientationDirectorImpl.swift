@@ -52,16 +52,14 @@ import UIKit
 
         eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
         lastInterfaceOrientation = orientation
-        eventManager.sendLockDidChange(value: true)
-        isLocked = true
+        updateIsLockedTo(value: true)
     }
 
     @objc public func unlock() {
         self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
 
         let deviceOrientation = OrientationDirectorUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
-        eventManager.sendLockDidChange(value: false)
-        isLocked = false
+        updateIsLockedTo(value: false)
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
 
@@ -134,5 +132,10 @@ import UIKit
 
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
         lastInterfaceOrientation = deviceOrientation
+    }
+    
+    private func updateIsLockedTo(value: Bool) {
+        eventManager.sendLockDidChange(value: value)
+        isLocked = value
     }
 }
