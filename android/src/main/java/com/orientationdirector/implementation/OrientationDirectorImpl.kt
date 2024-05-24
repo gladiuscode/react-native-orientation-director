@@ -4,7 +4,7 @@ import android.content.pm.ActivityInfo
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
-  private var mUtils = OrientationDirectorUtilsImpl()
+  private var mUtils = OrientationDirectorUtilsImpl(context)
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
   private var mLifecycleListener = OrientationLifecycleListener()
@@ -76,18 +76,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun initInterfaceOrientation(): Orientation {
-    val activityOrientation = context.currentActivity!!.requestedOrientation
-    if (
-      mUtils.isActivityInPortraitOrientation(activityOrientation) ||
-      mUtils.isActivityInLandscapeOrientation(activityOrientation)
-    ) {
-      return mUtils.getInterfaceOrientationFrom(activityOrientation)
-    }
-
-    val lastRotationDetected = mSensorListener.getLastRotationDetected()
-      ?: return lastInterfaceOrientation
-
-    return mUtils.getDeviceOrientationFrom(lastRotationDetected)
+    val rotation = mUtils.getInterfaceRotation()
+    return mUtils.getOrientationFromRotation(rotation)
   }
 
   private fun initDeviceOrientation(): Orientation {
@@ -116,7 +106,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {
-    if (isLocked) {
+    if (isLocked && lastInterfaceOrientation != Orientation.UNKNOWN) {
       return
     }
 

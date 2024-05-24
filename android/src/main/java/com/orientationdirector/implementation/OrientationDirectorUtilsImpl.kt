@@ -1,8 +1,23 @@
 package com.orientationdirector.implementation
 
+import android.content.Context
 import android.content.pm.ActivityInfo
+import android.os.Build
+import android.view.Surface
+import android.view.WindowManager
+import com.facebook.react.bridge.ReactContext
 
-class OrientationDirectorUtilsImpl() {
+class OrientationDirectorUtilsImpl(val context: ReactContext) {
+
+  fun getInterfaceRotation(): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      context.currentActivity?.display?.rotation ?: Surface.ROTATION_0
+    } else {
+      val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+      @Suppress("DEPRECATION")
+      windowManager.defaultDisplay.rotation
+    }
+  }
 
   fun getDeviceOrientationFrom(rotation: Int): Orientation {
     var orientation = Orientation.UNKNOWN
@@ -22,29 +37,6 @@ class OrientationDirectorUtilsImpl() {
     return orientation
   }
 
-  fun getInterfaceOrientationFrom(activityInfo: Int): Orientation {
-    return when (activityInfo) {
-      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> Orientation.LANDSCAPE_RIGHT
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -> Orientation.PORTRAIT_UPSIDE_DOWN
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -> Orientation.LANDSCAPE_LEFT
-      else -> Orientation.PORTRAIT
-    };
-  }
-
-  fun isActivityInLandscapeOrientation(orientation: Int): Boolean {
-    return listOf(
-      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
-    ).contains(orientation);
-  }
-
-  fun isActivityInPortraitOrientation(orientation: Int): Boolean {
-    return listOf(
-      ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
-    ).contains(orientation);
-  }
-
   fun getActivityOrientationFrom(interfaceOrientation: Orientation): Int {
     return when (interfaceOrientation) {
       Orientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -59,6 +51,15 @@ class OrientationDirectorUtilsImpl() {
       2 -> Orientation.LANDSCAPE_RIGHT
       3 -> Orientation.PORTRAIT_UPSIDE_DOWN
       4 -> Orientation.LANDSCAPE_LEFT
+      else -> Orientation.PORTRAIT
+    }
+  }
+
+  fun getOrientationFromRotation(rotation: Int): Orientation {
+    return when(rotation) {
+      Surface.ROTATION_270 -> Orientation.LANDSCAPE_RIGHT
+      Surface.ROTATION_90 -> Orientation.LANDSCAPE_LEFT
+      Surface.ROTATION_180 -> Orientation.PORTRAIT_UPSIDE_DOWN
       else -> Orientation.PORTRAIT
     }
   }
