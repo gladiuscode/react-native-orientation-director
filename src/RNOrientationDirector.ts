@@ -4,6 +4,7 @@ import type { InterfaceOrientationToLocalizedStringProvider } from './types/Inte
 import { Orientation } from './types/Orientation.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
+import type { LockedEvent } from './types/LockedEvent.interface';
 
 class RNOrientationDirector {
   private static _localizedStringProvider: InterfaceOrientationToLocalizedStringProvider =
@@ -39,6 +40,10 @@ class RNOrientationDirector {
     Module.unlock();
   }
 
+  static isLocked() {
+    return Module.isLocked();
+  }
+
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
@@ -52,6 +57,10 @@ class RNOrientationDirector {
       Event.InterfaceOrientationDidChange,
       callback
     );
+  }
+
+  static listenForLockChanges(callback: (orientation: LockedEvent) => void) {
+    return EventEmitter.addListener(Event.LockDidChange, callback);
   }
 
   static convertOrientationToHumanReadableString(

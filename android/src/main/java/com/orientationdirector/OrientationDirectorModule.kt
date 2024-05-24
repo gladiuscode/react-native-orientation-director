@@ -38,6 +38,11 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
     orientationDirectorImpl.unlock()
   }
 
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  override fun isLocked(): Boolean {
+    return orientationDirectorImpl.isLocked
+  }
+
   @ReactMethod()
   override fun addListener(eventName: String) {}
 

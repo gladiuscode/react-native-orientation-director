@@ -7,8 +7,10 @@ Written in Kotlin, Swift and Typescript. It supports both the Old and New React 
 
 - [x] Get the current orientation of the device
 - [x] Get the current orientation of the interface
+- [x] Get the current interface orientation status (locked or unlocked)
 - [x] Listen to device orientation changes
 - [x] Listen to interface orientation changes
+- [x] Listen to interface orientation status changes
 - [x] Lock the interface orientation to a specific orientation
 - [x] Unlock the interface orientation
 
@@ -53,17 +55,20 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 | getDeviceOrientation                    | Returns the last device orientation                                             |
 | lockTo                                  | Locks the interface to a specific orientation                                   |
 | unlock                                  | Unlock the interface                                                            |
+| isLocked                                | Returns the current interface orientation status (locked / unlocked)            |
 | listenForDeviceOrientationChanges       | Triggers a provided callback each time the device orientation changes           |
 | listenForInterfaceOrientationChanges    | Triggers a provided callback each time the interface orientation changes        |
+| listenForLockChanges                    | Triggers a provided callback each time the interface orientation status changes |
 | convertOrientationToHumanReadableString | Returns a human readable string based on the given orientation                  |
 | setLocalizedStringProvider              | Sets the mapping needed to convert orientation values to human readable strings |
 
 In addition, the library exposes the following hooks:
 
-| Hook                                                                                                                                            | Description                                                      |
-|-------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts) | Returns the current interface orientation and listens to changes |
-| [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)       | Returns the current device orientation and listens to changes    |
+| Hook                                                                                                                                                            | Description                                                             |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts)                 | Returns the current interface orientation and listens to changes        |
+| [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)                       | Returns the current device orientation and listens to changes           |
+| [useIsInterfaceOrientationLocked](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useIsInterfaceOrientationLocked.hook.ts) | Returns the current interface orientation status and listens to changes |
 
 Head over to the [example project](example) to see how to use the library.
 

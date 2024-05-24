@@ -107,5 +107,26 @@ class OrientationDirectorUtils {
             .flatMap { $0.windows }
             .last { $0.isKeyWindow }
     }
+    
+    public static func readSupportedInterfaceOrientationsFromBundle() -> [UIInterfaceOrientationMask] {
+        guard let rawOrientations = Bundle.main.object(forInfoDictionaryKey: "UISupportedInterfaceOrientations") as? [String] else {
+            return [UIInterfaceOrientationMask.all]
+        }
+        
+        return rawOrientations.compactMap { orientation in
+            switch orientation {
+            case "UIInterfaceOrientationPortrait":
+                return UIInterfaceOrientationMask.portrait
+            case "UIInterfaceOrientationLandscapeLeft":
+                return UIInterfaceOrientationMask.landscapeLeft
+            case "UIInterfaceOrientationLandscapeRight":
+                return UIInterfaceOrientationMask.landscapeRight
+            case "UIInterfaceOrientationPortraitUpsideDown":
+                return UIInterfaceOrientationMask.portraitUpsideDown
+            default:
+                return UIInterfaceOrientationMask.allButUpsideDown
+            }
+        }
+    }
 
 }

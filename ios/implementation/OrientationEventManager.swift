@@ -35,6 +35,19 @@ import Foundation
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
         delegate.sendEvent(name: Event.InterfaceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
+    
+    func sendLockDidChange(value: Bool) {
+        guard let delegate = delegate else {
+            return
+        }
+
+        if (!delegate.isJsListening) {
+            return
+        }
+
+        let params = Dictionary(dictionaryLiteral: ("locked", value))
+        delegate.sendEvent(name: Event.LockDidChange.rawValue, params: params as NSDictionary)
+    }
 }
 
 @objc public protocol OrientationEventEmitterDelegate {
@@ -48,6 +61,7 @@ public extension OrientationEventManager {
   enum Event: String, CaseIterable {
     case DeviceOrientationDidChange
     case InterfaceOrientationDidChange
+    case LockDidChange
   }
 
   @objc static var supportedEvents: [String] {
