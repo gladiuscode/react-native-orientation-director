@@ -1,7 +1,16 @@
+![NPM Version](https://img.shields.io/npm/v/react-native-orientation-director)
+
+---
+
 # react-native-orientation-director
 
 A simple library that allows you to handle orientation changes in your React Native app.
 Written in Kotlin, Swift and Typescript. It supports both the Old and New React Native architecture.
+
+This library takes inspiration from and builds upon the following amazing alternatives:
+
+1. [react-native-orientation-locker](https://github.com/wonday/react-native-orientation-locker)
+2. [react-native-orientation-handler](https://github.com/KroosX4V/react-native-orientation-manager)
 
 ## Features
 
@@ -25,7 +34,7 @@ npm install react-native-orientation-director
 yarn add react-native-orientation-director
 ```
 
-Don't forget to run pod-install
+Don't forget to run pod-install.
 
 ## Setup
 
@@ -82,10 +91,6 @@ Head over to the [example project](example) to see how to use the library.
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
-
-## License
-
-MIT
 
 ---
 
