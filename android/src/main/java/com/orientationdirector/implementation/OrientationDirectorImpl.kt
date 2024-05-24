@@ -4,12 +4,12 @@ import android.content.pm.ActivityInfo
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
-  private var mUtils = OrientationDirectorUtilsImpl()
+  private var mUtils = OrientationDirectorUtilsImpl(context)
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
   private var mLifecycleListener = OrientationLifecycleListener()
 
-  private var initialScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+  private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
@@ -42,8 +42,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       mSensorListener.disable()
     }
 
-    initialScreenOrientation =
-      context.currentActivity?.requestedOrientation ?: initialScreenOrientation
+    initialSupportedInterfaceOrientations =
+      context.currentActivity?.requestedOrientation ?: initialSupportedInterfaceOrientations
     lastInterfaceOrientation = initInterfaceOrientation()
     lastDeviceOrientation = initDeviceOrientation()
     isLocked = initIsLocked()
@@ -60,7 +60,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   fun lockTo(jsOrientation: Int) {
-    val interfaceOrientation = mUtils.getOrientationEnumFrom(jsOrientation)
+    val interfaceOrientation = mUtils.getOrientationFromJsOrientation(jsOrientation)
     val screenOrientation =
       mUtils.getActivityOrientationFrom(interfaceOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
@@ -76,18 +76,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun initInterfaceOrientation(): Orientation {
-    val activityOrientation = context.currentActivity!!.requestedOrientation
-    if (
-      mUtils.isActivityInPortraitOrientation(activityOrientation) ||
-      mUtils.isActivityInLandscapeOrientation(activityOrientation)
-    ) {
-      return mUtils.getInterfaceOrientationFrom(activityOrientation)
-    }
-
-    val lastRotationDetected = mSensorListener.getLastRotationDetected()
-      ?: return lastInterfaceOrientation
-
-    return mUtils.getDeviceOrientationFrom(lastRotationDetected)
+    val rotation = mUtils.getInterfaceRotation()
+    return mUtils.getOrientationFromRotation(rotation)
   }
 
   private fun initDeviceOrientation(): Orientation {
