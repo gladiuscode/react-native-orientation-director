@@ -148,6 +148,7 @@ jobs:
           pod install
         env:
           NO_FLIPPER: 1
+          RCT_NEW_ARCH_ENABLED: 1
 
       - name: Build example for iOS
         run: |
