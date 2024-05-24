@@ -64,7 +64,7 @@ RCT_EXPORT_MODULE()
 
 + (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
 {
-    return [_director supportedInterfaceOrientation];
+    return [_director supportedInterfaceOrientations];
 }
 
 #ifdef RCT_NEW_ARCH_ENABLED

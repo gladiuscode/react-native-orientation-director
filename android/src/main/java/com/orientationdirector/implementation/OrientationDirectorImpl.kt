@@ -8,6 +8,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
   private var mLifecycleListener = OrientationLifecycleListener()
+
+  private var initialScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
@@ -40,6 +42,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       mSensorListener.disable()
     }
 
+    initialScreenOrientation =
+      context.currentActivity?.requestedOrientation ?: initialScreenOrientation
     lastInterfaceOrientation = initInterfaceOrientation()
     lastDeviceOrientation = initDeviceOrientation()
     isLocked = initIsLocked()

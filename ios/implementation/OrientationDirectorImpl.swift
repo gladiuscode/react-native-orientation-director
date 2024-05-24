@@ -12,10 +12,11 @@ import UIKit
     private static let TAG = "OrientationDirectorImpl"
     private let sensorListener: OrientationSensorListener
     private let eventManager: OrientationEventManager
-    private var lastInterfaceOrientation: Orientation = Orientation.UNKNOWN
-    private var lastDeviceOrientation: Orientation = Orientation.UNKNOWN
+    private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
+    private var lastInterfaceOrientation = Orientation.UNKNOWN
+    private var lastDeviceOrientation = Orientation.UNKNOWN
 
-    @objc public var supportedInterfaceOrientation: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
+    @objc public var supportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     @objc public var isLocked = false
 
     @objc public override init() {
@@ -23,9 +24,12 @@ import UIKit
         sensorListener = OrientationSensorListener()
         super.init()
         sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
+        initialSupportedInterfaceOrientations = initInitialSupportedInterfaceOrientations()
         lastInterfaceOrientation = initInterfaceOrientation()
         lastDeviceOrientation = initDeviceOrientation()
         isLocked = initIsLocked()
+
+        supportedInterfaceOrientations = initialSupportedInterfaceOrientations
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +67,11 @@ import UIKit
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
 
+    private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
+        return supportedInterfaceOrientations.reduce(UIInterfaceOrientationMask()) { $0.union($1) }
+    }
+
     private func initInterfaceOrientation() -> Orientation {
         let interfaceOrientation = OrientationDirectorUtils.getInterfaceOrientation()
         return OrientationDirectorUtils.getOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
@@ -71,18 +80,18 @@ import UIKit
     private func initDeviceOrientation() -> Orientation {
         return OrientationDirectorUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
     }
-    
+
     private func initIsLocked() -> Bool {
         let supportedOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
         if (supportedOrientations.count > 1) {
             return false
         }
-        
+
         return supportedOrientations.first != UIInterfaceOrientationMask.all
     }
 
     private func requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask) {
-        self.supportedInterfaceOrientation = mask
+        self.supportedInterfaceOrientations = mask
 
         DispatchQueue.main.async {
             if #available(iOS 16.0, *) {
@@ -133,7 +142,7 @@ import UIKit
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
         lastInterfaceOrientation = deviceOrientation
     }
-    
+
     private func updateIsLockedTo(value: Bool) {
         eventManager.sendLockDidChange(value: value)
         isLocked = value
