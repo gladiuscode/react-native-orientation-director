@@ -43,6 +43,11 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
     return orientationDirectorImpl.isLocked
   }
 
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  override fun isAutoRotationEnabled(): Boolean {
+    return orientationDirectorImpl.isAutoRotationEnabled()
+  }
+
   @ReactMethod()
   override fun addListener(eventName: String) {}
 
