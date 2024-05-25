@@ -15,14 +15,11 @@ class OrientationAutoRotationObserver(val context: ReactContext, handler: Handle
 
   override fun onChange(selfChange: Boolean) {
     super.onChange(selfChange)
-    Log.d(NAME, "onChange")
     val status = isAutoRotationEnabled()
-    Log.d(NAME, "onChange - status: $status")
     lastAutoRotationStatus = status
   }
 
   fun enable() {
-    Log.d(NAME, "enable")
     context.contentResolver.registerContentObserver(
       Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION),
       true,
@@ -31,12 +28,10 @@ class OrientationAutoRotationObserver(val context: ReactContext, handler: Handle
   }
 
   fun disable() {
-    Log.d(NAME, "disable")
     context.contentResolver.unregisterContentObserver(this)
   }
 
   private fun isAutoRotationEnabled(): Boolean {
-    Log.d(NAME, "isAutoRotationEnabled")
     return try {
       Settings.System.getInt(context.contentResolver, Settings.System.ACCELEROMETER_ROTATION) == 1;
     } catch (ex: Settings.SettingNotFoundException) {
