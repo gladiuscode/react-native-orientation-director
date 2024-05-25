@@ -1,5 +1,7 @@
 
 
+# [1.1.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.0.1...v1.1.0) (2024-05-25)
+
 ## [1.0.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.0.0...v1.0.1) (2024-05-22)
 
 
