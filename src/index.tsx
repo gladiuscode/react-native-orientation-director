@@ -1,4 +1,5 @@
 export { Orientation } from './types/Orientation.enum';
+export { AutoRotation } from './types/AutoRotation.enum';
 
 import useDeviceOrientation from './hooks/useDeviceOrientation.hook';
 export { useDeviceOrientation };

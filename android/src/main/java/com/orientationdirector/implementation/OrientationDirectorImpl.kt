@@ -3,7 +3,6 @@ package com.orientationdirector.implementation
 import android.content.pm.ActivityInfo
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
@@ -21,8 +20,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   private var lastInterfaceOrientation = Orientation.UNKNOWN
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
-
-  var isLocked: Boolean = false
+  private var isLocked: Boolean = false
 
   init {
     mSensorListener.setOnOrientationChangedCallback { orientation ->
@@ -71,6 +69,14 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
 
   fun getDeviceOrientation(): Orientation {
     return lastDeviceOrientation
+  }
+
+  fun getIsLocked(): Boolean {
+    return isLocked
+  }
+
+  fun getIsAutoRotationEnabled(): Boolean {
+    return mAutoRotationObserver.getLastAutoRotationStatus()
   }
 
   fun lockTo(jsOrientation: Int) {

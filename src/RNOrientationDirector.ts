@@ -1,7 +1,9 @@
+import { Platform } from 'react-native';
 import Module, { EventEmitter } from './module';
 import Event from './types/Event.enum';
 import type { InterfaceOrientationToLocalizedStringProvider } from './types/InterfaceOrientationToLocalizedStringProvider.type';
 import { Orientation } from './types/Orientation.enum';
+import { AutoRotation } from './types/AutoRotation.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
 import type { LockedEvent } from './types/LockedEvent.interface';
@@ -42,6 +44,15 @@ class RNOrientationDirector {
 
   static isLocked() {
     return Module.isLocked();
+  }
+
+  static isAutoRotationEnabled(): AutoRotation {
+    if (Platform.OS !== 'android') {
+      return AutoRotation.unknown;
+    }
+    return Module.isAutoRotationEnabled()
+      ? AutoRotation.enabled
+      : AutoRotation.disabled;
   }
 
   static listenForDeviceOrientationChanges(
