@@ -40,12 +40,12 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
 
   @ReactMethod(isBlockingSynchronousMethod = true)
   override fun isLocked(): Boolean {
-    return orientationDirectorImpl.isLocked
+    return orientationDirectorImpl.getIsLocked()
   }
 
   @ReactMethod(isBlockingSynchronousMethod = true)
   override fun isAutoRotationEnabled(): Boolean {
-    return orientationDirectorImpl.isAutoRotationEnabled()
+    return orientationDirectorImpl.getIsAutoRotationEnabled()
   }
 
   @ReactMethod()

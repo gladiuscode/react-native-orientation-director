@@ -20,8 +20,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   private var lastInterfaceOrientation = Orientation.UNKNOWN
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
-
-  var isLocked: Boolean = false
+  private var isLocked: Boolean = false
 
   init {
     mSensorListener.setOnOrientationChangedCallback { orientation ->
@@ -72,7 +71,11 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     return lastDeviceOrientation
   }
 
-  fun isAutoRotationEnabled(): Boolean {
+  fun getIsLocked(): Boolean {
+    return isLocked
+  }
+
+  fun getIsAutoRotationEnabled(): Boolean {
     return mAutoRotationObserver.getLastAutoRotationStatus()
   }
 
