@@ -59,6 +59,16 @@ export default function App() {
       />
       <View style={styles.marginBottom} />
       <Button
+        title={'Log is Auto Rotation Enabled'}
+        onPress={() => {
+          console.log(
+            'isAutoRotationEnabled: ',
+            RNOrientationDirector.isAutoRotationEnabled()
+          );
+        }}
+      />
+      <View style={styles.marginBottom} />
+      <Button
         title={'Lock To Portrait'}
         onPress={() => {
           RNOrientationDirector.lockTo(Orientation.portrait);
