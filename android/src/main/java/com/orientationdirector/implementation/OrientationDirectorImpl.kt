@@ -1,12 +1,20 @@
 package com.orientationdirector.implementation
 
 import android.content.pm.ActivityInfo
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = OrientationDirectorUtilsImpl(context)
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
+  private var mAutoRotationObserver = OrientationAutoRotationObserver(
+    context, Handler(
+      Looper.getMainLooper()
+    )
+  )
   private var mLifecycleListener = OrientationLifecycleListener()
 
   private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
@@ -27,19 +35,25 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       mSensorListener.disable()
     }
 
+    mAutoRotationObserver.enable()
+
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
       if (mSensorListener.canDetectOrientation()) {
         mSensorListener.enable()
       }
+
+      mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
       if (initialized) {
         mSensorListener.disable()
+        mAutoRotationObserver.disable()
       }
     }
     mLifecycleListener.setOnHostDestroyCallback {
       mSensorListener.disable()
+      mAutoRotationObserver.disable()
     }
 
     initialSupportedInterfaceOrientations =
@@ -106,7 +120,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {
-    if (!mUtils.isAutoRotationEnabled()) {
+    if (!mAutoRotationObserver.getLastAutoRotationStatus()) {
       return
     }
 

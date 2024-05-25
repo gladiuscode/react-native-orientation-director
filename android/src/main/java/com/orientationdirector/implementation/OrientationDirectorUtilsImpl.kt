@@ -64,12 +64,4 @@ class OrientationDirectorUtilsImpl(val context: ReactContext) {
       else -> Orientation.PORTRAIT
     }
   }
-
-  fun isAutoRotationEnabled(): Boolean {
-    return try {
-      Settings.System.getInt(context.contentResolver, Settings.System.ACCELEROMETER_ROTATION) == 1;
-    } catch (ex: Settings.SettingNotFoundException) {
-      false
-    }
-  }
 }
