@@ -3,6 +3,7 @@ package com.orientationdirector.implementation
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
+import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
 import com.facebook.react.bridge.ReactContext
