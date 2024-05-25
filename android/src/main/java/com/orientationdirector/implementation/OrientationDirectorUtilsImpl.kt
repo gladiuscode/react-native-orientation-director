@@ -3,6 +3,7 @@ package com.orientationdirector.implementation
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
+import android.provider.Settings
 import android.view.Surface
 import android.view.WindowManager
 import com.facebook.react.bridge.ReactContext
@@ -61,6 +62,14 @@ class OrientationDirectorUtilsImpl(val context: ReactContext) {
       Surface.ROTATION_90 -> Orientation.LANDSCAPE_LEFT
       Surface.ROTATION_180 -> Orientation.PORTRAIT_UPSIDE_DOWN
       else -> Orientation.PORTRAIT
+    }
+  }
+
+  fun isAutoRotationEnabled(): Boolean {
+    return try {
+      Settings.System.getInt(context.contentResolver, Settings.System.ACCELEROMETER_ROTATION) == 1;
+    } catch (ex: Settings.SettingNotFoundException) {
+      false
     }
   }
 }

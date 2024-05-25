@@ -106,6 +106,10 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {
+    if (!mUtils.isAutoRotationEnabled()) {
+      return
+    }
+
     if (isLocked) {
       return
     }
