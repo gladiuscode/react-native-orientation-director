@@ -8,6 +8,7 @@ export interface Spec extends TurboModule {
   unlock(): void;
   isLocked(): boolean;
   isAutoRotationEnabled(): boolean;
+  resetSupportedInterfaceOrientations(): void;
 
   addListener: (eventType: string) => void;
   removeListeners: (count: number) => void;

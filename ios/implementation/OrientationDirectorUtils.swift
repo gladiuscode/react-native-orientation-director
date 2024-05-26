@@ -65,6 +65,23 @@ class OrientationDirectorUtils {
 
         return orientation
     }
+    
+    public static func getOrientationFrom(mask: UIInterfaceOrientationMask) -> Orientation {
+        var orientation = Orientation.UNKNOWN
+        
+        switch(mask) {
+        case UIInterfaceOrientationMask.portraitUpsideDown:
+            orientation = Orientation.PORTRAIT_UPSIDE_DOWN
+        case UIInterfaceOrientationMask.landscapeRight:
+            orientation = Orientation.LANDSCAPE_LEFT
+        case UIInterfaceOrientationMask.landscapeLeft:
+            orientation = Orientation.LANDSCAPE_RIGHT
+        default:
+            orientation = Orientation.PORTRAIT
+        }
+
+        return orientation
+    }
 
     /*
         Note: .portraitUpsideDown only works for devices with home button
