@@ -55,6 +55,10 @@ class RNOrientationDirector {
       : AutoRotation.disabled;
   }
 
+  static resetSupportedInterfaceOrientations(): void {
+    Module.resetSupportedInterfaceOrientations();
+  }
+
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
