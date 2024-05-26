@@ -66,6 +66,26 @@ import UIKit
         updateIsLockedTo(value: false)
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
+    
+    @objc public func resetSupportedInterfaceOrientations() {
+        self.supportedInterfaceOrientations = self.initialSupportedInterfaceOrientations
+        self.requestInterfaceUpdateTo(mask: self.supportedInterfaceOrientations)
+        self.updateIsLockedTo(value: self.initIsLocked())
+
+        let lastMask = OrientationDirectorUtils.getMaskFrom(orientation: lastInterfaceOrientation)
+        let isLastInterfaceOrientationAlreadySupported = self.supportedInterfaceOrientations.contains(lastMask)
+        if (isLastInterfaceOrientationAlreadySupported) {
+            return
+        }
+
+        let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
+        guard let firstSupportedInterfaceOrientation = supportedInterfaceOrientations.first else {
+            return
+        }
+        
+        let orientation = OrientationDirectorUtils.getOrientationFrom(mask: firstSupportedInterfaceOrientation)
+        self.updateLastInterfaceOrientation(value: orientation)
+    }
 
     private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
@@ -139,12 +159,16 @@ import UIKit
           return
         }
 
-        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
-        lastInterfaceOrientation = deviceOrientation
+        updateLastInterfaceOrientation(value: deviceOrientation)
     }
 
     private func updateIsLockedTo(value: Bool) {
         eventManager.sendLockDidChange(value: value)
         isLocked = value
+    }
+    
+    private func updateLastInterfaceOrientation(value: Orientation) {
+        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
+        lastInterfaceOrientation = value
     }
 }

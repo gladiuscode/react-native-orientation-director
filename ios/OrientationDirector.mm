@@ -123,6 +123,18 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
     return @([_director isLocked]);
 }
 
+#ifdef RCT_NEW_ARCH_ENABLED
+- (void)resetSupportedInterfaceOrientations
+#else
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(resetSupportedInterfaceOrientations)
+#endif
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_director resetSupportedInterfaceOrientations];
+    });
+}
+
+
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
