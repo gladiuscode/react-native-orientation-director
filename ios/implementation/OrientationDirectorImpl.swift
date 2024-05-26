@@ -55,8 +55,8 @@ import UIKit
         return isLocked
     }
 
-    @objc public func lockTo(rawJsOrientation: NSNumber) {
-        let jsOrientation = utils.convertToOrientationFrom(jsValue: rawJsOrientation)
+    @objc public func lockTo(jsValue: NSNumber) {
+        let jsOrientation = utils.convertToOrientationFrom(jsValue: jsValue)
         let mask = utils.convertToMaskFrom(jsOrientation: jsOrientation)
         self.requestInterfaceUpdateTo(mask: mask)
 
