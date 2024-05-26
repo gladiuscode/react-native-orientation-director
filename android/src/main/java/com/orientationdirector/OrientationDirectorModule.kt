@@ -38,6 +38,11 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
     orientationDirectorImpl.unlock()
   }
 
+  @ReactMethod()
+  override fun resetSupportedInterfaceOrientations() {
+    orientationDirectorImpl.resetSupportedInterfaceOrientations()
+  }
+
   @ReactMethod(isBlockingSynchronousMethod = true)
   override fun isLocked(): Boolean {
     return orientationDirectorImpl.getIsLocked()

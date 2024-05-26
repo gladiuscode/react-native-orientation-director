@@ -95,6 +95,12 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     adaptInterfaceTo(getDeviceOrientation())
   }
 
+  fun resetSupportedInterfaceOrientations() {
+    context.currentActivity?.requestedOrientation = initialSupportedInterfaceOrientations
+    updateIsLockedTo(initIsLocked())
+    updateLastInterfaceOrientationTo(initInterfaceOrientation())
+  }
+
   private fun initInterfaceOrientation(): Orientation {
     val rotation = mUtils.getInterfaceRotation()
     return mUtils.getOrientationFromRotation(rotation)
@@ -138,13 +144,17 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       return
     }
 
-    lastInterfaceOrientation = deviceOrientation
-    mEventEmitter.sendInterfaceOrientationDidChange(lastInterfaceOrientation.ordinal)
+    updateLastInterfaceOrientationTo(deviceOrientation)
   }
 
   private fun updateIsLockedTo(value: Boolean) {
     mEventEmitter.sendLockDidChange(value)
     isLocked = value
+  }
+
+  private fun updateLastInterfaceOrientationTo(value: Orientation) {
+    lastInterfaceOrientation = value
+    mEventEmitter.sendInterfaceOrientationDidChange(value.ordinal)
   }
 
   companion object {

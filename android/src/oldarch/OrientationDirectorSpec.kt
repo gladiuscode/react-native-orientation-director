@@ -10,6 +10,7 @@ abstract class OrientationDirectorSpec internal constructor(context: ReactApplic
   abstract fun getDeviceOrientation(promise: Promise)
   abstract fun lockTo(orientation: Double)
   abstract fun unlock()
+  abstract fun resetSupportedInterfaceOrientations()
   abstract fun isLocked(): Boolean
   abstract fun isAutoRotationEnabled(): Boolean
   abstract fun addListener(eventName: String)
