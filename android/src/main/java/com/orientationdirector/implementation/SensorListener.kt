@@ -4,7 +4,7 @@ import android.hardware.SensorManager
 import android.view.OrientationEventListener
 import com.facebook.react.bridge.ReactApplicationContext
 
-class OrientationSensorListener(
+class SensorListener(
   context: ReactApplicationContext,
 ) : OrientationEventListener(context, SensorManager.SENSOR_DELAY_UI) {
 

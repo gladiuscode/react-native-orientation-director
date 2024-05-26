@@ -8,7 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = OrientationDirectorUtilsImpl(context)
   private var mEventEmitter = OrientationEventManager(context)
-  private var mSensorListener = OrientationSensorListener(context)
+  private var mSensorListener = SensorListener(context)
   private var mAutoRotationObserver = AutoRotationObserver(
     context, Handler(
       Looper.getMainLooper()
