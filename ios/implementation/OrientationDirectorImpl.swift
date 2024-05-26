@@ -11,10 +11,10 @@ import UIKit
 @objc public class OrientationDirectorImpl : NSObject {
     private static let TAG = "OrientationDirectorImpl"
 
-    private let bundleManager: BundleManager
-    private let utils: OrientationDirectorUtils
-    private let sensorListener: OrientationSensorListener
-    private let eventManager: OrientationEventManager
+    private let bundleManager: BundleManager = BundleManager()
+    private let utils: OrientationDirectorUtils = OrientationDirectorUtils()
+    private let sensorListener: OrientationSensorListener = OrientationSensorListener()
+    private let eventManager: OrientationEventManager = OrientationEventManager()
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
@@ -23,11 +23,8 @@ import UIKit
     @objc public var isLocked = false
 
     @objc public override init() {
-        bundleManager = BundleManager()
-        utils = OrientationDirectorUtils()
-        eventManager = OrientationEventManager()
-        sensorListener = OrientationSensorListener()
         super.init()
+        
         sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
         initialSupportedInterfaceOrientations = initInitialSupportedInterfaceOrientations()
         lastInterfaceOrientation = initInterfaceOrientation()
