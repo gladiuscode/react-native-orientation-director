@@ -79,8 +79,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     return mAutoRotationObserver.getLastAutoRotationStatus()
   }
 
-  fun lockTo(rawJsOrientation: Int) {
-    val jsOrientation = mUtils.convertToOrientationFromJsValue(rawJsOrientation)
+  fun lockTo(jsValue: Int) {
+    val jsOrientation = mUtils.convertToOrientationFromJsValue(jsValue)
     val screenOrientation =
       mUtils.convertToActivityOrientationFrom(jsOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
