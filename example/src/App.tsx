@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import RNOrientationDirector, {
   Orientation,
   useDeviceOrientation,
@@ -14,7 +14,10 @@ export default function App() {
   const isInterfaceOrientationLocked = useIsInterfaceOrientationLocked();
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainerStyle}
+    >
       <Text style={[styles.text, styles.marginBottom]}>
         Current Interface Orientation:
         {RNOrientationDirector.convertOrientationToHumanReadableString(
@@ -102,15 +105,25 @@ export default function App() {
           RNOrientationDirector.unlock();
         }}
       />
-    </View>
+      <View style={styles.marginBottom} />
+      <Button
+        title={'Reset'}
+        onPress={() => {
+          RNOrientationDirector.resetSupportedInterfaceOrientations();
+        }}
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  contentContainerStyle: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexGrow: 1,
   },
   text: {
     color: 'black',
