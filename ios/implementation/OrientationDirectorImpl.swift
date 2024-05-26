@@ -66,7 +66,7 @@ import UIKit
         updateIsLockedTo(value: false)
         self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
-    
+
     @objc public func resetSupportedInterfaceOrientations() {
         self.supportedInterfaceOrientations = self.initialSupportedInterfaceOrientations
         self.requestInterfaceUpdateTo(mask: self.supportedInterfaceOrientations)
@@ -82,7 +82,7 @@ import UIKit
         guard let firstSupportedInterfaceOrientation = supportedInterfaceOrientations.first else {
             return
         }
-        
+
         let orientation = OrientationDirectorUtils.getOrientationFrom(mask: firstSupportedInterfaceOrientation)
         self.updateLastInterfaceOrientation(value: orientation)
     }
@@ -155,8 +155,10 @@ import UIKit
           return
         }
 
-        if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
-          return
+        let deviceOrientationMask = OrientationDirectorUtils.getMaskFrom(orientation: deviceOrientation)
+        let isDeviceOrientationMaskSupported = self.supportedInterfaceOrientations.contains(deviceOrientationMask)
+        if (!isDeviceOrientationMaskSupported) {
+            return
         }
 
         updateLastInterfaceOrientation(value: deviceOrientation)
@@ -166,7 +168,7 @@ import UIKit
         eventManager.sendLockDidChange(value: value)
         isLocked = value
     }
-    
+
     private func updateLastInterfaceOrientation(value: Orientation) {
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
         lastInterfaceOrientation = value
