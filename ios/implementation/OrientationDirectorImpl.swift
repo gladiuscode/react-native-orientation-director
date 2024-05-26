@@ -79,12 +79,20 @@ import UIKit
         }
 
         let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
-        guard let firstSupportedInterfaceOrientation = supportedInterfaceOrientations.first else {
+        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.portrait)) {
+            self.updateLastInterfaceOrientation(value: Orientation.PORTRAIT)
+            return
+        }
+        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeRight)) {
+            self.updateLastInterfaceOrientation(value: Orientation.LANDSCAPE_LEFT)
+            return
+        }
+        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeLeft)) {
+            self.updateLastInterfaceOrientation(value: Orientation.LANDSCAPE_RIGHT)
             return
         }
 
-        let orientation = OrientationDirectorUtils.getOrientationFrom(mask: firstSupportedInterfaceOrientation)
-        self.updateLastInterfaceOrientation(value: orientation)
+        self.updateLastInterfaceOrientation(value: Orientation.PORTRAIT_UPSIDE_DOWN)
     }
 
     private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -113,29 +121,25 @@ import UIKit
     private func requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask) {
         self.supportedInterfaceOrientations = mask
 
-        DispatchQueue.main.async {
-            if #available(iOS 16.0, *) {
-                guard let window = OrientationDirectorUtils.getCurrentWindow() else {
-                    return
-                }
+        if #available(iOS 16.0, *) {
+            let window = OrientationDirectorUtils.getCurrentWindow()
 
-                guard let rootViewController = window.rootViewController else {
-                    return
-                }
-
-                guard let windowScene = window.windowScene else {
-                    return
-                }
-
-                rootViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
-
-                windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask)) { error in
-                    print("\(OrientationDirectorImpl.TAG) - requestGeometryUpdate error", error)
-                }
-            } else {
-                UIDevice.current.setValue(mask.rawValue, forKey: "orientation")
-                UIViewController.attemptRotationToDeviceOrientation()
+            guard let rootViewController = window?.rootViewController else {
+                return
             }
+
+            guard let windowScene = window?.windowScene else {
+                return
+            }
+
+            rootViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
+
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask)) { error in
+                print("\(OrientationDirectorImpl.TAG) - requestGeometryUpdate error", error)
+            }
+        } else {
+            UIDevice.current.setValue(mask.rawValue, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
         }
     }
 
@@ -148,11 +152,15 @@ import UIKit
 
     private func adaptInterfaceTo(deviceOrientation: Orientation) {
         if (isLocked) {
-          return
+            return
         }
 
         if (lastInterfaceOrientation == deviceOrientation) {
-          return
+            return
+        }
+        
+        if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
+            return
         }
 
         let deviceOrientationMask = OrientationDirectorUtils.getMaskFrom(orientation: deviceOrientation)
