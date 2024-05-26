@@ -11,6 +11,7 @@ import UIKit
 @objc public class OrientationDirectorImpl : NSObject {
     private static let TAG = "OrientationDirectorImpl"
 
+    private let bundleManager: BundleManager
     private let utils: OrientationDirectorUtils
     private let sensorListener: OrientationSensorListener
     private let eventManager: OrientationEventManager
@@ -22,6 +23,7 @@ import UIKit
     @objc public var isLocked = false
 
     @objc public override init() {
+        bundleManager = BundleManager()
         utils = OrientationDirectorUtils()
         eventManager = OrientationEventManager()
         sensorListener = OrientationSensorListener()
@@ -78,7 +80,7 @@ import UIKit
             return
         }
 
-        let supportedInterfaceOrientations = utils.readSupportedInterfaceOrientationsFromBundle()
+        let supportedInterfaceOrientations = bundleManager.getSupportedInterfaceOrientations()
         if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.portrait)) {
             self.updateLastInterfaceOrientationTo(value: Orientation.PORTRAIT)
             return
@@ -96,7 +98,7 @@ import UIKit
     }
 
     private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        let supportedInterfaceOrientations = utils.readSupportedInterfaceOrientationsFromBundle()
+        let supportedInterfaceOrientations = bundleManager.getSupportedInterfaceOrientations()
         return supportedInterfaceOrientations.reduce(UIInterfaceOrientationMask()) { $0.union($1) }
     }
 
@@ -110,7 +112,7 @@ import UIKit
     }
 
     private func initIsLocked() -> Bool {
-        let supportedOrientations = utils.readSupportedInterfaceOrientationsFromBundle()
+        let supportedOrientations = bundleManager.getSupportedInterfaceOrientations()
         if (supportedOrientations.count > 1) {
             return false
         }
