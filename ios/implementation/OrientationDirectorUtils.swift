@@ -15,12 +15,12 @@ class OrientationDirectorUtils {
         var orientation = Orientation.UNKNOWN
 
         switch(uiInterfaceOrientation) {
-        case UIInterfaceOrientation.landscapeRight: // Home button on the right
-            orientation = Orientation.LANDSCAPE_LEFT
+        case UIInterfaceOrientation.landscapeRight:
+            orientation = Orientation.LANDSCAPE_RIGHT
         case UIInterfaceOrientation.portraitUpsideDown:
             orientation = Orientation.PORTRAIT_UPSIDE_DOWN
-        case UIInterfaceOrientation.landscapeLeft: // Home button on the left
-            orientation = Orientation.LANDSCAPE_RIGHT
+        case UIInterfaceOrientation.landscapeLeft:
+            orientation = Orientation.LANDSCAPE_LEFT
         default:
             orientation = Orientation.PORTRAIT
         }
@@ -73,9 +73,9 @@ class OrientationDirectorUtils {
         case UIInterfaceOrientationMask.portraitUpsideDown:
             orientation = Orientation.PORTRAIT_UPSIDE_DOWN
         case UIInterfaceOrientationMask.landscapeRight:
-            orientation = Orientation.LANDSCAPE_LEFT
-        case UIInterfaceOrientationMask.landscapeLeft:
             orientation = Orientation.LANDSCAPE_RIGHT
+        case UIInterfaceOrientationMask.landscapeLeft:
+            orientation = Orientation.LANDSCAPE_LEFT
         default:
             orientation = Orientation.PORTRAIT
         }
@@ -83,25 +83,42 @@ class OrientationDirectorUtils {
         return orientation
     }
 
-    /*
-        Note: .portraitUpsideDown only works for devices with home button
-        //https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
+    /**
+     Note: .portraitUpsideDown only works for devices with home button and iPads
+     https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
      */
-    public static func getMaskFrom(orientation: Orientation) -> UIInterfaceOrientationMask {
-        var mask = UIInterfaceOrientationMask.portrait
-
-        switch(orientation) {
+    public static func getMaskFrom(jsOrientation: Orientation) -> UIInterfaceOrientationMask {
+        switch(jsOrientation) {
+        case Orientation.PORTRAIT:
+            return UIInterfaceOrientationMask.portrait
         case Orientation.LANDSCAPE_RIGHT:
-            mask = UIInterfaceOrientationMask.landscapeLeft
+            return UIInterfaceOrientationMask.landscapeRight
         case Orientation.PORTRAIT_UPSIDE_DOWN:
-            mask = UIInterfaceOrientationMask.portraitUpsideDown
+            return UIInterfaceOrientationMask.portraitUpsideDown
         case Orientation.LANDSCAPE_LEFT:
-            mask = UIInterfaceOrientationMask.landscapeRight
+            return UIInterfaceOrientationMask.landscapeLeft
         default:
-            mask = UIInterfaceOrientationMask.portrait
+            return UIInterfaceOrientationMask.all
         }
-
-        return mask
+    }
+    
+    /**
+     Note: .portraitUpsideDown only works for devices with home button and iPads
+     https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
+     */
+    public static func getMaskFrom(deviceOrientation: Orientation) -> UIInterfaceOrientationMask {
+        switch(deviceOrientation) {
+        case Orientation.PORTRAIT:
+            return UIInterfaceOrientationMask.portrait
+        case Orientation.LANDSCAPE_RIGHT:
+            return UIInterfaceOrientationMask.landscapeLeft
+        case Orientation.PORTRAIT_UPSIDE_DOWN:
+            return UIInterfaceOrientationMask.portraitUpsideDown
+        case Orientation.LANDSCAPE_LEFT:
+            return UIInterfaceOrientationMask.landscapeRight
+        default:
+            return UIInterfaceOrientationMask.all
+        }
     }
 
     public static func getInterfaceOrientation() -> UIInterfaceOrientation {

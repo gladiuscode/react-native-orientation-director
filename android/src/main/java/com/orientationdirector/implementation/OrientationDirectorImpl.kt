@@ -79,20 +79,21 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     return mAutoRotationObserver.getLastAutoRotationStatus()
   }
 
-  fun lockTo(jsOrientation: Int) {
-    val interfaceOrientation = mUtils.getOrientationFromJsOrientation(jsOrientation)
+  fun lockTo(rawJsOrientation: Int) {
+    val jsOrientation = mUtils.getOrientationFromJsOrientation(rawJsOrientation)
     val screenOrientation =
-      mUtils.getActivityOrientationFrom(interfaceOrientation)
+      mUtils.getActivityOrientationFrom(jsOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
-    mEventEmitter.sendInterfaceOrientationDidChange(interfaceOrientation.ordinal)
-    lastInterfaceOrientation = interfaceOrientation
+
     updateIsLockedTo(true)
+    updateLastInterfaceOrientationTo(jsOrientation)
   }
 
   fun unlock() {
     context.currentActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
     updateIsLockedTo(false)
-    adaptInterfaceTo(getDeviceOrientation())
+    adaptInterfaceTo(lastDeviceOrientation)
   }
 
   fun resetSupportedInterfaceOrientations() {
@@ -140,11 +141,12 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       return
     }
 
-    if (lastInterfaceOrientation == deviceOrientation) {
+    val newInterfaceOrientation = mUtils.getInterfaceOrientationFromDeviceOrientation(deviceOrientation);
+    if (newInterfaceOrientation == lastInterfaceOrientation) {
       return
     }
 
-    updateLastInterfaceOrientationTo(deviceOrientation)
+    updateLastInterfaceOrientationTo(newInterfaceOrientation)
   }
 
   private fun updateIsLockedTo(value: Boolean) {
