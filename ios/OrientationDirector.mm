@@ -134,6 +134,19 @@ RCT_EXPORT_METHOD(resetSupportedInterfaceOrientations)
     });
 }
 
+/**
+ This method is a pure stub since we cannot access auto rotation setting in iOS
+ */
+#ifdef RCT_NEW_ARCH_ENABLED
+- (NSNumber *)isAutoRotationEnabled
+#else
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isAutoRotationEnabled)
+#endif
+{
+    return @(NO);
+}
+
+
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
