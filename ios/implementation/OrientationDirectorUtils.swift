@@ -11,7 +11,7 @@ class OrientationDirectorUtils {
 
     private static let TAG = "OrientationDirectorUtils"
 
-    public static func getOrientationFrom(uiInterfaceOrientation: UIInterfaceOrientation) -> Orientation {
+    public func getOrientationFrom(uiInterfaceOrientation: UIInterfaceOrientation) -> Orientation {
         var orientation = Orientation.UNKNOWN
 
         switch(uiInterfaceOrientation) {
@@ -28,7 +28,7 @@ class OrientationDirectorUtils {
         return orientation
     }
 
-    public static func getOrientationFrom(deviceOrientation: UIDeviceOrientation) -> Orientation {
+    public func getOrientationFrom(deviceOrientation: UIDeviceOrientation) -> Orientation {
         var orientation = Orientation.UNKNOWN
 
         switch(deviceOrientation) {
@@ -49,7 +49,7 @@ class OrientationDirectorUtils {
         return orientation
     }
 
-    public static func getOrientationFrom(jsOrientation: NSNumber) -> Orientation {
+    public func getOrientationFrom(jsOrientation: NSNumber) -> Orientation {
         var orientation = Orientation.UNKNOWN
 
         switch(jsOrientation) {
@@ -65,10 +65,10 @@ class OrientationDirectorUtils {
 
         return orientation
     }
-    
-    public static func getOrientationFrom(mask: UIInterfaceOrientationMask) -> Orientation {
+
+    public func getOrientationFrom(mask: UIInterfaceOrientationMask) -> Orientation {
         var orientation = Orientation.UNKNOWN
-        
+
         switch(mask) {
         case UIInterfaceOrientationMask.portraitUpsideDown:
             orientation = Orientation.PORTRAIT_UPSIDE_DOWN
@@ -87,7 +87,7 @@ class OrientationDirectorUtils {
      Note: .portraitUpsideDown only works for devices with home button and iPads
      https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
      */
-    public static func getMaskFrom(jsOrientation: Orientation) -> UIInterfaceOrientationMask {
+    public func getMaskFrom(jsOrientation: Orientation) -> UIInterfaceOrientationMask {
         switch(jsOrientation) {
         case Orientation.PORTRAIT:
             return UIInterfaceOrientationMask.portrait
@@ -101,12 +101,12 @@ class OrientationDirectorUtils {
             return UIInterfaceOrientationMask.all
         }
     }
-    
+
     /**
      Note: .portraitUpsideDown only works for devices with home button and iPads
      https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
      */
-    public static func getMaskFrom(deviceOrientation: Orientation) -> UIInterfaceOrientationMask {
+    public func getMaskFrom(deviceOrientation: Orientation) -> UIInterfaceOrientationMask {
         switch(deviceOrientation) {
         case Orientation.PORTRAIT:
             return UIInterfaceOrientationMask.portrait
@@ -121,7 +121,7 @@ class OrientationDirectorUtils {
         }
     }
 
-    public static func getInterfaceOrientation() -> UIInterfaceOrientation {
+    public func getInterfaceOrientation() -> UIInterfaceOrientation {
         guard let windowScene = self.getCurrentWindow()?.windowScene else {
             return UIInterfaceOrientation.unknown
         }
@@ -133,7 +133,7 @@ class OrientationDirectorUtils {
      Here in React Native we should have only one window tho.
      https://stackoverflow.com/questions/57134259/how-to-resolve-keywindow-was-deprecated-in-ios-13-0/58031897#58031897
      */
-    public static func getCurrentWindow() -> UIWindow? {
+    public func getCurrentWindow() -> UIWindow? {
         return UIApplication
             .shared
             .connectedScenes
@@ -141,12 +141,12 @@ class OrientationDirectorUtils {
             .flatMap { $0.windows }
             .last { $0.isKeyWindow }
     }
-    
-    public static func readSupportedInterfaceOrientationsFromBundle() -> [UIInterfaceOrientationMask] {
+
+    public func readSupportedInterfaceOrientationsFromBundle() -> [UIInterfaceOrientationMask] {
         guard let rawOrientations = Bundle.main.object(forInfoDictionaryKey: "UISupportedInterfaceOrientations") as? [String] else {
             return [UIInterfaceOrientationMask.all]
         }
-        
+
         return rawOrientations.compactMap { orientation in
             switch orientation {
             case "UIInterfaceOrientationPortrait":
