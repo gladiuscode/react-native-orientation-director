@@ -14,7 +14,7 @@ import UIKit
     private let bundleManager: BundleManager = BundleManager()
     private let utils: OrientationDirectorUtils = OrientationDirectorUtils()
     private let sensorListener: SensorListener = SensorListener()
-    private let eventManager: OrientationEventManager = OrientationEventManager()
+    private let eventManager: EventManager = EventManager()
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN

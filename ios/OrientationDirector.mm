@@ -53,7 +53,7 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-    return [OrientationEventManager supportedEvents];
+    return [EventManager supportedEvents];
 }
 
 - (void)sendEventWithName:(NSString * _Nonnull)name params:(NSDictionary *)params {
