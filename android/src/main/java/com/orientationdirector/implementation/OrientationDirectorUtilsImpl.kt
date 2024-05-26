@@ -64,4 +64,14 @@ class OrientationDirectorUtilsImpl(val context: ReactContext) {
       else -> Orientation.PORTRAIT
     }
   }
+
+  fun getInterfaceOrientationFromDeviceOrientation(deviceOrientation: Orientation): Orientation {
+    return when(deviceOrientation) {
+      Orientation.PORTRAIT -> Orientation.PORTRAIT
+      Orientation.LANDSCAPE_RIGHT -> Orientation.LANDSCAPE_LEFT
+      Orientation.PORTRAIT_UPSIDE_DOWN -> Orientation.PORTRAIT_UPSIDE_DOWN
+      Orientation.LANDSCAPE_LEFT -> Orientation.LANDSCAPE_RIGHT
+      else -> Orientation.UNKNOWN
+    }
+  }
 }
