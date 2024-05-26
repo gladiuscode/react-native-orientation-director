@@ -92,6 +92,15 @@ RCT_EXPORT_METHOD(getDeviceOrientation:(RCTPromiseResolveBlock)resolve
 }
 
 #ifdef RCT_NEW_ARCH_ENABLED
+- (NSNumber *)isLocked
+#else
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
+#endif
+{
+    return @([_director getIsLocked]);
+}
+
+#ifdef RCT_NEW_ARCH_ENABLED
 - (void)lockTo:(double)jsOrientation
 #else
 RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
@@ -112,15 +121,6 @@ RCT_EXPORT_METHOD(unlock)
     dispatch_async(dispatch_get_main_queue(), ^{
         [_director unlock];
     });
-}
-
-#ifdef RCT_NEW_ARCH_ENABLED
-- (NSNumber *)isLocked
-#else
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
-#endif
-{
-    return @([_director isLocked]);
 }
 
 #ifdef RCT_NEW_ARCH_ENABLED

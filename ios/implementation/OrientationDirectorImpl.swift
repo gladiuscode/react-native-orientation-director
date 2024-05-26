@@ -18,9 +18,9 @@ import UIKit
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
+    private var isLocked = false
 
     @objc public var supportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
-    @objc public var isLocked = false
 
     @objc public override init() {
         super.init()
@@ -49,6 +49,10 @@ import UIKit
 
     @objc public func getDeviceOrientation() -> Orientation {
         return lastDeviceOrientation
+    }
+    
+    @objc public func getIsLocked() -> Bool {
+        return isLocked
     }
 
     @objc public func lockTo(rawJsOrientation: NSNumber) {
