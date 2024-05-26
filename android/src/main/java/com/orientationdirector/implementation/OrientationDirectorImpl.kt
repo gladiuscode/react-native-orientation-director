@@ -14,7 +14,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       Looper.getMainLooper()
     )
   )
-  private var mLifecycleListener = OrientationLifecycleListener()
+  private var mLifecycleListener = LifecycleListener()
 
   private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
