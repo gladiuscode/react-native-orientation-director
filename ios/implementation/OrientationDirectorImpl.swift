@@ -13,7 +13,7 @@ import UIKit
 
     private let bundleManager: BundleManager = BundleManager()
     private let utils: OrientationDirectorUtils = OrientationDirectorUtils()
-    private let sensorListener: OrientationSensorListener = OrientationSensorListener()
+    private let sensorListener: SensorListener = SensorListener()
     private let eventManager: OrientationEventManager = OrientationEventManager()
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
@@ -24,8 +24,9 @@ import UIKit
 
     @objc public override init() {
         super.init()
-        
-        sensorListener.setOnOrientationChanged(callback: self.onOrientationChanged)
+
+        sensorListener.setOnOrientationDidChange(callback: self.onOrientationChanged)
+
         initialSupportedInterfaceOrientations = initInitialSupportedInterfaceOrientations()
         lastInterfaceOrientation = initInterfaceOrientation()
         lastDeviceOrientation = initDeviceOrientation()
