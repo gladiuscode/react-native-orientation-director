@@ -104,6 +104,7 @@ import UIKit
         return supportedInterfaceOrientations.reduce(UIInterfaceOrientationMask()) { $0.union($1) }
     }
 
+    // TODO: FIX BECAUSE IT ALWAYS RETURNS PORTRAIT AND ITS BROKEN
     private func initInterfaceOrientation() -> Orientation {
         let interfaceOrientation = utils.getInterfaceOrientation()
         return utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
