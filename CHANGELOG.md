@@ -1,5 +1,20 @@
 
 
+# [1.2.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.1.0...v1.2.0) (2024-05-26)
+
+
+### Bug Fixes
+
+* **android:** interface orientation value changes even with auto rotation off ([#7](https://github.com/gladiuscode/react-native-orientation-director/issues/7)) ([4d15f08](https://github.com/gladiuscode/react-native-orientation-director/commit/4d15f0880af8c75071a8fa0a954e234576d8a5c8))
+* **iOS:** missing check if deviceOrientation is actually supported ([#13](https://github.com/gladiuscode/react-native-orientation-director/issues/13)) ([0e9c382](https://github.com/gladiuscode/react-native-orientation-director/commit/0e9c38274365cf298fd70a114115fb10e62efe2c))
+* **iOS:** wrong interface orientation value after reset ([#15](https://github.com/gladiuscode/react-native-orientation-director/issues/15)) ([ce351f7](https://github.com/gladiuscode/react-native-orientation-director/commit/ce351f746fa57a59f3af5b4337c84af9f8fd03a5))
+
+
+### Features
+
+* **android:** expose auto rotation status to js ([#9](https://github.com/gladiuscode/react-native-orientation-director/issues/9)) ([3815b4d](https://github.com/gladiuscode/react-native-orientation-director/commit/3815b4d4103011dfd5a56d381cd0b37acb747c76))
+* reset to initial supported interface orientation ([#11](https://github.com/gladiuscode/react-native-orientation-director/issues/11)) ([e5d4e11](https://github.com/gladiuscode/react-native-orientation-director/commit/e5d4e11d2c692e10274d4da7cf84a2dca2184b71))
+
 # [1.1.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.0.1...v1.1.0) (2024-05-25)
 
 ## [1.0.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.0.0...v1.0.1) (2024-05-22)
