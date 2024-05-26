@@ -9,7 +9,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   private var mUtils = OrientationDirectorUtilsImpl(context)
   private var mEventEmitter = OrientationEventManager(context)
   private var mSensorListener = OrientationSensorListener(context)
-  private var mAutoRotationObserver = OrientationAutoRotationObserver(
+  private var mAutoRotationObserver = AutoRotationObserver(
     context, Handler(
       Looper.getMainLooper()
     )

@@ -3,10 +3,9 @@ package com.orientationdirector.implementation
 import android.database.ContentObserver
 import android.os.Handler
 import android.provider.Settings
-import android.util.Log
 import com.facebook.react.bridge.ReactContext
 
-class OrientationAutoRotationObserver(val context: ReactContext, handler: Handler?) : ContentObserver(handler) {
+class AutoRotationObserver(private val context: ReactContext, handler: Handler?) : ContentObserver(handler) {
   private var lastAutoRotationStatus: Boolean = isAutoRotationEnabled()
 
   fun getLastAutoRotationStatus(): Boolean {
