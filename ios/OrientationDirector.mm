@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
 {
     NSNumber *jsOrientationNumber = @(jsOrientation);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_director lockToJsOrientation:jsOrientationNumber];
+        [_director lockToRawJsOrientation:jsOrientationNumber];
     });
 }
 

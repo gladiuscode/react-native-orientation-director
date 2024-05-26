@@ -48,23 +48,20 @@ import UIKit
         return lastDeviceOrientation
     }
 
-    @objc public func lockTo(jsOrientation: NSNumber) {
-        let orientation = OrientationDirectorUtils.getOrientationFrom(jsOrientation: jsOrientation)
-        let mask = OrientationDirectorUtils.getMaskFrom(orientation: orientation)
-
+    @objc public func lockTo(rawJsOrientation: NSNumber) {
+        let jsOrientation = OrientationDirectorUtils.getOrientationFrom(jsOrientation: rawJsOrientation)
+        let mask = OrientationDirectorUtils.getMaskFrom(jsOrientation: jsOrientation)
         self.requestInterfaceUpdateTo(mask: mask)
 
-        eventManager.sendInterfaceOrientationDidChange(orientationValue: orientation.rawValue)
-        lastInterfaceOrientation = orientation
         updateIsLockedTo(value: true)
+        updateLastInterfaceOrientationTo(value: jsOrientation)
     }
 
     @objc public func unlock() {
         self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
 
-        let deviceOrientation = OrientationDirectorUtils.getOrientationFrom(deviceOrientation: UIDevice.current.orientation)
         updateIsLockedTo(value: false)
-        self.adaptInterfaceTo(deviceOrientation: deviceOrientation)
+        self.adaptInterfaceTo(deviceOrientation: lastDeviceOrientation)
     }
 
     @objc public func resetSupportedInterfaceOrientations() {
@@ -72,27 +69,27 @@ import UIKit
         self.requestInterfaceUpdateTo(mask: self.supportedInterfaceOrientations)
         self.updateIsLockedTo(value: self.initIsLocked())
 
-        let lastMask = OrientationDirectorUtils.getMaskFrom(orientation: lastInterfaceOrientation)
-        let isLastInterfaceOrientationAlreadySupported = self.supportedInterfaceOrientations.contains(lastMask)
-        if (isLastInterfaceOrientationAlreadySupported) {
+        let lastMask = OrientationDirectorUtils.getMaskFrom(jsOrientation: lastInterfaceOrientation)
+        let isLastMaskSupported = self.supportedInterfaceOrientations.contains(lastMask)
+        if (isLastMaskSupported) {
             return
         }
 
         let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
         if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.portrait)) {
-            self.updateLastInterfaceOrientation(value: Orientation.PORTRAIT)
+            self.updateLastInterfaceOrientationTo(value: Orientation.PORTRAIT)
             return
         }
         if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeRight)) {
-            self.updateLastInterfaceOrientation(value: Orientation.LANDSCAPE_LEFT)
+            self.updateLastInterfaceOrientationTo(value: Orientation.LANDSCAPE_RIGHT)
             return
         }
         if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeLeft)) {
-            self.updateLastInterfaceOrientation(value: Orientation.LANDSCAPE_RIGHT)
+            self.updateLastInterfaceOrientationTo(value: Orientation.LANDSCAPE_LEFT)
             return
         }
 
-        self.updateLastInterfaceOrientation(value: Orientation.PORTRAIT_UPSIDE_DOWN)
+        self.updateLastInterfaceOrientationTo(value: Orientation.PORTRAIT_UPSIDE_DOWN)
     }
 
     private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -154,22 +151,23 @@ import UIKit
         if (isLocked) {
             return
         }
-
-        if (lastInterfaceOrientation == deviceOrientation) {
-            return
-        }
         
         if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
             return
         }
 
-        let deviceOrientationMask = OrientationDirectorUtils.getMaskFrom(orientation: deviceOrientation)
-        let isDeviceOrientationMaskSupported = self.supportedInterfaceOrientations.contains(deviceOrientationMask)
-        if (!isDeviceOrientationMaskSupported) {
+        let newInterfaceOrientationMask = OrientationDirectorUtils.getMaskFrom(deviceOrientation: deviceOrientation)
+        let isSupported = self.supportedInterfaceOrientations.contains(newInterfaceOrientationMask)
+        if (!isSupported) {
             return
         }
 
-        updateLastInterfaceOrientation(value: deviceOrientation)
+        let newInterfaceOrientation = OrientationDirectorUtils.getOrientationFrom(mask: newInterfaceOrientationMask)
+        if (newInterfaceOrientation == lastInterfaceOrientation) {
+            return
+        }
+        
+        updateLastInterfaceOrientationTo(value: newInterfaceOrientation)
     }
 
     private func updateIsLockedTo(value: Bool) {
@@ -177,7 +175,7 @@ import UIKit
         isLocked = value
     }
 
-    private func updateLastInterfaceOrientation(value: Orientation) {
+    private func updateLastInterfaceOrientationTo(value: Orientation) {
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
         lastInterfaceOrientation = value
     }
