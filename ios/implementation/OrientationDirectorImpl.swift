@@ -77,10 +77,14 @@ import UIKit
         if (isLastInterfaceOrientationAlreadySupported) {
             return
         }
+
+        let supportedInterfaceOrientations = OrientationDirectorUtils.readSupportedInterfaceOrientationsFromBundle()
+        guard let firstSupportedInterfaceOrientation = supportedInterfaceOrientations.first else {
+            return
+        }
         
-        // It always defaults to Portrait whenever we reset the supported interfaces 
-        // and we've previously locked the interface to an unsupported interface.
-        self.updateLastInterfaceOrientation(value: Orientation.PORTRAIT)
+        let orientation = OrientationDirectorUtils.getOrientationFrom(mask: firstSupportedInterfaceOrientation)
+        self.updateLastInterfaceOrientation(value: orientation)
     }
 
     private func initInitialSupportedInterfaceOrientations() -> UIInterfaceOrientationMask {
