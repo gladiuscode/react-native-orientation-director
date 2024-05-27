@@ -1,5 +1,12 @@
 
 
+## [1.2.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.0...v1.2.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* interface orientation should match bottom bar position ([#17](https://github.com/gladiuscode/react-native-orientation-director/issues/17)) ([7012798](https://github.com/gladiuscode/react-native-orientation-director/commit/701279852f097918cd9989a215a2465391227118))
+
 # [1.2.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.1.0...v1.2.0) (2024-05-26)
 
 
