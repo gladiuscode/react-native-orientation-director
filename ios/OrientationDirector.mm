@@ -126,7 +126,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
 #ifdef RCT_NEW_ARCH_ENABLED
 - (void)resetSupportedInterfaceOrientations
 #else
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(resetSupportedInterfaceOrientations)
+RCT_EXPORT_METHOD(resetSupportedInterfaceOrientations)
 #endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
