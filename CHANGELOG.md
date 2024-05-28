@@ -1,5 +1,12 @@
 
 
+## [1.2.2](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.1...v1.2.2) (2024-05-28)
+
+
+### Bug Fixes
+
+* **iOS:** wrong MACRO used for resetSupportedInterfaceOrientations ([#20](https://github.com/gladiuscode/react-native-orientation-director/issues/20)) ([059c78e](https://github.com/gladiuscode/react-native-orientation-director/commit/059c78e434a7d0caacac7815bb225a2e94ac0cdd))
+
 ## [1.2.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.0...v1.2.1) (2024-05-27)
 
 
