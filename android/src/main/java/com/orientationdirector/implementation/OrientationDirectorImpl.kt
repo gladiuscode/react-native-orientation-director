@@ -6,15 +6,15 @@ import android.os.Looper
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
-  private var mUtils = OrientationDirectorUtilsImpl(context)
-  private var mEventEmitter = OrientationEventManager(context)
-  private var mSensorListener = OrientationSensorListener(context)
-  private var mAutoRotationObserver = OrientationAutoRotationObserver(
+  private var mUtils = Utils(context)
+  private var mEventManager = EventManager(context)
+  private var mSensorListener = SensorListener(context)
+  private var mAutoRotationObserver = AutoRotationObserver(
     context, Handler(
       Looper.getMainLooper()
     )
   )
-  private var mLifecycleListener = OrientationLifecycleListener()
+  private var mLifecycleListener = LifecycleListener()
 
   private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
@@ -79,10 +79,10 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
     return mAutoRotationObserver.getLastAutoRotationStatus()
   }
 
-  fun lockTo(rawJsOrientation: Int) {
-    val jsOrientation = mUtils.getOrientationFromJsOrientation(rawJsOrientation)
+  fun lockTo(jsValue: Int) {
+    val jsOrientation = mUtils.convertToOrientationFromJsValue(jsValue)
     val screenOrientation =
-      mUtils.getActivityOrientationFrom(jsOrientation)
+      mUtils.convertToActivityOrientationFrom(jsOrientation)
     context.currentActivity?.requestedOrientation = screenOrientation
 
     updateIsLockedTo(true)
@@ -104,14 +104,14 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
 
   private fun initInterfaceOrientation(): Orientation {
     val rotation = mUtils.getInterfaceRotation()
-    return mUtils.getOrientationFromRotation(rotation)
+    return mUtils.convertToOrientationFromScreenRotation(rotation)
   }
 
   private fun initDeviceOrientation(): Orientation {
     val lastRotationDetected = mSensorListener.getLastRotationDetected()
       ?: return Orientation.UNKNOWN
 
-    return mUtils.getDeviceOrientationFrom(lastRotationDetected)
+    return mUtils.convertToDeviceOrientationFrom(lastRotationDetected)
   }
 
   private fun initIsLocked(): Boolean {
@@ -126,8 +126,8 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun onOrientationChanged(rawDeviceOrientation: Int) {
-    val deviceOrientation = mUtils.getDeviceOrientationFrom(rawDeviceOrientation)
-    mEventEmitter.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
+    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(rawDeviceOrientation)
+    mEventManager.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
     lastDeviceOrientation = deviceOrientation
     adaptInterfaceTo(deviceOrientation)
   }
@@ -141,7 +141,7 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       return
     }
 
-    val newInterfaceOrientation = mUtils.getInterfaceOrientationFromDeviceOrientation(deviceOrientation);
+    val newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
     if (newInterfaceOrientation == lastInterfaceOrientation) {
       return
     }
@@ -150,13 +150,13 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   private fun updateIsLockedTo(value: Boolean) {
-    mEventEmitter.sendLockDidChange(value)
+    mEventManager.sendLockDidChange(value)
     isLocked = value
   }
 
   private fun updateLastInterfaceOrientationTo(value: Orientation) {
     lastInterfaceOrientation = value
-    mEventEmitter.sendInterfaceOrientationDidChange(value.ordinal)
+    mEventManager.sendInterfaceOrientationDidChange(value.ordinal)
   }
 
   companion object {

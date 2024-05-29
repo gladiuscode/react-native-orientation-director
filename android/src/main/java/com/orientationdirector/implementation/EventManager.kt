@@ -12,7 +12,7 @@ enum class Event {
   LockDidChange,
 }
 
-class OrientationEventManager(private val context: ReactApplicationContext) {
+class EventManager(private val context: ReactApplicationContext) {
 
   fun sendDeviceOrientationDidChange(orientationValue: Int) {
     val params = Arguments.createMap().apply {
@@ -36,15 +36,13 @@ class OrientationEventManager(private val context: ReactApplicationContext) {
   }
 
   private fun sendEvent(eventName: Event, params: WritableMap?) {
-    Log.d(NAME, "sendEvent - $eventName")
-    Log.d(NAME, "sendEvent - $params")
     context
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
       .emit(eventName.name, params)
   }
 
   companion object {
-    val NAME = "OrientationEventManager"
+    const val NAME = "OrientationEventManager"
   }
 
 }

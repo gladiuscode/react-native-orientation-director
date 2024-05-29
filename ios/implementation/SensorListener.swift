@@ -7,8 +7,8 @@
 
 import Foundation
 
-public class OrientationSensorListener {
-    private var onOrientationChangedCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)? = nil
+public class SensorListener {
+    private var onOrientationDidChangeCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)? = nil
 
     init() {
         NotificationCenter.default.addObserver(
@@ -23,15 +23,15 @@ public class OrientationSensorListener {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func setOnOrientationChanged(callback: @escaping (_ deviceOrientation: UIDeviceOrientation) -> Void) {
-        self.onOrientationChangedCallback = callback
+    func setOnOrientationDidChange(callback: @escaping (_ deviceOrientation: UIDeviceOrientation) -> Void) {
+        self.onOrientationDidChangeCallback = callback
     }
 
     @objc func orientationDidChange(_ notification: Notification) {
-        guard let onOrientationChangedCallback = self.onOrientationChangedCallback else {
+        guard let onOrientationDidChangeCallback = self.onOrientationDidChangeCallback else {
             return
         }
 
-        onOrientationChangedCallback(UIDevice.current.orientation)
+        onOrientationDidChangeCallback(UIDevice.current.orientation)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class OrientationEventManager : NSObject {
+@objc public class EventManager : NSObject {
     @objc public weak var delegate: OrientationEventEmitterDelegate? = nil
 
     func sendDeviceOrientationDidChange(orientationValue: Int) {
@@ -56,7 +56,7 @@ import Foundation
     func sendEvent(name: String, params: NSDictionary)
 }
 
-public extension OrientationEventManager {
+public extension EventManager {
 
   enum Event: String, CaseIterable {
     case DeviceOrientationDidChange
