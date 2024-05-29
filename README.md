@@ -23,6 +23,7 @@ This library takes inspiration from and builds upon the following amazing altern
 - [x] Lock the interface orientation to a specific orientation
 - [x] Unlock the interface orientation
 - [x] Reset supported interface orientations to settings
+- [x] Check if autorotation is enabled (Android only)
 
 ## Installation
 
