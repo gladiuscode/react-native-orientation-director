@@ -22,6 +22,8 @@ This library takes inspiration from and builds upon the following amazing altern
 - [x] Listen to interface orientation status changes
 - [x] Lock the interface orientation to a specific orientation
 - [x] Unlock the interface orientation
+- [x] Reset supported interface orientations to settings
+- [x] Check if autorotation is enabled (Android only)
 
 ## Installation
 
@@ -65,11 +67,13 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 | lockTo                                  | Locks the interface to a specific orientation                                   |
 | unlock                                  | Unlock the interface                                                            |
 | isLocked                                | Returns the current interface orientation status (locked / unlocked)            |
+| isAutoRotationEnabled                   | (Android Only) Returns if auto rotation is enabled                              |
 | listenForDeviceOrientationChanges       | Triggers a provided callback each time the device orientation changes           |
 | listenForInterfaceOrientationChanges    | Triggers a provided callback each time the interface orientation changes        |
 | listenForLockChanges                    | Triggers a provided callback each time the interface orientation status changes |
 | convertOrientationToHumanReadableString | Returns a human readable string based on the given orientation                  |
 | setLocalizedStringProvider              | Sets the mapping needed to convert orientation values to human readable strings |
+| resetSupportedInterfaceOrientations     | Resets the supported interface orientations to settings                         |
 
 In addition, the library exposes the following hooks:
 
