@@ -12,7 +12,7 @@ class LifecycleListener() : LifecycleEventListener {
     this.onHostResumeCallback = callback
   }
   fun setOnHostPauseCallback(callback: () -> Unit) {
-    this.onHostResumeCallback = callback
+    this.onHostPauseCallback = callback
   }
   fun setOnHostDestroyCallback(callback: () -> Unit) {
     this.onHostDestroyCallback = callback
