@@ -137,6 +137,9 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
       return
     }
 
+    mEventManager.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
+    lastDeviceOrientation = deviceOrientation
+
     adaptInterfaceTo(deviceOrientation)
   }
 
