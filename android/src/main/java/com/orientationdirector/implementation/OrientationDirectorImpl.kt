@@ -3,6 +3,7 @@ package com.orientationdirector.implementation
 import android.content.pm.ActivityInfo
 import android.os.Handler
 import android.os.Looper
+import android.view.OrientationEventListener.ORIENTATION_UNKNOWN
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
@@ -127,8 +128,18 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
 
   private fun onOrientationChanged(rawDeviceOrientation: Int) {
     val deviceOrientation = mUtils.convertToDeviceOrientationFrom(rawDeviceOrientation)
+
+    if (rawDeviceOrientation != ORIENTATION_UNKNOWN && deviceOrientation == Orientation.UNKNOWN) {
+      return;
+    }
+
+    if (lastDeviceOrientation == deviceOrientation) {
+      return
+    }
+
     mEventManager.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
     lastDeviceOrientation = deviceOrientation
+
     adaptInterfaceTo(deviceOrientation)
   }
 
