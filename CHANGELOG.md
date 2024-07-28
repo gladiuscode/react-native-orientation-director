@@ -1,5 +1,13 @@
 
 
+## [1.2.3](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.2...v1.2.3) (2024-07-28)
+
+
+### Bug Fixes
+
+* **android:** device orientation converted to unknown during screen rotation ([#22](https://github.com/gladiuscode/react-native-orientation-director/issues/22)) ([0bd13e3](https://github.com/gladiuscode/react-native-orientation-director/commit/0bd13e39fd50663642b8026005d3685c111e1ee5))
+* **android:** incorrect onHostPause callback method ([#25](https://github.com/gladiuscode/react-native-orientation-director/issues/25)) ([aa4ff82](https://github.com/gladiuscode/react-native-orientation-director/commit/aa4ff82010bf9a6d0cbd2d0904cc2dc7e87d6778))
+
 ## [1.2.2](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.1...v1.2.2) (2024-05-28)
 
 
