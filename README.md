@@ -27,6 +27,8 @@ This library takes inspiration from and builds upon the following amazing altern
 
 ## Installation
 
+### React Native Bare
+
 You can install the package via npm or yarn:
 
 ```sh
@@ -37,6 +39,15 @@ yarn add react-native-orientation-director
 ```
 
 Don't forget to run pod-install.
+
+### Expo
+
+This library can be installed only for [Development Builds](https://docs.expo.dev/develop/development-builds/introduction/)
+using the following command:
+
+```sh
+npx expo install react-native-orientation-director
+```
 
 ## Setup
 
@@ -87,7 +98,6 @@ Head over to the [example project](example) to see how to use the library.
 
 ## Roadmap
 
-- [ ] Add support for Expo
 - [ ] Add JS side tests
 - [ ] Add Android side tests
 - [ ] Add iOS side tests
