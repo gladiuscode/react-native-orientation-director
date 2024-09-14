@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import Module, { EventEmitter } from './module';
 import Event from './types/Event.enum';
-import type { HumanReadableOrientationsResource as HumanReadableOrientations } from './types/HumanReadableOrientationsResource.type';
+import type { HumanReadableOrientationsResource } from './types/HumanReadableOrientationsResource.type';
 import { Orientation } from './types/Orientation.enum';
 import { AutoRotation } from './types/AutoRotation.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
@@ -10,7 +10,7 @@ import type { LockedEvent } from './types/LockedEvent.interface';
 import type { HumanReadableAutoRotationsResource } from './types/HumanReadableAutoRotationsResource.type';
 
 class RNOrientationDirector {
-  private static _humanReadableOrientationsResource: HumanReadableOrientations =
+  private static _humanReadableOrientationsResource: HumanReadableOrientationsResource =
     {
       [Orientation.unknown]: 'Unknown',
       [Orientation.portrait]: 'Portrait',
@@ -28,7 +28,7 @@ class RNOrientationDirector {
       [AutoRotation.disabled]: 'Disabled',
     };
 
-  setHumanReadableOrientations(resource: HumanReadableOrientations) {
+  setHumanReadableOrientations(resource: HumanReadableOrientationsResource) {
     RNOrientationDirector._humanReadableOrientationsResource = resource;
   }
 
