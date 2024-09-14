@@ -56,7 +56,7 @@ class RNOrientationDirector {
     return Module.isLocked();
   }
 
-  static isAutoRotationEnabled(): AutoRotation {
+  static isAutoRotationEnabled() {
     if (Platform.OS !== 'android') {
       return AutoRotation.unknown;
     }
@@ -65,7 +65,7 @@ class RNOrientationDirector {
       : AutoRotation.disabled;
   }
 
-  static resetSupportedInterfaceOrientations(): void {
+  static resetSupportedInterfaceOrientations() {
     Module.resetSupportedInterfaceOrientations();
   }
 
