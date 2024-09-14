@@ -83,7 +83,9 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 | listenForInterfaceOrientationChanges    | Triggers a provided callback each time the interface orientation changes        |
 | listenForLockChanges                    | Triggers a provided callback each time the interface orientation status changes |
 | convertOrientationToHumanReadableString | Returns a human readable string based on the given orientation                  |
-| setLocalizedStringProvider              | Sets the mapping needed to convert orientation values to human readable strings |
+| convertAutoRotationToHumanReadableString | Returns a human readable string based on the given auto rotation                  |
+| setHumanReadableOrientations              | Sets the mapping needed to convert orientation values to human readable strings |
+| setHumanReadableAutoRotations              | Sets the mapping needed to convert auto rotation values to human readable strings |
 | resetSupportedInterfaceOrientations     | Resets the supported interface orientations to settings                         |
 
 In addition, the library exposes the following hooks:
