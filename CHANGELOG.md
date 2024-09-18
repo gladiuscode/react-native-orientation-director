@@ -1,5 +1,13 @@
 
 
+# [1.3.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.3...v1.3.0) (2024-09-18)
+
+
+### Features
+
+* add convert auto rotation to human readable string ([#27](https://github.com/gladiuscode/react-native-orientation-director/issues/27)) ([178fb4b](https://github.com/gladiuscode/react-native-orientation-director/commit/178fb4b8479e50be0f6d6cf6d265863a919e5156))
+* upgrade react native ([#28](https://github.com/gladiuscode/react-native-orientation-director/issues/28)) ([a39f322](https://github.com/gladiuscode/react-native-orientation-director/commit/a39f3222717f90cd9c2ea4a6a772528a8f8cf5a4))
+
 ## [1.2.3](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.2...v1.2.3) (2024-07-28)
 
 
