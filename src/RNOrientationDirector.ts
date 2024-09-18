@@ -1,15 +1,16 @@
 import { Platform } from 'react-native';
 import Module, { EventEmitter } from './module';
 import Event from './types/Event.enum';
-import type { InterfaceOrientationToLocalizedStringProvider } from './types/InterfaceOrientationToLocalizedStringProvider.type';
+import type { HumanReadableOrientationsResource } from './types/HumanReadableOrientationsResource.type';
 import { Orientation } from './types/Orientation.enum';
 import { AutoRotation } from './types/AutoRotation.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
 import type { LockedEvent } from './types/LockedEvent.interface';
+import type { HumanReadableAutoRotationsResource } from './types/HumanReadableAutoRotationsResource.type';
 
 class RNOrientationDirector {
-  private static _localizedStringProvider: InterfaceOrientationToLocalizedStringProvider =
+  private static _humanReadableOrientationsResource: HumanReadableOrientationsResource =
     {
       [Orientation.unknown]: 'Unknown',
       [Orientation.portrait]: 'Portrait',
@@ -20,10 +21,19 @@ class RNOrientationDirector {
       [Orientation.faceDown]: 'Face Down',
     };
 
-  setLocalizedStringProvider(
-    provider: InterfaceOrientationToLocalizedStringProvider
-  ) {
-    RNOrientationDirector._localizedStringProvider = provider;
+  private static _humanReadableAutoRotationsResource: HumanReadableAutoRotationsResource =
+    {
+      [AutoRotation.unknown]: 'Unknown',
+      [AutoRotation.enabled]: 'Enabled',
+      [AutoRotation.disabled]: 'Disabled',
+    };
+
+  setHumanReadableOrientations(resource: HumanReadableOrientationsResource) {
+    RNOrientationDirector._humanReadableOrientationsResource = resource;
+  }
+
+  setHumanReadableAutoRotations(resource: HumanReadableAutoRotationsResource) {
+    RNOrientationDirector._humanReadableAutoRotationsResource = resource;
   }
 
   static getInterfaceOrientation(): Promise<Orientation> {
@@ -46,7 +56,7 @@ class RNOrientationDirector {
     return Module.isLocked();
   }
 
-  static isAutoRotationEnabled(): AutoRotation {
+  static isAutoRotationEnabled() {
     if (Platform.OS !== 'android') {
       return AutoRotation.unknown;
     }
@@ -55,7 +65,7 @@ class RNOrientationDirector {
       : AutoRotation.disabled;
   }
 
-  static resetSupportedInterfaceOrientations(): void {
+  static resetSupportedInterfaceOrientations() {
     Module.resetSupportedInterfaceOrientations();
   }
 
@@ -78,10 +88,16 @@ class RNOrientationDirector {
     return EventEmitter.addListener(Event.LockDidChange, callback);
   }
 
-  static convertOrientationToHumanReadableString(
-    orientation: Orientation
-  ): string {
-    return RNOrientationDirector._localizedStringProvider[orientation];
+  static convertOrientationToHumanReadableString(orientation: Orientation) {
+    return RNOrientationDirector._humanReadableOrientationsResource[
+      orientation
+    ];
+  }
+
+  static convertAutoRotationToHumanReadableString(autoRotation: AutoRotation) {
+    return RNOrientationDirector._humanReadableAutoRotationsResource[
+      autoRotation
+    ];
   }
 }
 

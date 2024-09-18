@@ -39,7 +39,12 @@ export default function App() {
         onPress={() => {
           RNOrientationDirector.getInterfaceOrientation().then(
             (orientation) => {
-              console.log('Current Interface Orientation:', orientation);
+              console.log(
+                'Current Interface Orientation:',
+                RNOrientationDirector.convertOrientationToHumanReadableString(
+                  orientation
+                )
+              );
             }
           );
         }}
@@ -49,7 +54,12 @@ export default function App() {
         title={'Log Device Orientation'}
         onPress={() => {
           RNOrientationDirector.getDeviceOrientation().then((orientation) => {
-            console.log('Current Device Orientation:', orientation);
+            console.log(
+              'Current Device Orientation:',
+              RNOrientationDirector.convertOrientationToHumanReadableString(
+                orientation
+              )
+            );
           });
         }}
       />
@@ -64,10 +74,13 @@ export default function App() {
       <Button
         title={'Log is Auto Rotation Enabled'}
         onPress={() => {
-          console.log(
-            'isAutoRotationEnabled: ',
-            RNOrientationDirector.isAutoRotationEnabled()
-          );
+          const isAutoRotationEnabled =
+            RNOrientationDirector.isAutoRotationEnabled();
+          const humanReadableAutoRotation =
+            RNOrientationDirector.convertAutoRotationToHumanReadableString(
+              isAutoRotationEnabled
+            );
+          console.log('isAutoRotationEnabled: ', humanReadableAutoRotation);
         }}
       />
       <View style={styles.marginBottom} />
