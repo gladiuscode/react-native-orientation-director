@@ -171,6 +171,6 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   companion object {
-    const val NAME = "OrientationDirectorImpl"
+    const val NAME = "OrientationDirector"
   }
 }
