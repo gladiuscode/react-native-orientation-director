@@ -6,7 +6,7 @@ import android.os.Looper
 import android.view.OrientationEventListener.ORIENTATION_UNKNOWN
 import com.facebook.react.bridge.ReactApplicationContext
 
-class OrientationDirectorImpl internal constructor(private val context: ReactApplicationContext) {
+class OrientationDirectorModuleImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = Utils(context)
   private var mEventManager = EventManager(context)
   private var mSensorListener = SensorListener(context)
@@ -171,6 +171,6 @@ class OrientationDirectorImpl internal constructor(private val context: ReactApp
   }
 
   companion object {
-    const val NAME = "OrientationDirectorImpl"
+    const val NAME = "OrientationDirector"
   }
 }
