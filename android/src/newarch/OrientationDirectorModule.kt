@@ -2,14 +2,14 @@ package com.orientationdirector
 
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
-import com.orientationdirector.implementation.OrientationDirectorImpl
+import com.orientationdirector.implementation.OrientationDirectorModuleImpl
 
 class OrientationDirectorModule internal constructor(context: ReactApplicationContext) :
   NativeOrientationDirectorSpec(context) {
 
-  private var implementation = OrientationDirectorImpl(context)
+  private var implementation = OrientationDirectorModuleImpl(context)
 
-  override fun getName() = OrientationDirectorImpl.NAME
+  override fun getName() = OrientationDirectorModuleImpl.NAME
 
 
   override fun getInterfaceOrientation(promise: Promise) {

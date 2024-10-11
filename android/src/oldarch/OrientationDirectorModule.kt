@@ -4,14 +4,14 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactMethod
-import com.orientationdirector.implementation.OrientationDirectorImpl
+import com.orientationdirector.implementation.OrientationDirectorModuleImpl
 
 class OrientationDirectorModule internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
 
-  private var implementation = OrientationDirectorImpl(context)
+  private var implementation = OrientationDirectorModuleImpl(context)
 
-  override fun getName() = OrientationDirectorImpl.NAME
+  override fun getName() = OrientationDirectorModuleImpl.NAME
 
   @ReactMethod()
   fun getInterfaceOrientation(promise: Promise) {
