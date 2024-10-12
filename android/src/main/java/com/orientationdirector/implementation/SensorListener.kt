@@ -8,6 +8,7 @@ import android.hardware.SensorManager
 import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import kotlin.math.PI
+import kotlin.math.abs
 
 class SensorListener(
   context: ReactApplicationContext,
@@ -62,27 +63,28 @@ class SensorListener(
 
     updateOrientationAngles()
 
-    val z = orientationAngles[0]
-    val x = orientationAngles[1]
-    val y = orientationAngles[2]
+    val (azimuthRadians, pitchRadians, rollRadians) = orientationAngles;
+
+    val azimuthDegrees = Math.toDegrees(azimuthRadians.toDouble()).toFloat()
+    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
+    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
     val orientation = when {
-
       // Portrait (Rotation_0)
-      x.equals(0f) && y.equals(-0f) && z.equals(0f) -> "Face Up"
-      x.equals(0f) && y.equals(-PI.toFloat()) && z.equals(PI.toFloat()) -> "Face Down"
+      azimuthDegrees.equals(0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
 
       // Landscape Right (Rotation_90)
-      x.equals(-0f) && y.equals(-0f) && z.equals(PI.div(2).toFloat()) -> "Face Up"
-      x.equals(-0f) && y.equals(-PI.toFloat()) && z.equals(PI.div(2).toFloat()) -> "Face Down"
+      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
 
       // Portrait Upside Down (Rotation_180)
-      x.equals(0f) && y.equals(-0f) && z.equals(PI.toFloat()) -> "Face Up"
-      x.equals(0f) && y.equals(-PI.toFloat()) && z.equals(-0f) -> "Face Down"
+      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(-0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
 
       // Landscape Left (Rotation_270)
-      x.equals(-0f) && y.equals(-0f) && z.equals(-PI.div(2).toFloat()) -> "Face Up"
-      x.equals(-0f) && y.equals(-PI.toFloat()) && z.equals(-PI.div(2).toFloat()) -> "Face Down"
+      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
 
       else -> "Unknown Orientation"
     }
