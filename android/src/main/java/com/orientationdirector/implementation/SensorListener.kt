@@ -7,8 +7,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
-import kotlin.math.PI
-import kotlin.math.abs
 
 class SensorListener(
   context: ReactApplicationContext,
@@ -125,8 +123,6 @@ class SensorListener(
 
       else -> "Unknown Orientation"
     }
-
-    Log.d(TAG, orientation)
   }
 
   companion object {
