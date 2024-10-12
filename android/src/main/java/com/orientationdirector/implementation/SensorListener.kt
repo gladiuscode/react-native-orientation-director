@@ -62,34 +62,7 @@ class SensorListener(
     }
 
     updateOrientationAngles()
-
-    val (azimuthRadians, pitchRadians, rollRadians) = orientationAngles;
-
-    val azimuthDegrees = Math.toDegrees(azimuthRadians.toDouble()).toFloat()
-    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
-    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
-
-    val orientation = when {
-      // Portrait (Rotation_0)
-      azimuthDegrees.equals(0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
-      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      // Landscape Right (Rotation_90)
-      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
-      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      // Portrait Upside Down (Rotation_180)
-      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
-      azimuthDegrees.equals(-0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      // Landscape Left (Rotation_270)
-      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
-      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      else -> "Unknown Orientation"
-    }
-
-    Log.d(TAG, orientation)
+    calculateDeviceOrientation()
   }
 
   override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -124,6 +97,36 @@ class SensorListener(
     )
 
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
+  }
+
+  private fun calculateDeviceOrientation() {
+    val (azimuthRadians, pitchRadians, rollRadians) = orientationAngles;
+
+    val azimuthDegrees = Math.toDegrees(azimuthRadians.toDouble()).toFloat()
+    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
+    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
+
+    val orientation = when {
+      // Portrait (Rotation_0)
+      azimuthDegrees.equals(0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
+
+      // Landscape Right (Rotation_90)
+      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
+
+      // Portrait Upside Down (Rotation_180)
+      azimuthDegrees.equals(180f) && pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(-0f) && pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
+
+      // Landscape Left (Rotation_270)
+      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
+      azimuthDegrees.equals(-90f) && pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
+
+      else -> "Unknown Orientation"
+    }
+
+    Log.d(TAG, orientation)
   }
 
   companion object {
