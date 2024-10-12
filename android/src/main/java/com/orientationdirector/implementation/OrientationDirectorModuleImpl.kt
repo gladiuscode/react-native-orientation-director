@@ -28,20 +28,21 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       onOrientationChanged(orientation)
     }
 
-    if (mSensorListener.canDetectOrientation()) {
-      mSensorListener.enable()
-    } else {
-      mSensorListener.disable()
-    }
+//    if (mSensorListener.canDetectOrientation()) {
+//      mSensorListener.enable()
+//    } else {
+//      mSensorListener.disable()
+//    }
 
     mAutoRotationObserver.enable()
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      if (mSensorListener.canDetectOrientation()) {
-        mSensorListener.enable()
-      }
+//      if (mSensorListener.canDetectOrientation()) {
+//        mSensorListener.enable()
+//      }
 
+      mSensorListener.enable()
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
