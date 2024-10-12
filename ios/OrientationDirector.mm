@@ -41,6 +41,11 @@ RCT_EXPORT_MODULE()
     return YES;
 }
 
++ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
+{
+    return [_director supportedInterfaceOrientations];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
@@ -62,49 +67,31 @@ RCT_EXPORT_MODULE()
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
 
-+ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
-{
-    return [_director supportedInterfaceOrientations];
-}
-
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)getInterfaceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
-#else
+///////////////////////////////////////////////////////////////////////////////////////
+///         EXPORTED METHODS
+///
 RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
-#endif
+                  reject:(RCTPromiseRejectBlock)reject)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_director getInterfaceOrientation]));
     });
 }
 
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)getDeviceOrientation:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
-#else
 RCT_EXPORT_METHOD(getDeviceOrientation:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
-#endif
+                  reject:(RCTPromiseRejectBlock)reject)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_director getDeviceOrientation]));
     });
 }
 
-#ifdef RCT_NEW_ARCH_ENABLED
-- (NSNumber *)isLocked
-#else
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
-#endif
 {
     return @([_director getIsLocked]);
 }
 
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)lockTo:(double)jsOrientation
-#else
 RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
-#endif
 {
     NSNumber *jsOrientationNumber = @(jsOrientation);
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -112,22 +99,14 @@ RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
     });
 }
 
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)unlock
-#else
 RCT_EXPORT_METHOD(unlock)
-#endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_director unlock];
     });
 }
 
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)resetSupportedInterfaceOrientations
-#else
 RCT_EXPORT_METHOD(resetSupportedInterfaceOrientations)
-#endif
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_director resetSupportedInterfaceOrientations];
@@ -137,16 +116,12 @@ RCT_EXPORT_METHOD(resetSupportedInterfaceOrientations)
 /**
  This method is a pure stub since we cannot access auto rotation setting in iOS
  */
-#ifdef RCT_NEW_ARCH_ENABLED
-- (NSNumber *)isAutoRotationEnabled
-#else
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isAutoRotationEnabled)
-#endif
 {
     return @(NO);
 }
-
-
+///
+///////////////////////////////////////////////////////////////////////////////////////
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
