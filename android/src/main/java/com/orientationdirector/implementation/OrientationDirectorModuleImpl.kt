@@ -48,7 +48,6 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     initialSupportedInterfaceOrientations =
       context.currentActivity?.requestedOrientation ?: initialSupportedInterfaceOrientations
     lastInterfaceOrientation = initInterfaceOrientation()
-    lastDeviceOrientation = initDeviceOrientation()
     isLocked = initIsLocked()
 
     initialized = true
@@ -96,11 +95,6 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private fun initInterfaceOrientation(): Orientation {
     val rotation = mUtils.getInterfaceRotation()
     return mUtils.convertToOrientationFromScreenRotation(rotation)
-  }
-
-  private fun initDeviceOrientation(): Orientation {
-    // TODO: CHECK IF WE CAN INFER IT AT STARTUP TIME
-    return Orientation.UNKNOWN
   }
 
   private fun initIsLocked(): Boolean {
