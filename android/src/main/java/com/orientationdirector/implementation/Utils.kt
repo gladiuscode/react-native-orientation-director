@@ -19,19 +19,32 @@ class Utils(private val context: ReactContext) {
     }
   }
 
-  fun convertToDeviceOrientationFrom(deviceRotation: Int): Orientation {
-    return if (deviceRotation == -1) {
-      Orientation.UNKNOWN
-    } else if (deviceRotation > 355 || deviceRotation < 5) {
-      Orientation.PORTRAIT
-    } else if (deviceRotation in 86..94) {
-      Orientation.LANDSCAPE_RIGHT
-    } else if (deviceRotation in 176..184) {
-      Orientation.PORTRAIT_UPSIDE_DOWN
-    } else if (deviceRotation in 266..274) {
-      Orientation.LANDSCAPE_LEFT
-    } else {
-      return Orientation.UNKNOWN
+  fun convertToDeviceOrientationFrom(orientationAngles: FloatArray): Orientation {
+    val (_, pitchRadians, rollRadians) = orientationAngles;
+
+    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
+    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
+
+    // This is needed to account for inaccuracy due to subtle movements such as tilting
+    val tolerance = 20f
+
+    //////////////////////////////////////
+    // These limits are set based on SensorManager.getOrientation reference
+    // https://developer.android.com/develop/sensors-and-location/sensors/sensors_position#sensors-pos-orient
+    //
+    val portraitLimit = -90f
+    val landscapeRightLimit = 180f
+    val landscapeLeftLimit = -180f
+    //
+    //////////////////////////////////////
+
+    return when {
+      rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
+      rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
+      rollDegrees in tolerance..landscapeRightLimit - tolerance -> Orientation.LANDSCAPE_RIGHT
+      rollDegrees in landscapeLeftLimit + tolerance..-tolerance -> Orientation.LANDSCAPE_LEFT
+      pitchDegrees in portraitLimit..-0f -> Orientation.PORTRAIT
+      else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
   }
 
@@ -54,7 +67,7 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToOrientationFromScreenRotation(screenRotation: Int): Orientation {
-    return when(screenRotation) {
+    return when (screenRotation) {
       Surface.ROTATION_270 -> Orientation.LANDSCAPE_RIGHT
       Surface.ROTATION_90 -> Orientation.LANDSCAPE_LEFT
       Surface.ROTATION_180 -> Orientation.PORTRAIT_UPSIDE_DOWN
@@ -63,7 +76,7 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToInterfaceOrientationFrom(deviceOrientation: Orientation): Orientation {
-    return when(deviceOrientation) {
+    return when (deviceOrientation) {
       Orientation.PORTRAIT -> Orientation.PORTRAIT
       Orientation.LANDSCAPE_RIGHT -> Orientation.LANDSCAPE_LEFT
       Orientation.PORTRAIT_UPSIDE_DOWN -> Orientation.PORTRAIT_UPSIDE_DOWN
