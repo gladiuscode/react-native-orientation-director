@@ -111,7 +111,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private fun onOrientationAnglesChanged(orientationAngles: FloatArray) {
     val deviceOrientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
     if (deviceOrientation == Orientation.UNKNOWN) {
-      return;
+      return
     }
 
     if (lastDeviceOrientation == deviceOrientation) {
@@ -133,7 +133,12 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    val newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
+    var newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
+    if (newInterfaceOrientation == Orientation.UNKNOWN) {
+      val rotation = mUtils.getInterfaceRotation()
+      newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
+    }
+
     if (newInterfaceOrientation == lastInterfaceOrientation) {
       return
     }
