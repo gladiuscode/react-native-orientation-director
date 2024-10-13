@@ -3,7 +3,6 @@ package com.orientationdirector.implementation
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
-import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
 import com.facebook.react.bridge.ReactContext
@@ -26,24 +25,6 @@ class Utils(private val context: ReactContext) {
     val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
     val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
-    // First check if device is flat facing up or down
-    val orientation = when {
-      // Portrait (Rotation_0)
-      // Portrait Upside Down (Rotation_180)
-      pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> Orientation.FACE_UP
-      pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> Orientation.FACE_DOWN
-
-      // Landscape Right (Rotation_90)
-      // Landscape Left (Rotation_270)
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> Orientation.FACE_UP
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> Orientation.FACE_DOWN
-
-      else -> Orientation.UNKNOWN
-    }
-    if (orientation != Orientation.UNKNOWN) {
-      return orientation
-    }
-
     // Needed to account for tilting
     val tolerance = 20f
 
@@ -58,9 +39,11 @@ class Utils(private val context: ReactContext) {
     //////////////////////////////////////
 
     return when {
+      rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
+      rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
       rollDegrees in tolerance..landscapeRightLimit - tolerance -> Orientation.LANDSCAPE_RIGHT
       rollDegrees in landscapeLeftLimit + tolerance..-tolerance -> Orientation.LANDSCAPE_LEFT
-      pitchDegrees in portraitLimit .. -0f -> Orientation.PORTRAIT
+      pitchDegrees in portraitLimit..-0f -> Orientation.PORTRAIT
       else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
   }
@@ -84,7 +67,7 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToOrientationFromScreenRotation(screenRotation: Int): Orientation {
-    return when(screenRotation) {
+    return when (screenRotation) {
       Surface.ROTATION_270 -> Orientation.LANDSCAPE_RIGHT
       Surface.ROTATION_90 -> Orientation.LANDSCAPE_LEFT
       Surface.ROTATION_180 -> Orientation.PORTRAIT_UPSIDE_DOWN
@@ -93,7 +76,7 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToInterfaceOrientationFrom(deviceOrientation: Orientation): Orientation {
-    return when(deviceOrientation) {
+    return when (deviceOrientation) {
       Orientation.PORTRAIT -> Orientation.PORTRAIT
       Orientation.LANDSCAPE_RIGHT -> Orientation.LANDSCAPE_LEFT
       Orientation.PORTRAIT_UPSIDE_DOWN -> Orientation.PORTRAIT_UPSIDE_DOWN
