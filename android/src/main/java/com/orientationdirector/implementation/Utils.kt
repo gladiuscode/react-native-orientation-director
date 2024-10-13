@@ -25,7 +25,7 @@ class Utils(private val context: ReactContext) {
     val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
     val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
-    // Needed to account for tilting
+    // This is needed to account for inaccuracy due to subtle movements such as tilting
     val tolerance = 20f
 
     //////////////////////////////////////
