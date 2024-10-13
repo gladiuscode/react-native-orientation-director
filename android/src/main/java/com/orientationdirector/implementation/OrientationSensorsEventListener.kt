@@ -47,14 +47,16 @@ class OrientationSensorsEventListener(
       System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
     }
 
-    // TODO: IMPLEMENT FREE FALLING CHECK
     val rotationMatrix = FloatArray(9)
-    SensorManager.getRotationMatrix(
+    val didComputeMatrix = SensorManager.getRotationMatrix(
       rotationMatrix,
       null,
       accelerometerReading,
       magnetometerReading
     )
+    if (!didComputeMatrix) {
+      return
+    }
 
     val orientationAngles = FloatArray(3)
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
