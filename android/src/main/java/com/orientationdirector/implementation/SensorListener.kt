@@ -20,11 +20,7 @@ class SensorListener(
 
   private val accelerometerReading = FloatArray(3)
   private val magnetometerReading = FloatArray(3)
-  private val rotationMatrix = FloatArray(9)
-  private val orientationAngles = FloatArray(3)
-
-  private var lastRotationDetected: Int? = null
-  private var onOrientationChangedCallback: ((orientation: Int) -> Unit)? = null
+  private var onOrientationAnglesChangedCallback: ((orientationAngles: FloatArray) -> Unit)? = null
 
   init {
     mSensorManager = context.getSystemService(SENSOR_SERVICE) as SensorManager;
@@ -35,18 +31,9 @@ class SensorListener(
     hasRequiredSensors = mAccelerometerSensor != null && mMagneticFieldSensor != null
   }
 
-  fun getLastRotationDetected(): Int? {
-    return lastRotationDetected
+  fun setOnOrientationAnglesChangedCallback(callback: (orientation: FloatArray) -> Unit) {
+    onOrientationAnglesChangedCallback = callback
   }
-
-  fun setOnOrientationChangedCallback(callback: (orientation: Int) -> Unit) {
-    onOrientationChangedCallback = callback
-  }
-
-//  override fun onOrientationChanged(orientation: Int) {
-//    lastRotationDetected = orientation
-//    onOrientationChangedCallback?.invoke(orientation)
-//  }
 
   override fun onSensorChanged(event: SensorEvent?) {
     if (event == null) {
@@ -55,38 +42,14 @@ class SensorListener(
 
     if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
       System.arraycopy(event.values, 0, accelerometerReading, 0, accelerometerReading.size)
-    } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
+    }
+
+    if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
       System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
     }
 
-    updateOrientationAngles()
-    calculateDeviceOrientation()
-  }
-
-  override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    // TODO("Not yet implemented")
-  }
-
-  fun enable() {
-    Log.d(TAG, "enable - started")
-    if (!hasRequiredSensors) {
-      Log.d(TAG, "enable - device is missing required sensors")
-      return
-    }
-
-    mSensorManager.registerListener(this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
-    mSensorManager.registerListener(this, mMagneticFieldSensor, SensorManager.SENSOR_DELAY_NORMAL)
-
-    Log.d(TAG, "enable - done")
-  }
-
-  fun disable() {
-    Log.d(TAG, "disable - started")
-    mSensorManager.unregisterListener(this)
-    Log.d(TAG, "disable - done")
-  }
-
-  private fun updateOrientationAngles() {
+    // TODO: IMPLEMENT FREE FALLING CHECK
+    val rotationMatrix = FloatArray(9)
     SensorManager.getRotationMatrix(
       rotationMatrix,
       null,
@@ -94,30 +57,26 @@ class SensorListener(
       magnetometerReading
     )
 
+    val orientationAngles = FloatArray(3)
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
+
+    // TODO: FILTER DATA THAT BY EQUALITY
+    onOrientationAnglesChangedCallback?.invoke(orientationAngles)
   }
 
-  private fun calculateDeviceOrientation() {
-    val (_, pitchRadians, rollRadians) = orientationAngles;
+  override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
-    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
-    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
-
-    val orientation = when {
-      // Portrait (Rotation_0)
-      // Portrait Upside Down (Rotation_180)
-      pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
-      pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      // Landscape Right (Rotation_90)
-      // Landscape Left (Rotation_270)
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      else -> "Unknown Orientation"
+  fun enable() {
+    if (!hasRequiredSensors) {
+      return
     }
 
-    Log.d(TAG, "orientation: $orientation")
+    mSensorManager.registerListener(this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    mSensorManager.registerListener(this, mMagneticFieldSensor, SensorManager.SENSOR_DELAY_NORMAL)
+  }
+
+  fun disable() {
+    mSensorManager.unregisterListener(this)
   }
 
   companion object {

@@ -3,7 +3,6 @@ package com.orientationdirector.implementation
 import android.content.pm.ActivityInfo
 import android.os.Handler
 import android.os.Looper
-import android.view.OrientationEventListener.ORIENTATION_UNKNOWN
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorModuleImpl internal constructor(private val context: ReactApplicationContext) {
@@ -24,24 +23,14 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var isLocked: Boolean = false
 
   init {
-    mSensorListener.setOnOrientationChangedCallback { orientation ->
-      onOrientationChanged(orientation)
+    mSensorListener.setOnOrientationAnglesChangedCallback { orientation ->
+      onOrientationAnglesChanged(orientation)
     }
-
-//    if (mSensorListener.canDetectOrientation()) {
-//      mSensorListener.enable()
-//    } else {
-//      mSensorListener.disable()
-//    }
 
     mAutoRotationObserver.enable()
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-//      if (mSensorListener.canDetectOrientation()) {
-//        mSensorListener.enable()
-//      }
-
       mSensorListener.enable()
       mAutoRotationObserver.enable()
     }
@@ -110,10 +99,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   }
 
   private fun initDeviceOrientation(): Orientation {
-    val lastRotationDetected = mSensorListener.getLastRotationDetected()
-      ?: return Orientation.UNKNOWN
-
-    return mUtils.convertToDeviceOrientationFrom(lastRotationDetected)
+    // TODO: CHECK IF WE CAN INFER IT AT STARTUP TIME
+    return Orientation.UNKNOWN
   }
 
   private fun initIsLocked(): Boolean {
@@ -127,10 +114,9 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     ).contains(activity.requestedOrientation)
   }
 
-  private fun onOrientationChanged(rawDeviceOrientation: Int) {
-    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(rawDeviceOrientation)
-
-    if (rawDeviceOrientation != ORIENTATION_UNKNOWN && deviceOrientation == Orientation.UNKNOWN) {
+  private fun onOrientationAnglesChanged(orientationAngles: FloatArray) {
+    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+    if (deviceOrientation == Orientation.UNKNOWN) {
       return;
     }
 

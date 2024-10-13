@@ -3,6 +3,7 @@ package com.orientationdirector.implementation
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
+import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
 import com.facebook.react.bridge.ReactContext
@@ -19,19 +20,48 @@ class Utils(private val context: ReactContext) {
     }
   }
 
-  fun convertToDeviceOrientationFrom(deviceRotation: Int): Orientation {
-    return if (deviceRotation == -1) {
-      Orientation.UNKNOWN
-    } else if (deviceRotation > 355 || deviceRotation < 5) {
-      Orientation.PORTRAIT
-    } else if (deviceRotation in 86..94) {
-      Orientation.LANDSCAPE_RIGHT
-    } else if (deviceRotation in 176..184) {
-      Orientation.PORTRAIT_UPSIDE_DOWN
-    } else if (deviceRotation in 266..274) {
-      Orientation.LANDSCAPE_LEFT
-    } else {
-      return Orientation.UNKNOWN
+  fun convertToDeviceOrientationFrom(orientationAngles: FloatArray): Orientation {
+    val (_, pitchRadians, rollRadians) = orientationAngles;
+
+    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
+    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
+
+    // First check if device is flat facing up or down
+    val orientation = when {
+      // Portrait (Rotation_0)
+      // Portrait Upside Down (Rotation_180)
+      pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> Orientation.FACE_UP
+      pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> Orientation.FACE_DOWN
+
+      // Landscape Right (Rotation_90)
+      // Landscape Left (Rotation_270)
+      pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> Orientation.FACE_UP
+      pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> Orientation.FACE_DOWN
+
+      else -> Orientation.UNKNOWN
+    }
+    if (orientation != Orientation.UNKNOWN) {
+      return orientation
+    }
+
+    // Needed to account for tilting
+    val tolerance = 20f
+
+    //////////////////////////////////////
+    // These limits are set based on SensorManager.getOrientation reference
+    // https://developer.android.com/develop/sensors-and-location/sensors/sensors_position#sensors-pos-orient
+    //
+    val portraitUpsideDownLimit = 90f
+    val landscapeRightLimit = 180f
+    val landscapeLeftLimit = -180f
+    //
+    //////////////////////////////////////
+
+    return when {
+      rollDegrees in tolerance..landscapeRightLimit -> Orientation.LANDSCAPE_RIGHT
+      rollDegrees in landscapeLeftLimit..-tolerance -> Orientation.LANDSCAPE_LEFT
+      pitchDegrees in 0f .. portraitUpsideDownLimit -> Orientation.PORTRAIT_UPSIDE_DOWN
+      else -> Orientation.PORTRAIT // -> portraitLimit = -90f .. -0f
     }
   }
 
