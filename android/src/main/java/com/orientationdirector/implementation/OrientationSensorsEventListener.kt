@@ -5,10 +5,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 
-class SensorListener(
+class OrientationSensorsEventListener(
   context: ReactApplicationContext,
 ) : SensorEventListener {
   private var mSensorManager: SensorManager

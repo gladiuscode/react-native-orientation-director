@@ -8,7 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 class OrientationDirectorModuleImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = Utils(context)
   private var mEventManager = EventManager(context)
-  private var mSensorListener = SensorListener(context)
+  private var mOrientationSensorsEventListener = OrientationSensorsEventListener(context)
   private var mAutoRotationObserver = AutoRotationObserver(
     context, Handler(
       Looper.getMainLooper()
@@ -23,7 +23,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var isLocked: Boolean = false
 
   init {
-    mSensorListener.setOnOrientationAnglesChangedCallback { orientation ->
+    mOrientationSensorsEventListener.setOnOrientationAnglesChangedCallback { orientation ->
       onOrientationAnglesChanged(orientation)
     }
 
@@ -31,17 +31,17 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      mSensorListener.enable()
+      mOrientationSensorsEventListener.enable()
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
       if (initialized) {
-        mSensorListener.disable()
+        mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      mSensorListener.disable()
+      mOrientationSensorsEventListener.disable()
       mAutoRotationObserver.disable()
     }
 
