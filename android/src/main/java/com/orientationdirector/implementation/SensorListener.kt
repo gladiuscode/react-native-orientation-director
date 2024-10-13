@@ -105,17 +105,11 @@ class SensorListener(
 
     val orientation = when {
       // Portrait (Rotation_0)
-      pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
-      pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
-
-      // Landscape Right (Rotation_90)
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
-      pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
-
       // Portrait Upside Down (Rotation_180)
       pitchDegrees.equals(0f) && rollDegrees.equals(-0f) -> "Face Up"
       pitchDegrees.equals(0f) && rollDegrees.equals(-180f) -> "Face Down"
 
+      // Landscape Right (Rotation_90)
       // Landscape Left (Rotation_270)
       pitchDegrees.equals(-0f) && rollDegrees.equals(-0f) -> "Face Up"
       pitchDegrees.equals(-0f) && rollDegrees.equals(-180f) -> "Face Down"
