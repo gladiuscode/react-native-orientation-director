@@ -19,6 +19,8 @@ class OrientationSensorsEventListener(
 
   private val accelerometerReading = FloatArray(3)
   private val magnetometerReading = FloatArray(3)
+
+  private var lastComputedOrientationAngles = FloatArray(3)
   private var onOrientationAnglesChangedCallback: ((orientationAngles: FloatArray) -> Unit)? = null
 
   init {
@@ -61,8 +63,12 @@ class OrientationSensorsEventListener(
     val orientationAngles = FloatArray(3)
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
 
-    // TODO: FILTER DATA THAT BY EQUALITY
+    if (lastComputedOrientationAngles.contentEquals(orientationAngles)) {
+      return
+    }
+
     onOrientationAnglesChangedCallback?.invoke(orientationAngles)
+    lastComputedOrientationAngles = orientationAngles
   }
 
   override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
