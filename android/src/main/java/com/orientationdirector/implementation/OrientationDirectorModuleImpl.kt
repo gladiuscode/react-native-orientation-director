@@ -134,6 +134,13 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     }
 
     var newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
+
+    /**
+     * When the device orientation is either face up or face down,
+     * we can't match it to an interface orientation, because
+     * it could be either portrait or any landscape.
+     * So we read it from the system itself.
+     */
     if (newInterfaceOrientation == Orientation.UNKNOWN) {
       val rotation = mUtils.getInterfaceRotation()
       newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
