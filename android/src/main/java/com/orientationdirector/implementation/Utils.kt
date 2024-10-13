@@ -51,17 +51,17 @@ class Utils(private val context: ReactContext) {
     // These limits are set based on SensorManager.getOrientation reference
     // https://developer.android.com/develop/sensors-and-location/sensors/sensors_position#sensors-pos-orient
     //
-    val portraitUpsideDownLimit = 90f
+    val portraitLimit = -90f
     val landscapeRightLimit = 180f
     val landscapeLeftLimit = -180f
     //
     //////////////////////////////////////
 
     return when {
-      rollDegrees in tolerance..landscapeRightLimit -> Orientation.LANDSCAPE_RIGHT
-      rollDegrees in landscapeLeftLimit..-tolerance -> Orientation.LANDSCAPE_LEFT
-      pitchDegrees in 0f .. portraitUpsideDownLimit -> Orientation.PORTRAIT_UPSIDE_DOWN
-      else -> Orientation.PORTRAIT // -> portraitLimit = -90f .. -0f
+      rollDegrees in tolerance..landscapeRightLimit - tolerance -> Orientation.LANDSCAPE_RIGHT
+      rollDegrees in landscapeLeftLimit + tolerance..-tolerance -> Orientation.LANDSCAPE_LEFT
+      pitchDegrees in portraitLimit .. -0f -> Orientation.PORTRAIT
+      else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
   }
 
