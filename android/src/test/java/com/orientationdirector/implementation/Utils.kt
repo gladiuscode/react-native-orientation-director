@@ -14,20 +14,22 @@ class UtilsTest {
 
   private var mUtils = Utils(context)
 
-  // This is just a random test, I'm
-  // still trying to understand how
-  // to properly write them.
   @Test
-  fun assert_orientation_is_portrait() {
-
+  fun assert_device_orientation_is_portrait() {
     val orientationAngles = FloatArray(3)
-    orientationAngles[0] = 30f
-    orientationAngles[0] = 30f
-    orientationAngles[0] = 30f
+
+    // pitch radians
+    orientationAngles[1] = -(Math.PI / 2).toFloat()
+    // roll radians
+    orientationAngles[2] = -0f
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(orientation, Orientation.LANDSCAPE_RIGHT)
+    assertEquals(
+      "When pitch is half PI radians and roll is -0 radians, orientation should be PORTRAIT",
+      Orientation.PORTRAIT,
+      orientation
+    )
   }
 
 }
