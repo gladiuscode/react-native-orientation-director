@@ -1,17 +1,41 @@
 package com.orientationdirector.implementation
 
+import android.os.Build
+import android.view.Surface
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 class UtilsTest {
   private var context = BridgeReactContext(ApplicationProvider.getApplicationContext())
-
   private var mUtils = Utils(context)
+
+  @Config(
+    sdk = [Build.VERSION_CODES.N],
+    qualifiers = "land"
+  )
+  @Test
+  fun assert_interface_rotation_matches_current_landscape() {
+    val rotation = mUtils.getInterfaceRotation()
+
+    assertEquals("When current interface orientation is landscape, rotation should be 1", Surface.ROTATION_90, rotation)
+  }
+
+  @Config(
+    sdk = [Build.VERSION_CODES.R],
+    qualifiers = "port"
+  )
+  @Test
+  fun assert_interface_rotation_matches_current_portrait() {
+    val rotation = mUtils.getInterfaceRotation()
+
+    assertEquals("When current interface orientation is portrait, rotation should be 0", Surface.ROTATION_0, rotation)
+  }
 
   @Test
   fun assert_device_orientation_is_portrait() {
