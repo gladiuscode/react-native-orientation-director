@@ -26,7 +26,7 @@ class UtilsTest {
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
     assertEquals(
-      "When pitch is half PI radians and roll is -0 radians, orientation should be PORTRAIT",
+      "When pitch is half PI radians and roll is -0 radians, orientation should be portrait",
       Orientation.PORTRAIT,
       orientation
     )
@@ -42,7 +42,11 @@ class UtilsTest {
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(Orientation.LANDSCAPE_RIGHT, orientation)
+    assertEquals(
+      "When pitch is 0 radians and roll is half PI radians, orientation should be landscape right",
+      Orientation.LANDSCAPE_RIGHT,
+      orientation
+    )
   }
 
   @Test
@@ -55,7 +59,10 @@ class UtilsTest {
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(Orientation.PORTRAIT_UPSIDE_DOWN, orientation)
+    assertEquals(
+      "When pitch is half PI radians and roll is 0 radians, orientation should be portrait upside down",
+      Orientation.PORTRAIT_UPSIDE_DOWN, orientation
+    )
   }
 
   @Test
@@ -68,7 +75,11 @@ class UtilsTest {
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(Orientation.LANDSCAPE_LEFT, orientation)
+    assertEquals(
+      "When pitch is 0 radians and roll is negative half PI radians, orientation should be landscape left",
+      Orientation.LANDSCAPE_LEFT,
+      orientation
+    )
   }
 
   @Test
@@ -81,7 +92,11 @@ class UtilsTest {
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(Orientation.FACE_DOWN, orientation)
+    assertEquals(
+      "When pitch is 0 radians and roll is negative PI radians, orientation should be face down",
+      Orientation.FACE_DOWN,
+      orientation
+    )
   }
 
   @Test
@@ -94,7 +109,11 @@ class UtilsTest {
 
     val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
 
-    assertEquals(Orientation.FACE_UP, orientation)
+    assertEquals(
+      "When pitch is 0 radians and roll is negative 0 radians, orientation should be face up",
+      Orientation.FACE_UP,
+      orientation
+    )
   }
 
 }
