@@ -32,4 +32,69 @@ class UtilsTest {
     )
   }
 
+  @Test
+  fun assert_device_orientation_is_landscape_right() {
+
+    val orientationAngles = FloatArray(3)
+
+    orientationAngles[1] = 0f
+    orientationAngles[2] = (Math.PI / 2).toFloat()
+
+    val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+
+    assertEquals(Orientation.LANDSCAPE_RIGHT, orientation)
+  }
+
+  @Test
+  fun assert_device_orientation_is_portrait_upside_down() {
+
+    val orientationAngles = FloatArray(3)
+
+    orientationAngles[1] = (Math.PI / 2).toFloat()
+    orientationAngles[2] = 0f
+
+    val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+
+    assertEquals(Orientation.PORTRAIT_UPSIDE_DOWN, orientation)
+  }
+
+  @Test
+  fun assert_device_orientation_is_landscape_left() {
+
+    val orientationAngles = FloatArray(3)
+
+    orientationAngles[1] = 0f
+    orientationAngles[2] = -(Math.PI / 2).toFloat()
+
+    val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+
+    assertEquals(Orientation.LANDSCAPE_LEFT, orientation)
+  }
+
+  @Test
+  fun assert_device_orientation_is_face_down() {
+
+    val orientationAngles = FloatArray(3)
+
+    orientationAngles[1] = 0f
+    orientationAngles[2] = -(Math.PI).toFloat()
+
+    val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+
+    assertEquals(Orientation.FACE_DOWN, orientation)
+  }
+
+  @Test
+  fun assert_device_orientation_is_face_up() {
+
+    val orientationAngles = FloatArray(3)
+
+    orientationAngles[1] = 0f
+    orientationAngles[2] = -0f
+
+    val orientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+
+    assertEquals(Orientation.FACE_UP, orientation)
+  }
+
 }
