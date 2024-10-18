@@ -1,5 +1,6 @@
 package com.orientationdirector.implementation
 
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.view.Surface
 import androidx.test.core.app.ApplicationProvider
@@ -131,6 +132,50 @@ class UtilsTest {
       "When pitch is 0 radians and roll is negative 0 radians, orientation should be face up",
       Orientation.FACE_UP,
       orientation
+    )
+  }
+
+  @Test
+  fun assert_activity_orientation_conversion_from_portrait() {
+    val activityOrientation = mUtils.convertToActivityOrientationFrom(Orientation.PORTRAIT);
+
+    assertEquals(
+      "When orientation is portrait, activity orientation should be portrait",
+      ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+      activityOrientation
+    )
+  }
+
+  @Test
+  fun assert_activity_orientation_conversion_from_landscape_right() {
+    val activityOrientation = mUtils.convertToActivityOrientationFrom(Orientation.LANDSCAPE_RIGHT);
+
+    assertEquals(
+      "When orientation is landscape right, activity orientation should be landscape",
+      ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
+      activityOrientation
+    )
+  }
+
+  @Test
+  fun assert_activity_orientation_conversion_from_portrait_upside_down() {
+    val activityOrientation = mUtils.convertToActivityOrientationFrom(Orientation.PORTRAIT_UPSIDE_DOWN);
+
+    assertEquals(
+      "When orientation is portrait upside down, activity orientation should be reverse portrait",
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
+      activityOrientation
+    )
+  }
+
+  @Test
+  fun assert_activity_orientation_conversion_from_landscape_left() {
+    val activityOrientation = mUtils.convertToActivityOrientationFrom(Orientation.LANDSCAPE_LEFT);
+
+    assertEquals(
+      "When orientation is landscape left, activity orientation should be reverse landscape",
+      ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
+      activityOrientation
     )
   }
 }
