@@ -223,4 +223,48 @@ class UtilsTest {
       orientation
     )
   }
+
+  @Test
+  fun assert_orientation_conversion_from_screen_rotation_0() {
+    val orientation = mUtils.convertToOrientationFromScreenRotation(Surface.ROTATION_0)
+
+    assertEquals(
+      "When screen rotation is 0, orientation should be portrait",
+      Orientation.PORTRAIT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_screen_rotation_90() {
+    val orientation = mUtils.convertToOrientationFromScreenRotation(Surface.ROTATION_90)
+
+    assertEquals(
+      "When screen rotation is 90, orientation should be landscape left",
+      Orientation.LANDSCAPE_LEFT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_screen_rotation_180() {
+    val orientation = mUtils.convertToOrientationFromScreenRotation(Surface.ROTATION_180)
+
+    assertEquals(
+      "When screen rotation is 180, orientation should be portrait upside down",
+      Orientation.PORTRAIT_UPSIDE_DOWN,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_screen_rotation_270() {
+    val orientation = mUtils.convertToOrientationFromScreenRotation(Surface.ROTATION_270)
+
+    assertEquals(
+      "When screen rotation is 270, orientation should be landscape right",
+      Orientation.LANDSCAPE_RIGHT,
+      orientation
+    )
+  }
 }
