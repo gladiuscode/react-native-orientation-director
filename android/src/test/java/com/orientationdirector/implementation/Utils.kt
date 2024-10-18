@@ -159,7 +159,8 @@ class UtilsTest {
 
   @Test
   fun assert_activity_orientation_conversion_from_portrait_upside_down() {
-    val activityOrientation = mUtils.convertToActivityOrientationFrom(Orientation.PORTRAIT_UPSIDE_DOWN);
+    val activityOrientation =
+      mUtils.convertToActivityOrientationFrom(Orientation.PORTRAIT_UPSIDE_DOWN);
 
     assertEquals(
       "When orientation is portrait upside down, activity orientation should be reverse portrait",
@@ -176,6 +177,50 @@ class UtilsTest {
       "When orientation is landscape left, activity orientation should be reverse landscape",
       ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
       activityOrientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_js_portrait() {
+    val orientation = mUtils.convertToOrientationFromJsValue(1)
+
+    assertEquals(
+      "When js value is 1, orientation should be portrait",
+      Orientation.PORTRAIT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_js_landscape_right() {
+    val orientation = mUtils.convertToOrientationFromJsValue(2)
+
+    assertEquals(
+      "When js value is 2, orientation should be landscape right",
+      Orientation.LANDSCAPE_RIGHT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_js_portrait_upside_down() {
+    val orientation = mUtils.convertToOrientationFromJsValue(3)
+
+    assertEquals(
+      "When js value is 3, orientation should be portrait upside down",
+      Orientation.PORTRAIT_UPSIDE_DOWN,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_orientation_conversion_from_js_landscape_left() {
+    val orientation = mUtils.convertToOrientationFromJsValue(4)
+
+    assertEquals(
+      "When js value is 4, orientation should be landscape left",
+      Orientation.LANDSCAPE_LEFT,
+      orientation
     )
   }
 }
