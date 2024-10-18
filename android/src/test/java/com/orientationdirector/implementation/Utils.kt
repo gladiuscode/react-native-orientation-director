@@ -23,7 +23,11 @@ class UtilsTest {
   fun assert_interface_rotation_matches_current_landscape() {
     val rotation = mUtils.getInterfaceRotation()
 
-    assertEquals("When current interface orientation is landscape, rotation should be 1", Surface.ROTATION_90, rotation)
+    assertEquals(
+      "When current interface orientation is landscape, rotation should be 1",
+      Surface.ROTATION_90,
+      rotation
+    )
   }
 
   @Config(
@@ -34,7 +38,11 @@ class UtilsTest {
   fun assert_interface_rotation_matches_current_portrait() {
     val rotation = mUtils.getInterfaceRotation()
 
-    assertEquals("When current interface orientation is portrait, rotation should be 0", Surface.ROTATION_0, rotation)
+    assertEquals(
+      "When current interface orientation is portrait, rotation should be 0",
+      Surface.ROTATION_0,
+      rotation
+    )
   }
 
   @Test
