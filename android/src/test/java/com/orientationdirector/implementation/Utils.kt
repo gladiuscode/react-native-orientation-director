@@ -267,4 +267,48 @@ class UtilsTest {
       orientation
     )
   }
+
+  @Test
+  fun assert_interface_orientation_conversion_from_device_portrait() {
+    val orientation = mUtils.convertToInterfaceOrientationFrom(Orientation.PORTRAIT)
+
+    assertEquals(
+      "When device orientation is portrait, interface orientation should be portrait",
+      Orientation.PORTRAIT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_conversion_from_device_landscape_right() {
+    val orientation = mUtils.convertToInterfaceOrientationFrom(Orientation.LANDSCAPE_RIGHT)
+
+    assertEquals(
+      "When device orientation is landscape right, interface orientation should be landscape left",
+      Orientation.LANDSCAPE_LEFT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_conversion_from_device_portrait_upside_down() {
+    val orientation = mUtils.convertToInterfaceOrientationFrom(Orientation.PORTRAIT_UPSIDE_DOWN)
+
+    assertEquals(
+      "When device orientation is portrait upside down, interface orientation should be portrait upside down",
+      Orientation.PORTRAIT_UPSIDE_DOWN,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_conversion_from_device_landscape_left() {
+    val orientation = mUtils.convertToInterfaceOrientationFrom(Orientation.LANDSCAPE_LEFT)
+
+    assertEquals(
+      "When device orientation is landscape left, interface orientation should be landscape right",
+      Orientation.LANDSCAPE_RIGHT,
+      orientation
+    )
+  }
 }
