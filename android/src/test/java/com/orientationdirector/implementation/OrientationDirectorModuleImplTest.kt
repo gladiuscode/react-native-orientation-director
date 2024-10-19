@@ -1,6 +1,7 @@
 package com.orientationdirector.implementation
 
 import android.content.pm.ActivityInfo
+import android.os.Looper
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
 import org.junit.Assert.*
@@ -9,9 +10,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import java.util.logging.Handler
 
 @RunWith(RobolectricTestRunner::class)
 class OrientationDirectorModuleImplTest {
@@ -19,6 +22,12 @@ class OrientationDirectorModuleImplTest {
 
   @Mock
   private val mockEventManager = EventManager(context)
+
+  @Mock
+  private val mockAutoRotationObserver = AutoRotationObserver(
+    context,
+    android.os.Handler(Looper.getMainLooper())
+  )
 
   @InjectMocks
   private val mModule = OrientationDirectorModuleImpl(context)
@@ -160,6 +169,24 @@ class OrientationDirectorModuleImplTest {
       "When unlock is executed, getIsLocked should return false",
       false,
       mModule.getIsLocked()
+    )
+  }
+
+  @Test
+  @Config(
+    qualifiers = "port"
+  )
+  fun assert_interface_reset_to_portrait_on_unlock() {
+    // We stub this method because adaptInterfaceTo checks it
+    `when`(mockAutoRotationObserver.getLastAutoRotationStatus()).thenReturn(true)
+
+    mModule.lockTo(2)
+    mModule.unlock()
+
+    assertEquals(
+      "When unlock is executed, getInterfaceOrientation should match portrait when device is in portrait",
+      Orientation.PORTRAIT,
+      mModule.getInterfaceOrientation()
     )
   }
 }
