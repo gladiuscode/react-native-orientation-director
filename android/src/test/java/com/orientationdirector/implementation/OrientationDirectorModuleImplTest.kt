@@ -106,4 +106,48 @@ class OrientationDirectorModuleImplTest {
 //      context.currentActivity?.requestedOrientation
 //    )
   }
+
+  @Test
+  fun assert_interface_orientation_matches_locked_to_portrait() {
+    mModule.lockTo(1)
+
+    assertEquals(
+      "When the interface is locked to portrait, getInterfaceOrientation should return portrait",
+      Orientation.PORTRAIT,
+      mModule.getInterfaceOrientation()
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_matches_locked_to_landscape_right() {
+    mModule.lockTo(2)
+
+    assertEquals(
+      "When the interface is locked to landscape right, getInterfaceOrientation should return landscape right",
+      Orientation.LANDSCAPE_RIGHT,
+      mModule.getInterfaceOrientation()
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_matches_locked_to_portrait_upside_down() {
+    mModule.lockTo(3)
+
+    assertEquals(
+      "When the interface is locked to portrait upside down, getInterfaceOrientation should return portrait upside down",
+      Orientation.PORTRAIT_UPSIDE_DOWN,
+      mModule.getInterfaceOrientation()
+    )
+  }
+
+  @Test
+  fun assert_interface_orientation_matches_locked_to_landscape_left() {
+    mModule.lockTo(4)
+
+    assertEquals(
+      "When the interface is locked to landscape left, getInterfaceOrientation should return landscape left",
+      Orientation.LANDSCAPE_LEFT,
+      mModule.getInterfaceOrientation()
+    )
+  }
 }
