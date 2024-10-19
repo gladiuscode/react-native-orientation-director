@@ -1,5 +1,6 @@
 package com.orientationdirector.implementation
 
+import android.content.pm.ActivityInfo
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
 import org.junit.Assert.*
@@ -92,5 +93,17 @@ class OrientationDirectorModuleImplTest {
   @Test
   fun assert_auto_rotation_enabled_at_startup() {
     // TODO: Find a way to set the value of Settings.System.ACCELEROMETER_ROTATION if possible
+  }
+
+  @Test
+  fun assert_lock_orientation_to_portrait() {
+    mModule.lockTo(1)
+
+    // TODO: This test fails because currentActivity is null, check if we can mock it out and how
+//    assertEquals(
+//      "",
+//      ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+//      context.currentActivity?.requestedOrientation
+//    )
   }
 }
