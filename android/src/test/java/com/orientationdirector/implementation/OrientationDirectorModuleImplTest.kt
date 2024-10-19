@@ -88,4 +88,9 @@ class OrientationDirectorModuleImplTest {
       isLocked
     )
   }
+
+  @Test
+  fun assert_auto_rotation_enabled_at_startup() {
+    // TODO: Find a way to set the value of Settings.System.ACCELEROMETER_ROTATION if possible
+  }
 }
