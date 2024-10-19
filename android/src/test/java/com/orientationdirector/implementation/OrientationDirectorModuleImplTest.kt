@@ -3,16 +3,29 @@ package com.orientationdirector.implementation
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-
 
 @RunWith(RobolectricTestRunner::class)
 class OrientationDirectorModuleImplTest {
   private var context = BridgeReactContext(ApplicationProvider.getApplicationContext())
-  private var mModule = OrientationDirectorModuleImpl(context)
+
+  @Mock
+  private val mockEventManager = EventManager(context)
+
+  @InjectMocks
+  private val mModule = OrientationDirectorModuleImpl(context)
+
+  @Before
+  fun setup() {
+    MockitoAnnotations.openMocks(this)
+  }
 
   @Test
   @Config(
@@ -60,6 +73,18 @@ class OrientationDirectorModuleImplTest {
     assertEquals(
       "When user starts the app, interface orientation shouldn't be locked",
       false,
+      isLocked
+    )
+  }
+
+  @Test
+  fun assert_is_locked_matches_true_after_lock_to_gets_executed() {
+    mModule.lockTo(1)
+    val isLocked = mModule.getIsLocked()
+
+    assertEquals(
+      "When lockTo is executed, getIsLocked should match true",
+      true,
       isLocked
     )
   }
