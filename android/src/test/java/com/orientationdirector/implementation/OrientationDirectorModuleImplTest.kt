@@ -150,4 +150,16 @@ class OrientationDirectorModuleImplTest {
       mModule.getInterfaceOrientation()
     )
   }
+
+  @Test
+  fun assert_is_locked_reset_when_unlock_is_executed() {
+    mModule.lockTo(1)
+    mModule.unlock()
+
+    assertEquals(
+      "When unlock is executed, getIsLocked should return false",
+      false,
+      mModule.getIsLocked()
+    )
+  }
 }
