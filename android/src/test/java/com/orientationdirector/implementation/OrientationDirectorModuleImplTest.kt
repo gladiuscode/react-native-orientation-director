@@ -2,11 +2,12 @@ package com.orientationdirector.implementation
 
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
-import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+
 
 @RunWith(RobolectricTestRunner::class)
 class OrientationDirectorModuleImplTest {
@@ -37,6 +38,17 @@ class OrientationDirectorModuleImplTest {
     assertEquals(
       "When user starts the app with the device in landscape, the initial interface should be landscape left",
       Orientation.LANDSCAPE_LEFT,
+      orientation
+    )
+  }
+
+  @Test
+  fun assert_initial_device_orientation_matches_unknown_at_startup() {
+    val orientation = mModule.getDeviceOrientation()
+
+    assertEquals(
+      "When user starts the app, the initial device orientation should be unknown",
+      Orientation.UNKNOWN,
       orientation
     )
   }
