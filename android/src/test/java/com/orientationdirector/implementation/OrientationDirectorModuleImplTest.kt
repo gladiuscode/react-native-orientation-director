@@ -52,4 +52,15 @@ class OrientationDirectorModuleImplTest {
       orientation
     )
   }
+
+  @Test
+  fun assert_initial_is_locked_matches_false_at_startup() {
+    val isLocked = mModule.getIsLocked()
+
+    assertEquals(
+      "When user starts the app, interface orientation shouldn't be locked",
+      false,
+      isLocked
+    )
+  }
 }
