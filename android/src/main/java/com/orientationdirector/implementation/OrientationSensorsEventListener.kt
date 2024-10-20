@@ -10,27 +10,18 @@ import com.facebook.react.bridge.ReactApplicationContext
 class OrientationSensorsEventListener(
   context: ReactApplicationContext,
 ) : SensorEventListener {
-  private var mSensorManager: SensorManager
+  private var mSensorManager: SensorManager = context.getSystemService(SENSOR_SERVICE) as SensorManager
 
-  private var mAccelerometerSensor: Sensor?
-  private var mMagneticFieldSensor: Sensor?
+  private var mAccelerometerSensor: Sensor? = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+  private var mMagneticFieldSensor: Sensor? = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
-  private var hasRequiredSensors: Boolean
+  private var hasRequiredSensors: Boolean = mAccelerometerSensor != null && mMagneticFieldSensor != null
 
   private val accelerometerReading = FloatArray(3)
   private val magnetometerReading = FloatArray(3)
 
   private var lastComputedOrientationAngles = FloatArray(3)
   private var onOrientationAnglesChangedCallback: ((orientationAngles: FloatArray) -> Unit)? = null
-
-  init {
-    mSensorManager = context.getSystemService(SENSOR_SERVICE) as SensorManager;
-
-    mAccelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-    mMagneticFieldSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-
-    hasRequiredSensors = mAccelerometerSensor != null && mMagneticFieldSensor != null
-  }
 
   fun setOnOrientationAnglesChangedCallback(callback: (orientation: FloatArray) -> Unit) {
     onOrientationAnglesChangedCallback = callback
