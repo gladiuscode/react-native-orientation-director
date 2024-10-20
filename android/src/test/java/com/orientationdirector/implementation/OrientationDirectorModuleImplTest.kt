@@ -183,7 +183,7 @@ class OrientationDirectorModuleImplTest {
 
     assertEquals(
       "When unlock is executed, getInterfaceOrientation should match portrait when device is in portrait",
-      Orientation.LANDSCAPE_RIGHT,
+      Orientation.PORTRAIT,
       mModule.getInterfaceOrientation()
     )
   }
