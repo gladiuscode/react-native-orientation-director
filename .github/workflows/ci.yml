@@ -99,7 +99,7 @@ jobs:
 
       - name: Run test
         run: |
-          cd example/android && ./gradlew testDebugUnitTest
+          cd example/android && ./gradlew react-native-orientation-director:testDebugUnitTest
 
       - name: Build example for Android
         env:
