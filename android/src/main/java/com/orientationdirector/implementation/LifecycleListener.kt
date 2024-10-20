@@ -2,7 +2,7 @@ package com.orientationdirector.implementation
 
 import com.facebook.react.bridge.LifecycleEventListener
 
-class LifecycleListener() : LifecycleEventListener {
+class LifecycleListener : LifecycleEventListener {
 
   private var onHostResumeCallback: (() -> Unit)? = null
   private var onHostPauseCallback: (() -> Unit)? = null

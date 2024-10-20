@@ -34,6 +34,7 @@ You can install the package via npm or yarn:
 ```sh
 npm install react-native-orientation-director
 ```
+
 ```sh
 yarn add react-native-orientation-director
 ```
@@ -71,27 +72,27 @@ There is no need to do anything in Android, it works out of the box.
 
 This library exports a class called: [RNOrientationDirector](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/RNOrientationDirector.ts) that exposes the following methods:
 
-| Method                                  | Description                                                                     |
-|-----------------------------------------|---------------------------------------------------------------------------------|
-| getInterfaceOrientation                 | Returns the last interface orientation                                          |
-| getDeviceOrientation                    | Returns the last device orientation                                             |
-| lockTo                                  | Locks the interface to a specific orientation                                   |
-| unlock                                  | Unlock the interface                                                            |
-| isLocked                                | Returns the current interface orientation status (locked / unlocked)            |
-| isAutoRotationEnabled                   | (Android Only) Returns if auto rotation is enabled                              |
-| listenForDeviceOrientationChanges       | Triggers a provided callback each time the device orientation changes           |
-| listenForInterfaceOrientationChanges    | Triggers a provided callback each time the interface orientation changes        |
-| listenForLockChanges                    | Triggers a provided callback each time the interface orientation status changes |
-| convertOrientationToHumanReadableString | Returns a human readable string based on the given orientation                  |
+| Method                                   | Description                                                                       |
+| ---------------------------------------- | --------------------------------------------------------------------------------- |
+| getInterfaceOrientation                  | Returns the last interface orientation                                            |
+| getDeviceOrientation                     | Returns the last device orientation                                               |
+| lockTo                                   | Locks the interface to a specific orientation                                     |
+| unlock                                   | Unlock the interface                                                              |
+| isLocked                                 | Returns the current interface orientation status (locked / unlocked)              |
+| isAutoRotationEnabled                    | (Android Only) Returns if auto rotation is enabled                                |
+| listenForDeviceOrientationChanges        | Triggers a provided callback each time the device orientation changes             |
+| listenForInterfaceOrientationChanges     | Triggers a provided callback each time the interface orientation changes          |
+| listenForLockChanges                     | Triggers a provided callback each time the interface orientation status changes   |
+| convertOrientationToHumanReadableString  | Returns a human readable string based on the given orientation                    |
 | convertAutoRotationToHumanReadableString | Returns a human readable string based on the given auto rotation                  |
-| setHumanReadableOrientations              | Sets the mapping needed to convert orientation values to human readable strings |
-| setHumanReadableAutoRotations              | Sets the mapping needed to convert auto rotation values to human readable strings |
-| resetSupportedInterfaceOrientations     | Resets the supported interface orientations to settings                         |
+| setHumanReadableOrientations             | Sets the mapping needed to convert orientation values to human readable strings   |
+| setHumanReadableAutoRotations            | Sets the mapping needed to convert auto rotation values to human readable strings |
+| resetSupportedInterfaceOrientations      | Resets the supported interface orientations to settings                           |
 
 In addition, the library exposes the following hooks:
 
 | Hook                                                                                                                                                            | Description                                                             |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts)                 | Returns the current interface orientation and listens to changes        |
 | [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)                       | Returns the current device orientation and listens to changes           |
 | [useIsInterfaceOrientationLocked](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useIsInterfaceOrientationLocked.hook.ts) | Returns the current interface orientation status and listens to changes |

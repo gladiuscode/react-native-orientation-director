@@ -3,13 +3,12 @@ package com.orientationdirector.implementation
 import android.content.pm.ActivityInfo
 import android.os.Handler
 import android.os.Looper
-import android.view.OrientationEventListener.ORIENTATION_UNKNOWN
 import com.facebook.react.bridge.ReactApplicationContext
 
 class OrientationDirectorModuleImpl internal constructor(private val context: ReactApplicationContext) {
   private var mUtils = Utils(context)
   private var mEventManager = EventManager(context)
-  private var mSensorListener = SensorListener(context)
+  private var mOrientationSensorsEventListener = OrientationSensorsEventListener(context)
   private var mAutoRotationObserver = AutoRotationObserver(
     context, Handler(
       Looper.getMainLooper()
@@ -24,41 +23,31 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var isLocked: Boolean = false
 
   init {
-    mSensorListener.setOnOrientationChangedCallback { orientation ->
-      onOrientationChanged(orientation)
-    }
-
-    if (mSensorListener.canDetectOrientation()) {
-      mSensorListener.enable()
-    } else {
-      mSensorListener.disable()
+    mOrientationSensorsEventListener.setOnOrientationAnglesChangedCallback { orientation ->
+      onOrientationAnglesChanged(orientation)
     }
 
     mAutoRotationObserver.enable()
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      if (mSensorListener.canDetectOrientation()) {
-        mSensorListener.enable()
-      }
-
+      mOrientationSensorsEventListener.enable()
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
       if (initialized) {
-        mSensorListener.disable()
+        mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      mSensorListener.disable()
+      mOrientationSensorsEventListener.disable()
       mAutoRotationObserver.disable()
     }
 
     initialSupportedInterfaceOrientations =
       context.currentActivity?.requestedOrientation ?: initialSupportedInterfaceOrientations
     lastInterfaceOrientation = initInterfaceOrientation()
-    lastDeviceOrientation = initDeviceOrientation()
     isLocked = initIsLocked()
 
     initialized = true
@@ -108,13 +97,6 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     return mUtils.convertToOrientationFromScreenRotation(rotation)
   }
 
-  private fun initDeviceOrientation(): Orientation {
-    val lastRotationDetected = mSensorListener.getLastRotationDetected()
-      ?: return Orientation.UNKNOWN
-
-    return mUtils.convertToDeviceOrientationFrom(lastRotationDetected)
-  }
-
   private fun initIsLocked(): Boolean {
     val activity = context.currentActivity ?: return false
     return listOf(
@@ -126,11 +108,10 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     ).contains(activity.requestedOrientation)
   }
 
-  private fun onOrientationChanged(rawDeviceOrientation: Int) {
-    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(rawDeviceOrientation)
-
-    if (rawDeviceOrientation != ORIENTATION_UNKNOWN && deviceOrientation == Orientation.UNKNOWN) {
-      return;
+  private fun onOrientationAnglesChanged(orientationAngles: FloatArray) {
+    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
+    if (deviceOrientation == Orientation.UNKNOWN) {
+      return
     }
 
     if (lastDeviceOrientation == deviceOrientation) {
@@ -152,7 +133,19 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    val newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
+    var newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
+
+    /**
+     * When the device orientation is either face up or face down,
+     * we can't match it to an interface orientation, because
+     * it could be either portrait or any landscape.
+     * So we read it from the system itself.
+     */
+    if (newInterfaceOrientation == Orientation.UNKNOWN) {
+      val rotation = mUtils.getInterfaceRotation()
+      newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
+    }
+
     if (newInterfaceOrientation == lastInterfaceOrientation) {
       return
     }
