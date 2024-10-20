@@ -98,6 +98,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run test
+        if: env.turbo_cache_hit != 1
         run: |
           cd example/android && ./gradlew react-native-orientation-director:testDebugUnitTest
 
