@@ -102,7 +102,6 @@ Head over to the [example project](example) to see how to use the library.
 ## Roadmap
 
 - [ ] Add JS side tests
-- [ ] Add Android side tests
 - [ ] Add iOS side tests
 
 ## Contributing

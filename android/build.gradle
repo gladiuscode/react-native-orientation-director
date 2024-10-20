@@ -33,6 +33,10 @@ def getExtOrIntegerDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["OrientationDirector_" + name]).toInteger()
 }
 
+def getDefault(name) {
+  return project.properties["OrientationDirector_" + name]
+}
+
 def supportsNamespace() {
   def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
   def major = parsed[0].toInteger()
@@ -59,7 +63,6 @@ android {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-
   }
 
   buildFeatures {
@@ -102,6 +105,10 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
+def junit_version = getDefault("junitVersion")
+def android_x_core_version = getDefault("androidXCoreVersion")
+def robolectric_version = getDefault("robolectricVersion")
+def mockito_core_version = getDefault("mockitoCoreVersion")
 
 dependencies {
   // For < 0.71, this will be from the local maven repo
@@ -109,6 +116,11 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  testImplementation "junit:junit:$junit_version"
+  testImplementation "androidx.test:core:$android_x_core_version"
+  testImplementation "org.robolectric:robolectric:$robolectric_version"
+  testImplementation "org.mockito:mockito-core:$mockito_core_version"
 }
 
 if (isNewArchitectureEnabled()) {

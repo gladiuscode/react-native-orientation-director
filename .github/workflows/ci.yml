@@ -97,9 +97,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Run test
+        if: env.turbo_cache_hit != 1
+        run: |
+          cd example/android && ./gradlew react-native-orientation-director:testDebugUnitTest
+
       - name: Build example for Android
         env:
-          JAVA_OPTS: "-XX:MaxHeapSize=6g"
+          JAVA_OPTS: '-XX:MaxHeapSize=6g'
         run: |
           yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
 
