@@ -1,6 +1,5 @@
 package com.orientationdirector.implementation
 
-import android.content.pm.ActivityInfo
 import android.os.Looper
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.react.bridge.BridgeReactContext
@@ -14,7 +13,6 @@ import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.util.logging.Handler
 
 @RunWith(RobolectricTestRunner::class)
 class OrientationDirectorModuleImplTest {
@@ -35,6 +33,9 @@ class OrientationDirectorModuleImplTest {
   @Before
   fun setup() {
     MockitoAnnotations.openMocks(this)
+
+    // We stub this method because adaptInterfaceTo checks it
+    `when`(mockAutoRotationObserver.getLastAutoRotationStatus()).thenReturn(true)
   }
 
   @Test
@@ -177,15 +178,27 @@ class OrientationDirectorModuleImplTest {
     qualifiers = "port"
   )
   fun assert_interface_reset_to_portrait_on_unlock() {
-    // We stub this method because adaptInterfaceTo checks it
-    `when`(mockAutoRotationObserver.getLastAutoRotationStatus()).thenReturn(true)
-
     mModule.lockTo(2)
     mModule.unlock()
 
     assertEquals(
       "When unlock is executed, getInterfaceOrientation should match portrait when device is in portrait",
       Orientation.PORTRAIT,
+      mModule.getInterfaceOrientation()
+    )
+  }
+
+  @Test
+  @Config(
+    qualifiers = "land"
+  )
+  fun assert_interface_reset_to_landscape_left_on_unlock() {
+    mModule.lockTo(2)
+    mModule.unlock()
+
+    assertEquals(
+      "When unlock is executed, getInterfaceOrientation should match landscape left when device is in landscape right",
+      Orientation.LANDSCAPE_LEFT,
       mModule.getInterfaceOrientation()
     )
   }
