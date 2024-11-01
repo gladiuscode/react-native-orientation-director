@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  NavigationContainer,
-  type NavigationState,
-} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Homepage';
 import Explore from './screens/Explore';
@@ -20,20 +17,22 @@ function AppNavigationContainer() {
     const initialInterfaceOrientation =
       await RNOrientationDirector.getInterfaceOrientation();
 
-    console.log('Initial device orientation: ', initialDeviceOrientation);
-    console.log('Initial interface orientation: ', initialInterfaceOrientation);
-  };
-
-  const handleOnStateChange = (state?: NavigationState) => {
-    console.log('App Navigation state changed');
-    console.log('New state: ', state);
+    console.log(
+      'Initial device orientation: ',
+      RNOrientationDirector.convertOrientationToHumanReadableString(
+        initialDeviceOrientation
+      )
+    );
+    console.log(
+      'Initial interface orientation: ',
+      RNOrientationDirector.convertOrientationToHumanReadableString(
+        initialInterfaceOrientation
+      )
+    );
   };
 
   return (
-    <NavigationContainer
-      onReady={handleOnReady}
-      onStateChange={handleOnStateChange}
-    >
+    <NavigationContainer onReady={handleOnReady}>
       <MainStack />
     </NavigationContainer>
   );
