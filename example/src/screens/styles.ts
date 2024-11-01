@@ -12,4 +12,17 @@ export const homepageStyle = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  text: {
+    color: 'black',
+  },
+});
+
+export const exploreStyle = StyleSheet.create({
+  container: homepageStyle.container,
+  marginBottom: homepageStyle.marginBottom,
+  text: homepageStyle.text,
+  body: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });

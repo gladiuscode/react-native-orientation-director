@@ -129,7 +129,7 @@ export default function OldApp() {
       <Button
         title={'Android - Stop Listener'}
         onPress={() => {
-          RNOrientationDirector.disableOrientationSensors();
+          // RNOrientationDirector.disableOrientationSensors();
         }}
       />
     </ScrollView>
