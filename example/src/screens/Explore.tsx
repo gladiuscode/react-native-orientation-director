@@ -1,20 +1,31 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { exploreStyle } from './styles';
 import RNOrientationDirector, {
   useDeviceOrientation,
   useInterfaceOrientation,
   useIsInterfaceOrientationLocked,
 } from 'react-native-orientation-director';
+import { useNavigation } from '@react-navigation/native';
 
 function Explore() {
+  const navigation = useNavigation();
+
   const interfaceOrientation = useInterfaceOrientation();
   const deviceOrientation = useDeviceOrientation();
   const isInterfaceOrientationLocked = useIsInterfaceOrientationLocked();
 
+  const handleGoToInnerExploreOnPress = () => {
+    navigation.navigate('InnerExplore' as never);
+  };
+
   return (
     <View style={exploreStyle.container}>
       <Text>Explore!</Text>
+      <Button
+        title="Go to inner explore"
+        onPress={handleGoToInnerExploreOnPress}
+      />
 
       <View style={exploreStyle.body}>
         <Text style={[exploreStyle.text, exploreStyle.marginBottom]}>

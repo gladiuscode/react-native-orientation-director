@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Homepage';
 import Explore from './screens/Explore';
 import RNOrientationDirector from 'react-native-orientation-director';
+import InnerExplore from './screens/InnerExplore';
 
 function AppNavigationContainer() {
   const handleOnReady = async () => {
@@ -46,6 +47,7 @@ function MainStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Explore" component={Explore} />
+      <Stack.Screen name="InnerExplore" component={InnerExplore} />
     </Stack.Navigator>
   );
 }

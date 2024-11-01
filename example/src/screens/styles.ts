@@ -23,6 +23,11 @@ export const exploreStyle = StyleSheet.create({
   text: homepageStyle.text,
   body: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
+});
+
+export const innerExploreStyle = StyleSheet.create({
+  ...exploreStyle,
 });
