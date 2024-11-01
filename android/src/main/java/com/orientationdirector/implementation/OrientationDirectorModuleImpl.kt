@@ -21,6 +21,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
   private var isLocked: Boolean = false
+  private var didComputeInitialDeviceOrientation = false;
 
   init {
     mOrientationSensorsEventListener.setOnOrientationAnglesChangedCallback { orientation ->
@@ -31,7 +32,9 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      mOrientationSensorsEventListener.enable()
+      if (!didComputeInitialDeviceOrientation) {
+        mOrientationSensorsEventListener.enable()
+      }
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
@@ -130,6 +133,11 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     lastDeviceOrientation = deviceOrientation
 
     adaptInterfaceTo(deviceOrientation)
+
+    if (!didComputeInitialDeviceOrientation) {
+      didComputeInitialDeviceOrientation = true
+      mOrientationSensorsEventListener.disable()
+    }
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {
