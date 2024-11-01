@@ -49,6 +49,16 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
   }
 
   @ReactMethod()
+  fun enableOrientationSensors() {
+    return implementation.enableOrientationSensors()
+  }
+
+  @ReactMethod()
+  fun disableOrientationSensors() {
+    return implementation.disableOrientationSensors()
+  }
+
+  @ReactMethod()
   fun addListener(eventName: String) {}
 
   @ReactMethod()

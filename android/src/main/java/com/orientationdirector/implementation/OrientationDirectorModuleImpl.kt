@@ -92,6 +92,14 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     updateLastInterfaceOrientationTo(initInterfaceOrientation())
   }
 
+  fun enableOrientationSensors() {
+    mOrientationSensorsEventListener.enable()
+  }
+
+  fun disableOrientationSensor() {
+    mOrientationSensorsEventListener.disable()
+  }
+
   private fun initInterfaceOrientation(): Orientation {
     val rotation = mUtils.getInterfaceRotation()
     return mUtils.convertToOrientationFromScreenRotation(rotation)
