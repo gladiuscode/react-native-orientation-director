@@ -6,10 +6,21 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Homepage';
 import Explore from './screens/Explore';
+import RNOrientationDirector from 'react-native-orientation-director';
 
 function AppNavigationContainer() {
-  const handleOnReady = () => {
+  const handleOnReady = async () => {
     console.log('App Navigation is ready');
+
+    // With hot reload this returns UNKNOWN because
+    // the listener is disabled on the native side.
+    const initialDeviceOrientation =
+      await RNOrientationDirector.getDeviceOrientation();
+    const initialInterfaceOrientation =
+      await RNOrientationDirector.getInterfaceOrientation();
+
+    console.log('Initial device orientation: ', initialDeviceOrientation);
+    console.log('Initial interface orientation: ', initialInterfaceOrientation);
   };
 
   const handleOnStateChange = (state?: NavigationState) => {
