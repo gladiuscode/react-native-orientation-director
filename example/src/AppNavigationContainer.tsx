@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './screens/Homepage';
+import Home from './screens/Home';
 import Explore from './screens/Explore';
 import RNOrientationDirector from 'react-native-orientation-director';
 import InnerExplore from './screens/InnerExplore';
