@@ -44,23 +44,26 @@ class EventEmitter {
   private static createDeviceOrientationListenerProxy(
     listener: EmitterSubscription
   ) {
-    return new Proxy(listener, {
+    const handler: ProxyHandler<EmitterSubscription> = {
       get(target, propertyKey, receiver) {
-        if (propertyKey !== 'remove') {
-          return Reflect.get(target, propertyKey, receiver);
+        if (propertyKey === 'remove') {
+          disableOrientationSensorsIfLastListener();
         }
-
-        const listenerCount = ModuleEventEmitter.listenerCount(
-          Event.DeviceOrientationDidChange
-        );
-
-        if (listenerCount === 1) {
-          Module.disableOrientationSensors();
-        }
-
         return Reflect.get(target, propertyKey, receiver);
       },
-    });
+    };
+
+    return new Proxy(listener, handler);
+
+    function disableOrientationSensorsIfLastListener() {
+      const listenerCount = ModuleEventEmitter.listenerCount(
+        Event.DeviceOrientationDidChange
+      );
+
+      if (listenerCount === 1) {
+        Module.disableOrientationSensors();
+      }
+    }
   }
 }
 
