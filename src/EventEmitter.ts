@@ -21,7 +21,7 @@ class EventEmitter {
       Event.DeviceOrientationDidChange
     );
 
-    if (listenerCount === 0) {
+    if (listenerCount === 1) {
       Module.enableOrientationSensors();
     }
 
