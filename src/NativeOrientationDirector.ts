@@ -7,8 +7,19 @@ export interface Spec extends TurboModule {
   lockTo(orientation: number): void;
   unlock(): void;
   isLocked(): boolean;
-  isAutoRotationEnabled(): boolean;
   resetSupportedInterfaceOrientations(): void;
+
+  ////////////////////////////////////
+  //
+  // ANDROID ONLY
+  //
+
+  isAutoRotationEnabled(): boolean;
+  enableOrientationSensors(): void;
+  disableOrientationSensors(): void;
+
+  //
+  ////////////////////////////////////
 
   addListener: (eventType: string) => void;
   removeListeners: (count: number) => void;

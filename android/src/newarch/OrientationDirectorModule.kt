@@ -44,6 +44,14 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
     return implementation.getIsAutoRotationEnabled()
   }
 
+  override fun enableOrientationSensors() {
+    return implementation.enableOrientationSensors()
+  }
+
+  override fun disableOrientationSensors() {
+    return implementation.disableOrientationSensors()
+  }
+
   override fun addListener(eventName: String) {}
 
   override fun removeListeners(count: Double) {}

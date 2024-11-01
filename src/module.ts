@@ -25,6 +25,6 @@ const OrientationDirectorModule = Module
       }
     );
 
-export const EventEmitter = new NativeEventEmitter(Module);
+export const ModuleEventEmitter = new NativeEventEmitter(Module);
 
 export default OrientationDirectorModule as Spec;

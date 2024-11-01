@@ -21,6 +21,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var lastDeviceOrientation = Orientation.UNKNOWN
   private var initialized = false
   private var isLocked: Boolean = false
+  private var areOrientationSensorsEnabled = false;
+  private var didComputeInitialDeviceOrientation = false;
 
   init {
     mOrientationSensorsEventListener.setOnOrientationAnglesChangedCallback { orientation ->
@@ -31,18 +33,22 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      mOrientationSensorsEventListener.enable()
+      if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
+        mOrientationSensorsEventListener.enable()
+      }
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
-      if (initialized) {
+      if (initialized && areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      mOrientationSensorsEventListener.disable()
-      mAutoRotationObserver.disable()
+      if (areOrientationSensorsEnabled) {
+        mOrientationSensorsEventListener.disable()
+        mAutoRotationObserver.disable()
+      }
     }
 
     initialSupportedInterfaceOrientations =
@@ -92,6 +98,16 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     updateLastInterfaceOrientationTo(initInterfaceOrientation())
   }
 
+  fun enableOrientationSensors() {
+    areOrientationSensorsEnabled = true
+    mOrientationSensorsEventListener.enable()
+  }
+
+  fun disableOrientationSensors() {
+    areOrientationSensorsEnabled = false
+    mOrientationSensorsEventListener.disable()
+  }
+
   private fun initInterfaceOrientation(): Orientation {
     val rotation = mUtils.getInterfaceRotation()
     return mUtils.convertToOrientationFromScreenRotation(rotation)
@@ -122,6 +138,11 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     lastDeviceOrientation = deviceOrientation
 
     adaptInterfaceTo(deviceOrientation)
+
+    if (!didComputeInitialDeviceOrientation) {
+      didComputeInitialDeviceOrientation = true
+      mOrientationSensorsEventListener.disable()
+    }
   }
 
   private fun adaptInterfaceTo(deviceOrientation: Orientation) {

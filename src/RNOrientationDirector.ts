@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
-import Module, { EventEmitter } from './module';
-import Event from './types/Event.enum';
+import Module from './module';
 import type { HumanReadableOrientationsResource } from './types/HumanReadableOrientationsResource.type';
 import { Orientation } from './types/Orientation.enum';
 import { AutoRotation } from './types/AutoRotation.enum';
@@ -8,6 +7,7 @@ import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
 import type { LockedEvent } from './types/LockedEvent.interface';
 import type { HumanReadableAutoRotationsResource } from './types/HumanReadableAutoRotationsResource.type';
+import EventEmitter from './EventEmitter';
 
 class RNOrientationDirector {
   private static _humanReadableOrientationsResource: HumanReadableOrientationsResource =
@@ -72,20 +72,17 @@ class RNOrientationDirector {
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
-    return EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
+    return EventEmitter.addDeviceOrientationDidChangeListener(callback);
   }
 
   static listenForInterfaceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
-    return EventEmitter.addListener(
-      Event.InterfaceOrientationDidChange,
-      callback
-    );
+    return EventEmitter.addInterfaceOrientationDidChangeListener(callback);
   }
 
-  static listenForLockChanges(callback: (orientation: LockedEvent) => void) {
-    return EventEmitter.addListener(Event.LockDidChange, callback);
+  static listenForLockChanges(callback: (event: LockedEvent) => void) {
+    return EventEmitter.addLockDidChangeListener(callback);
   }
 
   static convertOrientationToHumanReadableString(orientation: Orientation) {
