@@ -11,6 +11,7 @@ function InnerExplore() {
   return (
     <View style={innerExploreStyle.container}>
       <Text>Inner Explore!</Text>
+      <View style={innerExploreStyle.marginBottom} />
 
       <View style={innerExploreStyle.body}>
         <Text style={[innerExploreStyle.text, innerExploreStyle.marginBottom]}>

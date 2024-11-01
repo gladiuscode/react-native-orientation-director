@@ -22,6 +22,7 @@ function Explore() {
   return (
     <View style={exploreStyle.container}>
       <Text>Explore!</Text>
+      <View style={exploreStyle.marginBottom} />
       <Button
         title="Go to inner explore"
         onPress={handleGoToInnerExploreOnPress}

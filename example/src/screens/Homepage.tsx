@@ -16,6 +16,7 @@ function Home() {
   return (
     <View style={homepageStyle.container}>
       <Text>Welcome!</Text>
+      <View style={homepageStyle.marginBottom} />
       <Button title="Go to explore" onPress={handleGoToExploreOnPress} />
 
       <View style={homepageStyle.buttonsContainer}>
