@@ -84,16 +84,18 @@ class RNOrientationDirector {
 
     const listenerProxy = new Proxy(listener, {
       get(target, propertyKey, receiver) {
-        if (propertyKey === 'remove') {
-          const listenerCount = EventEmitter.listenerCount(
-            Event.DeviceOrientationDidChange
-          );
-
-          if (listenerCount === 1) {
-            console.log('Disable sensors');
-            Module.disableOrientationSensors();
-          }
+        if (propertyKey !== 'remove') {
+          return Reflect.get(target, propertyKey, receiver);
         }
+
+        const listenerCount = EventEmitter.listenerCount(
+          Event.DeviceOrientationDidChange
+        );
+
+        if (listenerCount === 1) {
+          Module.disableOrientationSensors();
+        }
+
         return Reflect.get(target, propertyKey, receiver);
       },
     });
