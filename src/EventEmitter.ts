@@ -17,7 +17,13 @@ class EventEmitter {
       return listener;
     }
 
-    Module.enableOrientationSensors();
+    const listenerCount = ModuleEventEmitter.listenerCount(
+      Event.DeviceOrientationDidChange
+    );
+
+    if (listenerCount === 0) {
+      Module.enableOrientationSensors();
+    }
 
     return EventEmitter.createDeviceOrientationListenerProxy(listener);
   }
