@@ -103,7 +103,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     mOrientationSensorsEventListener.enable()
   }
 
-  fun disableOrientationSensor() {
+  fun disableOrientationSensors() {
     areOrientationSensorsEnabled = false
     mOrientationSensorsEventListener.disable()
   }

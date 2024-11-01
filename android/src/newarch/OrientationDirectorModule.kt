@@ -49,7 +49,7 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
   }
 
   override fun disableOrientationSensors() {
-    return implementation.disableOrientationSensor()
+    return implementation.disableOrientationSensors()
   }
 
   override fun addListener(eventName: String) {}
