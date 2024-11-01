@@ -72,7 +72,27 @@ class RNOrientationDirector {
   static listenForDeviceOrientationChanges(
     callback: (orientation: OrientationEvent) => void
   ) {
-    return EventEmitter.addListener(Event.DeviceOrientationDidChange, callback);
+    let listener = EventEmitter.addListener(
+      Event.DeviceOrientationDidChange,
+      callback
+    );
+    if (Platform.OS !== 'android') {
+      return listener;
+    }
+
+    Module.enableOrientationSensors();
+
+    const listenerProxy = new Proxy(listener, {
+      get(target, propertyKey, receiver) {
+        if (propertyKey === 'remove') {
+          console.log('Disabling sensors');
+          Module.disableOrientationSensors();
+        }
+        return Reflect.get(target, propertyKey, receiver);
+      },
+    });
+
+    return listenerProxy;
   }
 
   static listenForInterfaceOrientationChanges(
@@ -98,6 +118,10 @@ class RNOrientationDirector {
     return RNOrientationDirector._humanReadableAutoRotationsResource[
       autoRotation
     ];
+  }
+
+  static disableOrientationSensors() {
+    return Module.disableOrientationSensors();
   }
 }
 
