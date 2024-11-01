@@ -96,10 +96,6 @@ class RNOrientationDirector {
       autoRotation
     ];
   }
-
-  static disableOrientationSensors() {
-    return Module.disableOrientationSensors();
-  }
 }
 
 export default RNOrientationDirector;
