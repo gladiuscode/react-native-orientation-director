@@ -99,6 +99,17 @@ In addition, the library exposes the following hooks:
 
 Head over to the [example project](example) to see how to use the library.
 
+### Android
+
+Since on Android we need to deal with sensors and their usage, it is worth noting that the device orientation computation works
+differently than on iOS, mainly in the following ways:
+
+1. Upon start up, all required sensors are enabled just for the initial device orientation computation, then they are disabled;
+2. Each time a new device orientation listener is added, all required sensors are enabled if disabled;
+3. After the last device orientation listener is removed, all required sensors are disabled;
+
+This behavior allows us to follow Google's best practices related to the Sensors Framework. More [here](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview#sensors-practices).
+
 ## Roadmap
 
 - [ ] Add JS side tests
