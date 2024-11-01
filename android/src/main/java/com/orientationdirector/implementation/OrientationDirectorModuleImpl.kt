@@ -39,14 +39,16 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       mAutoRotationObserver.enable()
     }
     mLifecycleListener.setOnHostPauseCallback {
-      if (initialized) {
+      if (initialized && shouldEnableOrientationSensorsEventListener) {
         mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      mOrientationSensorsEventListener.disable()
-      mAutoRotationObserver.disable()
+      if (shouldEnableOrientationSensorsEventListener) {
+        mOrientationSensorsEventListener.disable()
+        mAutoRotationObserver.disable()
+      }
     }
 
     initialSupportedInterfaceOrientations =

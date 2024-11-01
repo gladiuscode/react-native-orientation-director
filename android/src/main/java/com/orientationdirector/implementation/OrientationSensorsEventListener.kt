@@ -76,8 +76,4 @@ class OrientationSensorsEventListener(
   fun disable() {
     mSensorManager.unregisterListener(this)
   }
-
-  companion object {
-    private const val TAG = "SensorListener"
-  }
 }
