@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, ScrollView, Text, View } from 'react-native';
 import { homepageStyle } from './styles';
 import RNOrientationDirector, {
   Orientation,
@@ -14,7 +14,7 @@ function Home() {
   };
 
   return (
-    <View style={homepageStyle.container}>
+    <ScrollView>
       <Text>Welcome!</Text>
       <View style={homepageStyle.marginBottom} />
       <Button title="Go to explore" onPress={handleGoToExploreOnPress} />
@@ -112,7 +112,7 @@ function Home() {
           }}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
