@@ -1,5 +1,18 @@
 
 
+# [2.0.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.3.0...v2.0.0) (2024-11-02)
+
+
+### Features
+
+* **android:** add main module and utils tests ([#34](https://github.com/gladiuscode/react-native-orientation-director/issues/34)) ([c0c0137](https://github.com/gladiuscode/react-native-orientation-director/commit/c0c013769c6e61410be214189c84e5ded5116465))
+* **android:** enable and disable sensors based on usage ([#36](https://github.com/gladiuscode/react-native-orientation-director/issues/36)) ([dd7fb9e](https://github.com/gladiuscode/react-native-orientation-director/commit/dd7fb9eb65c12ed1669bd060afaba6922b822c5a))
+* implement missing device orientations on android ([#32](https://github.com/gladiuscode/react-native-orientation-director/issues/32)) ([1c4c41e](https://github.com/gladiuscode/react-native-orientation-director/commit/1c4c41ea9dcfed8be699f8f5645f26f6c34239b3))
+* improve android native structure ([#29](https://github.com/gladiuscode/react-native-orientation-director/issues/29)) ([890a3d3](https://github.com/gladiuscode/react-native-orientation-director/commit/890a3d39499456a0727c670cd638fcc37f2560eb))
+* improve example app with navigation ([#37](https://github.com/gladiuscode/react-native-orientation-director/issues/37)) ([0da11be](https://github.com/gladiuscode/react-native-orientation-director/commit/0da11be16078ff70c00c2abdc2a8678891995fb3))
+* improve ios native structure ([#30](https://github.com/gladiuscode/react-native-orientation-director/issues/30)) ([d3a7bc3](https://github.com/gladiuscode/react-native-orientation-director/commit/d3a7bc33f31ed0b243d9d242771bce39c67ebeb2))
+* upgrade react-native to latest ([#38](https://github.com/gladiuscode/react-native-orientation-director/issues/38)) ([8c23108](https://github.com/gladiuscode/react-native-orientation-director/commit/8c23108bda447cc757544c1c38271f5855458c45))
+
 # [1.3.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.2.3...v1.3.0) (2024-09-18)
 
 
