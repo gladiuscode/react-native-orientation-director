@@ -4,7 +4,8 @@
 
 # react-native-orientation-director
 
-A simple library that allows you to handle orientation changes in your React Native app.
+A React Native library that allows you to listen to orientation changes, lock interface orientation
+to a selected one and get current orientation.
 Written in Kotlin, Swift and Typescript. It supports both the Old and New React Native architecture.
 
 This library takes inspiration from and builds upon the following amazing alternatives:
