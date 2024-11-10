@@ -96,6 +96,16 @@ class RNOrientationDirector {
       autoRotation
     ];
   }
+
+  static isLockableOrientation(
+    orientation: Orientation
+  ): orientation is LockableOrientation {
+    return !(
+      orientation === Orientation.unknown ||
+      orientation === Orientation.faceUp ||
+      orientation === Orientation.faceDown
+    );
+  }
 }
 
 export default RNOrientationDirector;
