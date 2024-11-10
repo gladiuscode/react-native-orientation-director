@@ -55,19 +55,6 @@ class Utils {
         }
     }
 
-    public func convertToOrientationFrom(mask: UIInterfaceOrientationMask) -> Orientation {
-        switch(mask) {
-        case .portraitUpsideDown:
-            return .PORTRAIT_UPSIDE_DOWN
-        case .landscapeRight:
-            return .LANDSCAPE_RIGHT
-        case .landscapeLeft:
-            return .LANDSCAPE_LEFT
-        default:
-            return .PORTRAIT
-        }
-    }
-
     /**
      Note: .portraitUpsideDown only works for devices with home button and iPads
      https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
@@ -82,25 +69,6 @@ class Utils {
             return .portraitUpsideDown
         case .LANDSCAPE_LEFT:
             return .landscapeLeft
-        default:
-            return .all
-        }
-    }
-
-    /**
-     Note: .portraitUpsideDown only works for devices with home button and iPads
-     https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
-     */
-    public func convertToMaskFrom(deviceOrientation: Orientation) -> UIInterfaceOrientationMask {
-        switch(deviceOrientation) {
-        case .PORTRAIT:
-            return .portrait
-        case .LANDSCAPE_RIGHT:
-            return .landscapeLeft
-        case .PORTRAIT_UPSIDE_DOWN:
-            return .portraitUpsideDown
-        case .LANDSCAPE_LEFT:
-            return .landscapeRight
         default:
             return .all
         }
