@@ -99,6 +99,19 @@ In addition, the library exposes the following hooks:
 | [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)                       | Returns the current device orientation and listens to changes           |
 | [useIsInterfaceOrientationLocked](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useIsInterfaceOrientationLocked.hook.ts) | Returns the current interface orientation status and listens to changes |
 
+### Warning
+
+Please be aware that there is a subtle difference between the device orientation
+and the interface orientation.
+
+When you device is either in landscape left or right orientation, your interface
+is inverted, this is why lockTo method needs a second parameter to discriminate
+which type of orientation your are supplying.
+
+To match developers expectations, if you supply a device orientation and
+OrientationType.device, lockTo switches landscapeRight with left and vice versa
+to property align the interface orientation.
+
 Head over to the [example project](example) to see how to use the library.
 
 ### Android
