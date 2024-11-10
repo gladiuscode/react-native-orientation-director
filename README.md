@@ -89,6 +89,7 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 | setHumanReadableOrientations             | Sets the mapping needed to convert orientation values to human readable strings   |
 | setHumanReadableAutoRotations            | Sets the mapping needed to convert auto rotation values to human readable strings |
 | resetSupportedInterfaceOrientations      | Resets the supported interface orientations to settings                           |
+| isLockableOrientation                    | Determines if orientation is lockable                                             |
 
 In addition, the library exposes the following hooks:
 
