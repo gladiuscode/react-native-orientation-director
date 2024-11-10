@@ -1,5 +1,18 @@
 
 
+# [2.1.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.0.0...v2.1.0) (2024-11-10)
+
+
+### Refactor
+
+* **iOS:** remove manual interface orientation computation ([#41](https://github.com/gladiuscode/react-native-orientation-director/issues/41)) ([1067167](https://github.com/gladiuscode/react-native-orientation-director/commit/10671678623205241cd1e2d920ffbf1ec30588f8))
+
+
+### Features
+
+* **js:** add is lockable orientation method ([#42](https://github.com/gladiuscode/react-native-orientation-director/issues/42)) ([065f01b](https://github.com/gladiuscode/react-native-orientation-director/commit/065f01b0bbe897eb297c4120eeb3c6cd81a8ff44))
+* **js:** extend lockTo method with additional parameter ([#40](https://github.com/gladiuscode/react-native-orientation-director/issues/40)) ([6e245cf](https://github.com/gladiuscode/react-native-orientation-director/commit/6e245cf5b6d149f51e1e7c8456b462914a38ccc1))
+
 # [2.0.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v1.3.0...v2.0.0) (2024-11-02)
 
 

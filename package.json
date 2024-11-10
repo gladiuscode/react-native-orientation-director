@@ -1,6 +1,6 @@
 {
   "name": "react-native-orientation-director",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Modern React Native library that allows you to access orientation",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
