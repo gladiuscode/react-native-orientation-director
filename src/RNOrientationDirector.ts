@@ -97,6 +97,21 @@ class RNOrientationDirector {
     ];
   }
 
+  /**
+   * This method checks if the given orientation is lockable
+   * by interface perspective.
+   *
+   * All orientations are lockable except for unknown, faceUp
+   * and faceDown.
+   *
+   * This method is useful when you want to lock the interface
+   * orientation from a given device orientation.
+   *
+   * Example: with listenForDeviceOrientationChanges
+   *
+   * @param orientation any orientation enum value
+   * @returns true if the orientation is lockable
+   */
   static isLockableOrientation(
     orientation: Orientation
   ): orientation is LockableOrientation {
