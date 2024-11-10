@@ -101,6 +101,26 @@ In addition, the library exposes the following hooks:
 
 Head over to the [example project](example) to see how to use the library.
 
+### Warning
+
+Please be aware that there is a subtle difference between the device orientation
+and the interface orientation.
+
+When you device is either in landscape left or right orientation, your interface
+is inverted, this is why lockTo method needs a second parameter to discriminate
+which type of orientation your are supplying.
+
+To match developers expectations, if you supply a device orientation and
+OrientationType.device, lockTo switches landscapeRight with left and vice versa
+to property align the interface orientation.
+
+This behavior comes from the native API, you can find more information in their
+documentation:
+
+1. [iOS - UIInterfaceOrientation](https://developer.apple.com/documentation/uikit/uiinterfaceorientation)
+2. [iOS - UIDeviceOrientation](https://developer.apple.com/documentation/uikit/uideviceorientation)
+3. [Android - getRotation](<https://developer.android.com/reference/android/view/Display#getRotation()>)
+
 ### Android
 
 Since on Android we need to deal with sensors and their usage, it is worth noting that the device orientation computation works
