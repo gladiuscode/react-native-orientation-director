@@ -3,6 +3,7 @@ import Module from './module';
 import type { HumanReadableOrientationsResource } from './types/HumanReadableOrientationsResource.type';
 import { Orientation } from './types/Orientation.enum';
 import { AutoRotation } from './types/AutoRotation.enum';
+import { OrientationType } from './types/OrientationType.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
 import type { LockedEvent } from './types/LockedEvent.interface';
@@ -44,7 +45,43 @@ class RNOrientationDirector {
     return Module.getDeviceOrientation();
   }
 
-  static lockTo(orientation: LockableOrientation) {
+  /**
+   * Please be aware that device orientation is not the
+   * same as interface orientation.
+   *
+   * Specifically, landscape left and right are inverted:
+   *
+   * - landscapeLeft in device orientation is landscapeRight in interface orientation
+   * - landscapeRight in device orientation is landscapeLeft in interface orientation
+   *
+   * This is a behavior of the native API.
+   *
+   * When you pass an orientation value, do provide orientationType
+   * as well if the orientation value is not an interface orientation.
+   * Example: when using listenForDeviceOrientationChanges.
+   *
+   * @param orientation any lockable orientation enum value
+   * @param orientationType any orientation type enum value
+   */
+  static lockTo(
+    orientation: LockableOrientation,
+    orientationType: OrientationType = OrientationType.interface
+  ) {
+    if (orientationType === OrientationType.interface) {
+      Module.lockTo(orientation);
+      return;
+    }
+
+    if (orientation === Orientation.landscapeLeft) {
+      Module.lockTo(Orientation.landscapeRight);
+      return;
+    }
+
+    if (orientation === Orientation.landscapeRight) {
+      Module.lockTo(Orientation.landscapeLeft);
+      return;
+    }
+
     Module.lockTo(orientation);
   }
 
