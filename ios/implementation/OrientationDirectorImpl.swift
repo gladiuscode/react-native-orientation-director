@@ -104,10 +104,8 @@ import UIKit
         return supportedInterfaceOrientations.reduce(UIInterfaceOrientationMask()) { $0.union($1) }
     }
 
-    // TODO: FIX BECAUSE IT ALWAYS RETURNS PORTRAIT AND ITS BROKEN
     private func initInterfaceOrientation() -> Orientation {
-        let interfaceOrientation = utils.getInterfaceOrientation()
-        return utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
+        return self.getOrientationFromInterface()
     }
 
     private func initDeviceOrientation() -> Orientation {
@@ -163,18 +161,8 @@ import UIKit
         if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
             return
         }
-
-        let newInterfaceOrientationMask = utils.convertToMaskFrom(deviceOrientation: deviceOrientation)
-        let isSupported = self.supportedInterfaceOrientations.contains(newInterfaceOrientationMask)
-        if (!isSupported) {
-            return
-        }
-
-        let newInterfaceOrientation = utils.convertToOrientationFrom(mask: newInterfaceOrientationMask)
-        if (newInterfaceOrientation == lastInterfaceOrientation) {
-            return
-        }
-
+        
+        let newInterfaceOrientation = self.getOrientationFromInterface()
         updateLastInterfaceOrientationTo(value: newInterfaceOrientation)
     }
 
@@ -186,5 +174,10 @@ import UIKit
     private func updateLastInterfaceOrientationTo(value: Orientation) {
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
         lastInterfaceOrientation = value
+    }
+    
+    private func getOrientationFromInterface() -> Orientation {
+        let interfaceOrientation = utils.getInterfaceOrientation()
+        return utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
     }
 }
