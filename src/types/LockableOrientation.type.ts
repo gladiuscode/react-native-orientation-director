@@ -4,4 +4,5 @@ export type LockableOrientation =
   | Orientation.portrait
   | Orientation.portraitUpsideDown
   | Orientation.landscapeLeft
-  | Orientation.landscapeRight;
+  | Orientation.landscapeRight
+  | Orientation.landscape;

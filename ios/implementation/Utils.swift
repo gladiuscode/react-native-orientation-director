@@ -50,6 +50,8 @@ class Utils {
             return .PORTRAIT_UPSIDE_DOWN
         case 4:
             return .LANDSCAPE_LEFT
+        case 5:
+            return .LANDSCAPE
         default:
             return .PORTRAIT
         }
@@ -69,6 +71,8 @@ class Utils {
             return .portraitUpsideDown
         case .LANDSCAPE_LEFT:
             return .landscapeLeft
+        case .LANDSCAPE:
+          return .landscape
         default:
             return .all
         }

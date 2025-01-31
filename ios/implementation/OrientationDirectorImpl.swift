@@ -50,7 +50,7 @@ import UIKit
     @objc public func getDeviceOrientation() -> Orientation {
         return lastDeviceOrientation
     }
-    
+
     @objc public func getIsLocked() -> Bool {
         return isLocked
     }
@@ -61,7 +61,21 @@ import UIKit
         self.requestInterfaceUpdateTo(mask: mask)
 
         updateIsLockedTo(value: true)
-        updateLastInterfaceOrientationTo(value: jsOrientation)
+
+        let orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE;
+        if (orientationCanBeUpdatedDirectly) {
+            updateLastInterfaceOrientationTo(value: jsOrientation)
+            return
+        }
+
+        let lastInterfaceOrientationIsAlreadyInLandscape = lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
+        if (lastInterfaceOrientationIsAlreadyInLandscape) {
+            updateLastInterfaceOrientationTo(value: lastInterfaceOrientation)
+            return;
+        }
+
+        let systemDefaultLandscapeOrientation = Orientation.LANDSCAPE_RIGHT
+        updateLastInterfaceOrientationTo(value: systemDefaultLandscapeOrientation)
     }
 
     @objc public func unlock() {
@@ -154,14 +168,15 @@ import UIKit
     }
 
     private func adaptInterfaceTo(deviceOrientation: Orientation) {
-        if (isLocked) {
+        let supportsLandscape = self.supportedInterfaceOrientations.contains(.landscape)
+        if (isLocked && !supportsLandscape) {
             return
         }
 
         if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
             return
         }
-        
+
         let newInterfaceOrientation = self.getOrientationFromInterface()
         updateLastInterfaceOrientationTo(value: newInterfaceOrientation)
     }
@@ -175,7 +190,7 @@ import UIKit
         self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
         lastInterfaceOrientation = value
     }
-    
+
     private func getOrientationFromInterface() -> Orientation {
         let interfaceOrientation = utils.getInterfaceOrientation()
         return utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
