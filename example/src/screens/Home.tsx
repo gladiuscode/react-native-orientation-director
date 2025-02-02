@@ -99,6 +99,13 @@ function Home() {
         />
         <View style={homepageStyle.marginBottom} />
         <Button
+          title={'Lock To Landscape'}
+          onPress={() => {
+            RNOrientationDirector.lockTo(Orientation.landscape);
+          }}
+        />
+        <View style={homepageStyle.marginBottom} />
+        <Button
           title={'Unlock'}
           onPress={() => {
             RNOrientationDirector.unlock();
