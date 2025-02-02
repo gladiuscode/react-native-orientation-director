@@ -82,7 +82,22 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     context.currentActivity?.requestedOrientation = screenOrientation
 
     updateIsLockedTo(true)
-    updateLastInterfaceOrientationTo(jsOrientation)
+
+    val orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE;
+    if (orientationCanBeUpdatedDirectly) {
+      updateLastInterfaceOrientationTo(jsOrientation)
+      return
+    }
+
+    val lastInterfaceOrientationIsAlreadyInLandscape = lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT
+      || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
+      if (lastInterfaceOrientationIsAlreadyInLandscape) {
+        updateLastInterfaceOrientationTo(lastInterfaceOrientation)
+        return;
+      }
+
+    val systemDefaultLandscapeOrientation = Orientation.LANDSCAPE_RIGHT
+      updateLastInterfaceOrientationTo(systemDefaultLandscapeOrientation)
   }
 
   fun unlock() {
@@ -150,7 +165,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    if (isLocked) {
+    val supportsLandscape = mUtils.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+    if (isLocked && !supportsLandscape) {
       return
     }
 
@@ -165,6 +181,20 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     if (newInterfaceOrientation == Orientation.UNKNOWN) {
       val rotation = mUtils.getInterfaceRotation()
       newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
+    }
+
+    /**
+     * This differs from iOS because we can't read the actual orientation of the interface,
+     * we read its rotation.
+     * This means that even if the requestedOrientation of the currentActivity is locked to landscape
+     * it reads every possible orientation and this is not what we want.
+     * Instead, we check that its value is either LANDSCAPE_RIGHT or LANDSCAPE_LEFT, otherwise we
+     * exit
+     */
+    val newInterfaceOrientationIsNotLandscape = newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT
+      && newInterfaceOrientation != Orientation.LANDSCAPE_LEFT;
+    if (supportsLandscape && newInterfaceOrientationIsNotLandscape) {
+      return
     }
 
     if (newInterfaceOrientation == lastInterfaceOrientation) {

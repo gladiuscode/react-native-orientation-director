@@ -53,6 +53,7 @@ class Utils(private val context: ReactContext) {
       Orientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
       Orientation.PORTRAIT_UPSIDE_DOWN -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
       Orientation.LANDSCAPE_LEFT -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+      Orientation.LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
       else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
   }
@@ -62,6 +63,7 @@ class Utils(private val context: ReactContext) {
       2 -> Orientation.LANDSCAPE_RIGHT
       3 -> Orientation.PORTRAIT_UPSIDE_DOWN
       4 -> Orientation.LANDSCAPE_LEFT
+      5 -> Orientation.LANDSCAPE
       else -> Orientation.PORTRAIT
     }
   }
@@ -83,5 +85,13 @@ class Utils(private val context: ReactContext) {
       Orientation.LANDSCAPE_LEFT -> Orientation.LANDSCAPE_RIGHT
       else -> Orientation.UNKNOWN
     }
+  }
+
+  fun getRequestedOrientation(): Int {
+    if (context.currentActivity?.requestedOrientation == null) {
+      return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+    }
+
+    return context.currentActivity!!.requestedOrientation;
   }
 }

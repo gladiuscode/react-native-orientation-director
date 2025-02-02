@@ -9,6 +9,7 @@ enum class Orientation {
   LANDSCAPE_RIGHT,
   PORTRAIT_UPSIDE_DOWN,
   LANDSCAPE_LEFT,
+  LANDSCAPE,
   FACE_UP,
   FACE_DOWN,
 }
