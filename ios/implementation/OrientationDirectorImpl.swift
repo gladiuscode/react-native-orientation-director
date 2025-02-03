@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-@objc public class OrientationDirectorImpl : NSObject {
+@objc public class OrientationDirectorImpl: NSObject {
     private static let TAG = "OrientationDirectorImpl"
 
     private let bundleManager: BundleManager = BundleManager()
@@ -62,16 +62,16 @@ import UIKit
 
         updateIsLockedTo(value: true)
 
-        let orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE;
-        if (orientationCanBeUpdatedDirectly) {
+        let orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE
+        if orientationCanBeUpdatedDirectly {
             updateLastInterfaceOrientationTo(value: jsOrientation)
             return
         }
 
         let lastInterfaceOrientationIsAlreadyInLandscape = lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
-        if (lastInterfaceOrientationIsAlreadyInLandscape) {
+        if lastInterfaceOrientationIsAlreadyInLandscape {
             updateLastInterfaceOrientationTo(value: lastInterfaceOrientation)
-            return;
+            return
         }
 
         let systemDefaultLandscapeOrientation = Orientation.LANDSCAPE_RIGHT
@@ -92,20 +92,20 @@ import UIKit
 
         let lastMask = utils.convertToMaskFrom(jsOrientation: lastInterfaceOrientation)
         let isLastMaskSupported = self.supportedInterfaceOrientations.contains(lastMask)
-        if (isLastMaskSupported) {
+        if isLastMaskSupported {
             return
         }
 
         let supportedInterfaceOrientations = bundleManager.getSupportedInterfaceOrientations()
-        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.portrait)) {
+        if supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.portrait) {
             self.updateLastInterfaceOrientationTo(value: Orientation.PORTRAIT)
             return
         }
-        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeRight)) {
+        if supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeRight) {
             self.updateLastInterfaceOrientationTo(value: Orientation.LANDSCAPE_RIGHT)
             return
         }
-        if (supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeLeft)) {
+        if supportedInterfaceOrientations.contains(UIInterfaceOrientationMask.landscapeLeft) {
             self.updateLastInterfaceOrientationTo(value: Orientation.LANDSCAPE_LEFT)
             return
         }
@@ -128,7 +128,7 @@ import UIKit
 
     private func initIsLocked() -> Bool {
         let supportedOrientations = bundleManager.getSupportedInterfaceOrientations()
-        if (supportedOrientations.count > 1) {
+        if supportedOrientations.count > 1 {
             return false
         }
 
@@ -169,11 +169,11 @@ import UIKit
 
     private func adaptInterfaceTo(deviceOrientation: Orientation) {
         let supportsLandscape = self.supportedInterfaceOrientations.contains(.landscape)
-        if (isLocked && !supportsLandscape) {
+        if isLocked && !supportsLandscape {
             return
         }
 
-        if (deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN) {
+        if deviceOrientation == Orientation.FACE_UP || deviceOrientation == Orientation.FACE_DOWN {
             return
         }
 

@@ -7,15 +7,15 @@
 
 import Foundation
 
-@objc public class EventManager : NSObject {
-    @objc public weak var delegate: OrientationEventEmitterDelegate? = nil
+@objc public class EventManager: NSObject {
+    @objc public weak var delegate: OrientationEventEmitterDelegate?
 
     func sendDeviceOrientationDidChange(orientationValue: Int) {
         guard let delegate = delegate else {
             return
         }
 
-        if (!delegate.isJsListening) {
+        if !delegate.isJsListening {
             return
         }
 
@@ -28,20 +28,20 @@ import Foundation
             return
         }
 
-        if (!delegate.isJsListening) {
+        if !delegate.isJsListening {
             return
         }
 
         let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
         delegate.sendEvent(name: Event.InterfaceOrientationDidChange.rawValue, params: params as NSDictionary)
     }
-    
+
     func sendLockDidChange(value: Bool) {
         guard let delegate = delegate else {
             return
         }
 
-        if (!delegate.isJsListening) {
+        if !delegate.isJsListening {
             return
         }
 
@@ -65,6 +65,6 @@ public extension EventManager {
   }
 
   @objc static var supportedEvents: [String] {
-    return Event.allCases.map(\.rawValue);
+    return Event.allCases.map(\.rawValue)
   }
 }
