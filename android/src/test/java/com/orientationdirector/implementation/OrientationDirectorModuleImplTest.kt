@@ -149,8 +149,8 @@ class OrientationDirectorModuleImplTest {
     mModule.lockTo(5)
 
     assertEquals(
-      "When the interface is locked to landscape, getInterfaceOrientation should return landscape",
-      Orientation.LANDSCAPE,
+      "When the interface is locked to landscape, getInterfaceOrientation should return landscape right",
+      Orientation.LANDSCAPE_RIGHT,
       mModule.getInterfaceOrientation()
     )
   }
