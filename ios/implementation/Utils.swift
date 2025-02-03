@@ -13,7 +13,7 @@ class Utils {
 
     // TODO: Add .unknown
     public func convertToOrientationFrom(uiInterfaceOrientation: UIInterfaceOrientation) -> Orientation {
-        switch(uiInterfaceOrientation) {
+        switch uiInterfaceOrientation {
         case .landscapeRight:
             return .LANDSCAPE_RIGHT
         case .portraitUpsideDown:
@@ -26,7 +26,7 @@ class Utils {
     }
 
     public func convertToOrientationFrom(deviceOrientation: UIDeviceOrientation) -> Orientation {
-        switch(deviceOrientation) {
+        switch deviceOrientation {
         case .landscapeRight:
             return .LANDSCAPE_RIGHT
         case .portraitUpsideDown:
@@ -43,7 +43,7 @@ class Utils {
     }
 
     public func convertToOrientationFrom(jsValue: NSNumber) -> Orientation {
-        switch(jsValue) {
+        switch jsValue {
         case 2:
             return .LANDSCAPE_RIGHT
         case 3:
@@ -62,7 +62,7 @@ class Utils {
      https://developer.apple.com/documentation/uikit/uiviewcontroller/1621435-supportedinterfaceorientations
      */
     public func convertToMaskFrom(jsOrientation: Orientation) -> UIInterfaceOrientationMask {
-        switch(jsOrientation) {
+        switch jsOrientation {
         case .PORTRAIT:
             return .portrait
         case .LANDSCAPE_RIGHT:
@@ -83,7 +83,7 @@ class Utils {
             return UIInterfaceOrientation.unknown
         }
 
-        return windowScene.interfaceOrientation;
+        return windowScene.interfaceOrientation
     }
 
     /* This function is needed to get the current available window.

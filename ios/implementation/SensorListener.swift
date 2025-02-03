@@ -8,7 +8,7 @@
 import Foundation
 
 public class SensorListener {
-    private var onOrientationDidChangeCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)? = nil
+    private var onOrientationDidChangeCallback: ((_ deviceOrientation: UIDeviceOrientation) -> Void)?
 
     init() {
         NotificationCenter.default.addObserver(
