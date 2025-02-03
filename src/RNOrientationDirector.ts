@@ -18,6 +18,7 @@ class RNOrientationDirector {
       [Orientation.portraitUpsideDown]: 'Portrait Upside Down',
       [Orientation.landscapeLeft]: 'Landscape Left',
       [Orientation.landscapeRight]: 'Landscape Right',
+      [Orientation.landscape]: 'Landscape',
       [Orientation.faceUp]: 'Face Up',
       [Orientation.faceDown]: 'Face Down',
     };

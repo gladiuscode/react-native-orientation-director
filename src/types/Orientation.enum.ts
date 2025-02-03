@@ -4,6 +4,7 @@ export enum Orientation {
   landscapeRight = 2,
   portraitUpsideDown = 3,
   landscapeLeft = 4,
-  faceUp = 5,
-  faceDown = 6,
+  landscape = 5,
+  faceUp = 6,
+  faceDown = 7,
 }
