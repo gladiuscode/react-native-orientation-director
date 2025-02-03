@@ -145,6 +145,17 @@ class OrientationDirectorModuleImplTest {
   }
 
   @Test
+  fun assert_interface_orientation_matches_locked_to_landscape() {
+    mModule.lockTo(5)
+
+    assertEquals(
+      "When the interface is locked to landscape, getInterfaceOrientation should return landscape",
+      Orientation.LANDSCAPE,
+      mModule.getInterfaceOrientation()
+    )
+  }
+
+  @Test
   fun assert_is_locked_reset_when_unlock_is_executed() {
     mModule.lockTo(1)
     mModule.unlock()
