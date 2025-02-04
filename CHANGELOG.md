@@ -1,5 +1,17 @@
 
 
+# [2.2.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.1.0...v2.2.0) (2025-02-04)
+
+
+### Bug Fixes
+
+* **android:** failing test ([#45](https://github.com/gladiuscode/react-native-orientation-director/issues/45)) ([65e9925](https://github.com/gladiuscode/react-native-orientation-director/commit/65e992526460691edfa106b0984fda9d0382d15d))
+
+
+### Features
+
+* enhance lockTo to support both landscape orientations ([#44](https://github.com/gladiuscode/react-native-orientation-director/issues/44)) ([fe6e747](https://github.com/gladiuscode/react-native-orientation-director/commit/fe6e7478cfa87215ded478d3f16359e7be96d74a))
+
 # [2.1.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.0.0...v2.1.0) (2024-11-10)
 
 
