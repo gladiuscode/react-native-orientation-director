@@ -1,11 +1,6 @@
-name: CI
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+name: PR Validation
+
+on: workflow_dispatch
 
 jobs:
   lint:
