@@ -53,8 +53,12 @@ npx expo install react-native-orientation-director
 
 ## Setup
 
-To properly handle interface orientation changes in iOS, you need to update your AppDelegate.mm file.
-In your AppDelegate.mm file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
+To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Since React Native
+0.77, the AppDelegate has been migrated to Swift, so see the instructions below for both Swift and Objective-C.
+
+### Objective-C
+
+In your AppDelegate.h file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
 
 ```objc
 #import <OrientationDirector.h>
@@ -62,6 +66,23 @@ In your AppDelegate.mm file, import "OrientationDirector.h" and implement suppor
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
   return [OrientationDirector getSupportedInterfaceOrientationsForWindow];
+}
+```
+
+### Swift
+
+You need to create a [bridging header](https://developer.apple.com/documentation/swift/importing-objective-c-into-swift#Import-Code-Within-an-App-Target)
+to import the library, as shown below:
+
+```
+#import "OrientationDirector.h"
+```
+
+Then, in your AppDelegate.swift file, implement the supportedInterfaceOrientationsFor method as follows:
+
+```swift
+override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
 }
 ```
 
@@ -74,7 +95,7 @@ There is no need to do anything in Android, it works out of the box.
 This library exports a class called: [RNOrientationDirector](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/RNOrientationDirector.ts) that exposes the following methods:
 
 | Method                                   | Description                                                                       |
-| ---------------------------------------- | --------------------------------------------------------------------------------- |
+|------------------------------------------|-----------------------------------------------------------------------------------|
 | getInterfaceOrientation                  | Returns the last interface orientation                                            |
 | getDeviceOrientation                     | Returns the last device orientation                                               |
 | lockTo                                   | Locks the interface to a specific orientation                                     |
@@ -94,7 +115,7 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 In addition, the library exposes the following hooks:
 
 | Hook                                                                                                                                                            | Description                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
 | [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts)                 | Returns the current interface orientation and listens to changes        |
 | [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)                       | Returns the current device orientation and listens to changes           |
 | [useIsInterfaceOrientationLocked](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useIsInterfaceOrientationLocked.hook.ts) | Returns the current interface orientation status and listens to changes |
