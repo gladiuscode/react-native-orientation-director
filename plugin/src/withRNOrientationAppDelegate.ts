@@ -38,7 +38,7 @@ function getCompatibleFileUpdater(
   }
 }
 
-function swiftFileUpdater(originalContents: string): string {
+export function swiftFileUpdater(originalContents: string): string {
   const supportedInterfaceOrientationsForCodeBlock = `override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
   return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
 }\n`;
@@ -56,7 +56,7 @@ function swiftFileUpdater(originalContents: string): string {
   return results.contents;
 }
 
-function objCFileUpdater(originalContents: string): string {
+export function objCFileUpdater(originalContents: string): string {
   const libraryHeaderImportCodeBlock = '#import <OrientationDirector.h>\n';
   const rightBeforeAppDelegateImplementation = /@implementation\s+\w+/g;
 
