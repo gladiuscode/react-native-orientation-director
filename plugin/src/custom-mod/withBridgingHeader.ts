@@ -1,11 +1,11 @@
 import {
-  ConfigPlugin,
+  type ConfigPlugin,
   IOSConfig,
-  Mod,
+  type Mod,
   withMod,
   BaseMods,
-  ExportedConfig,
-} from 'expo/config-plugins';
+  type ExportedConfig,
+} from '@expo/config-plugins';
 import { globSync } from 'glob';
 import * as fs from 'node:fs';
 
