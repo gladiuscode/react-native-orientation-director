@@ -16,14 +16,14 @@ async function readAppDelegateFileAndUpdateContents(
   const { modResults: appDelegateFile } = config;
 
   const worker = getCompatibleFileUpdater(appDelegateFile.language);
-  appDelegateFile.contents = worker(appDelegateFile);
+  appDelegateFile.contents = worker(appDelegateFile.contents);
 
   return config;
 }
 
 function getCompatibleFileUpdater(
   language: AppDelegateProjectFile['language']
-): (file: AppDelegateProjectFile) => string {
+): (originalContents: string) => string {
   switch (language) {
     case 'objc':
     case 'objcpp': {
@@ -38,7 +38,7 @@ function getCompatibleFileUpdater(
   }
 }
 
-function swiftFileUpdater(file: AppDelegateProjectFile): string {
+function swiftFileUpdater(originalContents: string): string {
   const supportedInterfaceOrientationsForCodeBlock = `override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
   return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
 }\n`;
@@ -46,7 +46,7 @@ function swiftFileUpdater(file: AppDelegateProjectFile): string {
 
   const results = mergeContents({
     tag: '@react-native-orientation-director/supportedInterfaceOrientationsFor-implementation',
-    src: file.contents,
+    src: originalContents,
     newSrc: supportedInterfaceOrientationsForCodeBlock,
     anchor: rightBeforeLastClosingBrace,
     offset: 0,
@@ -56,13 +56,13 @@ function swiftFileUpdater(file: AppDelegateProjectFile): string {
   return results.contents;
 }
 
-function objCFileUpdater(file: AppDelegateProjectFile): string {
+function objCFileUpdater(originalContents: string): string {
   const libraryHeaderImportCodeBlock = '#import <OrientationDirector.h>\n';
   const rightBeforeAppDelegateImplementation = /@implementation\s+\w+/g;
 
   const headerImportMergeResults = mergeContents({
     tag: '@react-native-orientation-director/library-header-import',
-    src: file.contents,
+    src: originalContents,
     newSrc: libraryHeaderImportCodeBlock,
     anchor: rightBeforeAppDelegateImplementation,
     offset: 0,
