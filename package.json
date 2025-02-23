@@ -42,7 +42,13 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "expo:build": "expo-module build",
+    "expo:clean": "expo-module clean",
+    "expo:test": "expo-module test",
+    "expo:prepare": "expo-module prepare",
+    "expo:prepublishOnly": "expo-module prepublishOnly",
+    "expo:expo-module": "expo-module"
   },
   "keywords": [
     "react-native",
@@ -65,7 +71,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
-    "@react-native/eslint-config": "^0.73.1",
+    "@react-native/eslint-config": "0.77.0",
     "@release-it/conventional-changelog": "^9.0.2",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.44",
