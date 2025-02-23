@@ -91,7 +91,9 @@
     "typescript": "^5.2.2"
   },
   "resolutions": {
-    "@types/react": "^18.2.44"
+    "@types/react": "^18.2.44",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1"
   },
   "peerDependencies": {
     "react": "*",
