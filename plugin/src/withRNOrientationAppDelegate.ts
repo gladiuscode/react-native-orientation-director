@@ -42,7 +42,7 @@ export function swiftFileUpdater(originalContents: string): string {
   const supportedInterfaceOrientationsForCodeBlock = `override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
   return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
 }\n`;
-  const rightBeforeLastClosingBrace = /\}[^}]*$/g;
+  const rightBeforeLastClosingBrace = /}[^}]*$/g;
 
   const results = mergeContents({
     tag: '@react-native-orientation-director/supportedInterfaceOrientationsFor-implementation',
