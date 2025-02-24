@@ -20,13 +20,17 @@ async function readBridgingHeaderFileAndUpdateContents(
 
   const { modResults: bridgingHeaderFile } = config;
 
-  const libraryHeaderImport = '#import "OrientationDirector.h"';
-
-  bridgingHeaderFile.contents = bridgingHeaderFile.contents.concat(
-    `\n${libraryHeaderImport}`
+  bridgingHeaderFile.contents = bridgingHeaderUpdater(
+    bridgingHeaderFile.contents
   );
 
   return config;
+}
+
+export function bridgingHeaderUpdater(originalContents: string) {
+  const libraryHeaderImport = '#import "OrientationDirector.h"';
+
+  return originalContents.concat(`\n${libraryHeaderImport}`);
 }
 
 function isObjCTemplate(projectRoot: string) {
