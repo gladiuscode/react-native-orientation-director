@@ -37,18 +37,13 @@
   ],
   "scripts": {
     "example": "yarn workspace react-native-orientation-director-example",
+    "expo-plugin": "yarn workspace react-native-orientation-director-expo-plugin",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "release": "release-it",
-    "expo:build": "expo-module build",
-    "expo:clean": "expo-module clean",
-    "expo:test": "expo-module test",
-    "expo:prepare": "expo-module prepare",
-    "expo:prepublishOnly": "expo-module prepublishOnly",
-    "expo:expo-module": "expo-module"
+    "release": "release-it"
   },
   "keywords": [
     "react-native",
