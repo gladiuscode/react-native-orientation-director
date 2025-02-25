@@ -1,11 +1,23 @@
 pre-commit:
   parallel: true
   commands:
-    lint:
-      glob: "*.{js,ts,jsx,tsx}"
+    lint-src:
+      glob: "src/*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
-    types:
-      glob: "*.{js,ts, jsx, tsx}"
+    lint-plugin:
+      glob: "plugin/src/*.{ts}"
+      run: npx eslint {staged_files}
+    lint-example:
+      glob: "example/src/*.{ts}"
+      run: npx eslint {staged_files}
+    types-src:
+      glob: "src/*.{js,ts,jsx,tsx}"
+      run: npx tsc
+    types-plugin:
+      glob: "plugin/src/*.{js,ts,jsx,tsx}"
+      run: npx tsc
+    types-example:
+      glob: "example/src/*.{js,ts,jsx,tsx}"
       run: npx tsc
 commit-msg:
   parallel: true
