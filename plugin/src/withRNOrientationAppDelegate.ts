@@ -59,7 +59,7 @@ export function swiftFileUpdater(originalContents: string): string {
 }
 
 export function objCFileUpdater(originalContents: string): string {
-  const libraryHeaderImportCodeBlock = '#import <OrientationDirector.h>\n';
+  const libraryHeaderImportCodeBlock = '#import "OrientationDirector.h"\n';
   const rightBeforeAppDelegateImplementation = /@implementation\s+\w+/g;
 
   const headerImportMergeResults = mergeContents({
