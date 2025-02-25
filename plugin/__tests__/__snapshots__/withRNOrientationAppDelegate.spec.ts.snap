@@ -6,8 +6,8 @@ exports[`withRNOrientationAppDelegate updates the AppDelegate.mm with both heade
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
 
-// React Native Orientation Director @generated begin @react-native-orientation-director/library-header-import - expo prebuild (DO NOT MODIFY) sync-3f4450a97810773215ad74540a1c9577f90e9e8d
-#import <OrientationDirector.h>
+// React Native Orientation Director @generated begin @react-native-orientation-director/library-header-import - expo prebuild (DO NOT MODIFY) sync-af1be02bd9ab897604a4cdcc4ca982116e706e09
+#import "OrientationDirector.h"
 
 // React Native Orientation Director @generated end @react-native-orientation-director/library-header-import
 @implementation AppDelegate
