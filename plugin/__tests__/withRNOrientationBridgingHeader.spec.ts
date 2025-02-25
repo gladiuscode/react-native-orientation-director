@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+
 import { bridgingHeaderUpdater } from '../src/withRNOrientationBridgingHeader';
 
 describe('withRNOrientationBridgingHeader', function () {

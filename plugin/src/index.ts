@@ -1,4 +1,5 @@
 import { type ConfigPlugin, withPlugins } from '@expo/config-plugins';
+
 import { withAppBridgingHeaderMod } from './custom-mod/withBridgingHeader';
 import { withRNOrientationAppDelegate } from './withRNOrientationAppDelegate';
 import { withRNOrientationBridgingHeader } from './withRNOrientationBridgingHeader';

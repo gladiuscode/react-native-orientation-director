@@ -3,8 +3,9 @@ import {
   type ExportedConfigWithProps,
   IOSConfig,
 } from '@expo/config-plugins';
-import { withAppBridgingHeader } from './custom-mod/withBridgingHeader';
 import { type AppDelegateProjectFile } from '@expo/config-plugins/build/ios/Paths';
+
+import { withAppBridgingHeader } from './custom-mod/withBridgingHeader';
 
 export const withRNOrientationBridgingHeader: ConfigPlugin = (config) => {
   return withAppBridgingHeader(config, readBridgingHeaderFileAndUpdateContents);
