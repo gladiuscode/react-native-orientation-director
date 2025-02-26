@@ -1,4 +1,8 @@
-import { type ConfigPlugin, withPlugins } from '@expo/config-plugins';
+import {
+  type ConfigPlugin,
+  createRunOncePlugin,
+  withPlugins,
+} from '@expo/config-plugins';
 
 import { withAppBridgingHeaderMod } from './custom-mod/withBridgingHeader';
 import { withRNOrientationAppDelegate } from './withRNOrientationAppDelegate';
@@ -13,13 +17,8 @@ import { withRNOrientationBridgingHeader } from './withRNOrientationBridgingHead
  * Kudos to them, because this stuff is hard!
  *
  * @param config
- * @param name
  */
-const withRNOrientationDirector: ConfigPlugin<{ name?: string }> = (
-  config,
-  { name = 'react-native-orientation-director' } = {}
-) => {
-  config.name = name;
+const withRNOrientationDirector: ConfigPlugin = (config) => {
   return withPlugins(config, [
     withRNOrientationAppDelegate,
     withRNOrientationBridgingHeader,
@@ -27,4 +26,9 @@ const withRNOrientationDirector: ConfigPlugin<{ name?: string }> = (
   ]);
 };
 
-export default withRNOrientationDirector;
+const pak = require('react-native-orientation-director/package.json');
+export default createRunOncePlugin(
+  withRNOrientationDirector,
+  pak.name,
+  pak.version
+);
