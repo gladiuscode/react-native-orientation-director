@@ -12,7 +12,6 @@
     "expo-module": "expo-module"
   },
   "devDependencies": {
-    "expo": "^52.0.37",
     "expo-module-scripts": "^4.0.4",
     "glob": "^11.0.1"
   },
