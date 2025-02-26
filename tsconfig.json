@@ -11,7 +11,7 @@
     "jsx": "react-jsx",
     "lib": ["ESNext"],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -21,10 +21,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "resolvePackageJsonImports": false,
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
     "verbatimModuleSyntax": true
-  }
+  },
+  "exclude": ["plugin"]
 }

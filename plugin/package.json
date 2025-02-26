@@ -1,0 +1,21 @@
+{
+  "name": "react-native-orientation-director-expo-plugin",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "typecheck": "expo-module typecheck",
+    "lint": "expo-module lint",
+    "prepare": "expo-module prepare",
+    "expo-module": "expo-module"
+  },
+  "devDependencies": {
+    "expo-module-scripts": "^4.0.4",
+    "glob": "^11.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

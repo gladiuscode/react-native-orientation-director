@@ -44,12 +44,25 @@ Don't forget to run pod-install.
 
 ### Expo
 
-This library can be installed only for [Development Builds](https://docs.expo.dev/develop/development-builds/introduction/)
-using the following command:
+You can install the package like any other Expo package, using the following command:
 
 ```sh
 npx expo install react-native-orientation-director
 ```
+
+Then, you need to add the plugin to your app.json file:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      "react-native-orientation-director"
+    ]
+  }
+}
+```
+
+This way, Expo will handle the native setup for you during `prebuild`.
 
 ## Setup
 
