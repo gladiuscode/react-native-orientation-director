@@ -1,5 +1,19 @@
 
 
+# [2.3.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.2.0...v2.3.0) (2025-02-27)
+
+
+### Bug Fixes
+
+* broken lint due to expo deps ([#57](https://github.com/gladiuscode/react-native-orientation-director/issues/57)) ([d150dc9](https://github.com/gladiuscode/react-native-orientation-director/commit/d150dc962fe196012e5a0f50fa917bc35fa09c98))
+
+
+### Features
+
+* support expo cng ([#54](https://github.com/gladiuscode/react-native-orientation-director/issues/54)) ([e586dd8](https://github.com/gladiuscode/react-native-orientation-director/commit/e586dd8db2f0a30a82669b615cb7a72b60b448f4))
+* support react native .77 ([#50](https://github.com/gladiuscode/react-native-orientation-director/issues/50)) ([b7513bd](https://github.com/gladiuscode/react-native-orientation-director/commit/b7513bde9c98cb3ea2648662efd8ccb2572b7b4a))
+* upgrade create-react-native-library to latest ([#51](https://github.com/gladiuscode/react-native-orientation-director/issues/51)) ([03c0dd5](https://github.com/gladiuscode/react-native-orientation-director/commit/03c0dd5b05359e36bbc0beeb8045a3c1343f6ced))
+
 # [2.2.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.1.0...v2.2.0) (2025-02-04)
 
 
