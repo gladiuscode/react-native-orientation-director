@@ -239,7 +239,7 @@ jobs:
           name: build-plugin-artifact
 
       - name: Display current working directory
-        run: ls -R
+        run: ls
 
       - name: Release
         run: |
