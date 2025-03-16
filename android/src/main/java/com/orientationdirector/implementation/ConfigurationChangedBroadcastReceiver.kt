@@ -33,7 +33,7 @@ class ConfigurationChangedBroadcastReceiver internal constructor(private val con
    * flag.
    */
   fun register() {
-    val filter = IntentFilter("${context.packageName}.CONFIGURATION_CHANGED")
+    val filter = IntentFilter("${context.packageName}.$CUSTOM_INTENT_ACTION")
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       context.registerReceiver(this, filter, Context.RECEIVER_NOT_EXPORTED)
@@ -44,5 +44,9 @@ class ConfigurationChangedBroadcastReceiver internal constructor(private val con
 
   fun unregister() {
     context.unregisterReceiver(this)
+  }
+
+  companion object {
+    const val CUSTOM_INTENT_ACTION = "CONFIGURATION_CHANGED"
   }
 }
