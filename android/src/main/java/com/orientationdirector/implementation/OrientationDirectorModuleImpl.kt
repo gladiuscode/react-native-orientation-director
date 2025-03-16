@@ -33,7 +33,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     mAutoRotationObserver.enable()
 
     mBroadcastReceiver.setOnReceiveCallback {
-      // TODO: IMPLEMENT LOGIC TO COMPUTE INTERFACE PROPERLY
+      adaptInterfaceTo(lastDeviceOrientation, false)
     }
 
     context.addLifecycleEventListener(mLifecycleListener)
@@ -169,8 +169,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     }
   }
 
-  private fun adaptInterfaceTo(deviceOrientation: Orientation) {
-    if (!mAutoRotationObserver.getLastAutoRotationStatus()) {
+  private fun adaptInterfaceTo(deviceOrientation: Orientation, checkLastAutoRotationStatus: Boolean = true) {
+    if (checkLastAutoRotationStatus && !mAutoRotationObserver.getLastAutoRotationStatus()) {
       return
     }
 
