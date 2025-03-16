@@ -15,6 +15,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     )
   )
   private var mLifecycleListener = LifecycleListener()
+  private var mBroadcastReceiver = ConfigurationChangedBroadcastReceiver(context)
 
   private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
@@ -31,24 +32,31 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     mAutoRotationObserver.enable()
 
+    mBroadcastReceiver.setOnReceiveCallback {
+      // TODO: IMPLEMENT LOGIC TO COMPUTE INTERFACE PROPERLY
+    }
+
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
       if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.enable()
       }
       mAutoRotationObserver.enable()
+      mBroadcastReceiver.register()
     }
     mLifecycleListener.setOnHostPauseCallback {
       if (initialized && areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
+      mBroadcastReceiver.unregister()
     }
     mLifecycleListener.setOnHostDestroyCallback {
       if (areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.disable()
         mAutoRotationObserver.disable()
       }
+      mBroadcastReceiver.unregister()
     }
 
     initialSupportedInterfaceOrientations =
@@ -89,15 +97,16 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    val lastInterfaceOrientationIsAlreadyInLandscape = lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT
-      || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
-      if (lastInterfaceOrientationIsAlreadyInLandscape) {
-        updateLastInterfaceOrientationTo(lastInterfaceOrientation)
-        return;
-      }
+    val lastInterfaceOrientationIsAlreadyInLandscape =
+      lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT
+        || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
+    if (lastInterfaceOrientationIsAlreadyInLandscape) {
+      updateLastInterfaceOrientationTo(lastInterfaceOrientation)
+      return;
+    }
 
     val systemDefaultLandscapeOrientation = Orientation.LANDSCAPE_RIGHT
-      updateLastInterfaceOrientationTo(systemDefaultLandscapeOrientation)
+    updateLastInterfaceOrientationTo(systemDefaultLandscapeOrientation)
   }
 
   fun unlock() {
@@ -165,7 +174,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    val supportsLandscape = mUtils.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+    val supportsLandscape =
+      mUtils.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
     if (isLocked && !supportsLandscape) {
       return
     }
@@ -191,8 +201,9 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
      * Instead, we check that its value is either LANDSCAPE_RIGHT or LANDSCAPE_LEFT, otherwise we
      * exit
      */
-    val newInterfaceOrientationIsNotLandscape = newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT
-      && newInterfaceOrientation != Orientation.LANDSCAPE_LEFT;
+    val newInterfaceOrientationIsNotLandscape =
+      newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT
+        && newInterfaceOrientation != Orientation.LANDSCAPE_LEFT;
     if (supportsLandscape && newInterfaceOrientationIsNotLandscape) {
       return
     }
