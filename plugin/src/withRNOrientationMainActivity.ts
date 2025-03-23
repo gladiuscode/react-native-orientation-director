@@ -39,7 +39,7 @@ function getCompatibleFileUpdater(
 export function ktFileUpdater(originalContents: string): string {
   const libraryImportCodeBlock =
     'import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver\n';
-  const rightBeforeClassDeclaration = /class MainActivity\s+\w+/g;
+  const rightBeforeClassDeclaration = /class MainActivity/g;
 
   const importMergeResults = mergeContents({
     tag: '@react-native-orientation-director/library-import',
@@ -50,20 +50,21 @@ export function ktFileUpdater(originalContents: string): string {
     comment: '// React Native Orientation Director',
   });
 
-  const onConfigurationChangedCodeBlock = `override fun onConfigurationChanged(newConfig: Configuration) {
-  super.onConfigurationChanged(newConfig)
+  const onConfigurationChangedCodeBlock = `
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
 
-  val orientationDirectorCustomAction =
-    "\${packageName}.\${ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION}"
+    val orientationDirectorCustomAction =
+      packageName + "." + ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION
 
-  val intent =
-    Intent(orientationDirectorCustomAction).apply {
-      putExtra("newConfig", newConfig)
-      setPackage(packageName)
-    }
+    val intent =
+      Intent(orientationDirectorCustomAction).apply {
+        putExtra("newConfig", newConfig)
+        setPackage(packageName)
+      }
 
-  this.sendBroadcast(intent)
-}\n`;
+    this.sendBroadcast(intent)
+  }\n`;
 
   const rightBeforeLastClosingBrace = /super\.onCreate/g;
   const pasteInTheListJustAfterTheClosingBracket = 2;
