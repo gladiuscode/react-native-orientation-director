@@ -64,6 +64,8 @@ Then, you need to add the plugin to your app.json file:
 
 This way, Expo will handle the native setup for you during `prebuild`.
 
+> Note: only SDK 50 and above are supported, the plugin is configured to handle only the kotlin template.
+
 ## Setup
 
 ### Android
