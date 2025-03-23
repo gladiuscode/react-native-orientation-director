@@ -1,5 +1,12 @@
 
 
+## [2.3.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.0...v2.3.1) (2025-03-23)
+
+
+### Bug Fixes
+
+* **android:** interface orientation listener not working with manual rotation ([#59](https://github.com/gladiuscode/react-native-orientation-director/issues/59)) ([9c93d94](https://github.com/gladiuscode/react-native-orientation-director/commit/9c93d949422a361a66d03b266929b02eefbfa6cb))
+
 # [2.3.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.2.0...v2.3.0) (2025-02-27)
 
 
