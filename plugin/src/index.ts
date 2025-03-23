@@ -7,6 +7,7 @@ import {
 import { withAppBridgingHeaderMod } from './custom-mod/withBridgingHeader';
 import { withRNOrientationAppDelegate } from './withRNOrientationAppDelegate';
 import { withRNOrientationBridgingHeader } from './withRNOrientationBridgingHeader';
+import { withRNOrientationMainActivity } from './withRNOrientationMainActivity';
 
 /**
  * So, expo config plugin are awesome and the documentation is well written, but I still needed to look around to see
@@ -22,6 +23,7 @@ const withRNOrientationDirector: ConfigPlugin = (config) => {
   return withPlugins(config, [
     withRNOrientationAppDelegate,
     withRNOrientationBridgingHeader,
+    withRNOrientationMainActivity,
     withAppBridgingHeaderMod,
   ]);
 };

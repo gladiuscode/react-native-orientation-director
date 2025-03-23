@@ -7,7 +7,6 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
-import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
 
 class MainActivity : ReactActivity() {
 
@@ -28,18 +27,4 @@ class MainActivity : ReactActivity() {
     super.onCreate(null)
   }
 
-  override fun onConfigurationChanged(newConfig: Configuration) {
-    super.onConfigurationChanged(newConfig)
-
-    val orientationDirectorCustomAction =
-      "${packageName}.${ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION}"
-
-    val intent =
-      Intent(orientationDirectorCustomAction).apply {
-        putExtra("newConfig", newConfig)
-        setPackage(packageName)
-      }
-
-    this.sendBroadcast(intent)
-  }
 }

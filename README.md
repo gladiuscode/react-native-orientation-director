@@ -64,12 +64,44 @@ Then, you need to add the plugin to your app.json file:
 
 This way, Expo will handle the native setup for you during `prebuild`.
 
+> Note: only SDK 50 and above are supported, the plugin is configured to handle only the kotlin template.
+
 ## Setup
+
+### Android
+
+This library uses a custom broadcast receiver to handle the manual orientation changes: when the user disables the
+autorotation feature and the system prompts the user to rotate the device, the library will listen to the broadcast
+sent by the MainActivity and update the interface orientation accordingly.
+
+To allow the library to listen to the broadcast, you need to override the `onConfigurationChanged` method in your
+MainActivity file, as shown below:
+
+```kotlin
+override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+
+    val orientationDirectorCustomAction =
+      "${packageName}.${ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION}"
+
+    val intent =
+      Intent(orientationDirectorCustomAction).apply {
+        putExtra("newConfig", newConfig)
+        setPackage(packageName)
+      }
+
+    this.sendBroadcast(intent)
+}
+```
+
+Nothing else is required for Android.
+
+### iOS
 
 To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Since React Native
 0.77, the AppDelegate has been migrated to Swift, so see the instructions below for both Swift and Objective-C.
 
-### Objective-C
+#### Objective-C
 
 In your AppDelegate.h file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
 
@@ -82,7 +114,7 @@ In your AppDelegate.h file, import "OrientationDirector.h" and implement support
 }
 ```
 
-### Swift
+#### Swift
 
 You need to create a [bridging header](https://developer.apple.com/documentation/swift/importing-objective-c-into-swift#Import-Code-Within-an-App-Target)
 to import the library, as shown below:
@@ -100,8 +132,6 @@ override func application(_ application: UIApplication, supportedInterfaceOrient
 ```
 
 If you need help, you can check the example project.
-
-There is no need to do anything in Android, it works out of the box.
 
 ## Usage
 
