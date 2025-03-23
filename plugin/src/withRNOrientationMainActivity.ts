@@ -25,8 +25,6 @@ function getCompatibleFileUpdater(
   language: ApplicationProjectFile['language']
 ): (originalContents: string) => string {
   switch (language) {
-    case 'java':
-      return javaFileUpdater;
     case 'kt':
       return ktFileUpdater;
     default:
@@ -79,9 +77,4 @@ export function ktFileUpdater(originalContents: string): string {
   });
 
   return implementationMergeResults.contents;
-}
-
-export function javaFileUpdater(originalContents: string): string {
-  // TODO: Implement java file update
-  return originalContents;
 }

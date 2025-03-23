@@ -15,8 +15,4 @@ describe('withRNOrientationMainActivity', function () {
     const result = ktFileUpdater(mainActivity);
     expect(result).toMatchSnapshot();
   });
-
-  it('updates the MainActivity.java with both the import the method implementation', async function () {
-    // TODO: Implement java test
-  });
 });
