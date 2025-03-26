@@ -50,7 +50,11 @@ You can install the package like any other Expo package, using the following com
 npx expo install react-native-orientation-director
 ```
 
-Then, you need to add the plugin to your app.json file:
+## Setup
+
+### Expo
+
+Simply add the library plugin to your `app.json` file:
 
 ```json
 {
@@ -66,9 +70,9 @@ This way, Expo will handle the native setup for you during `prebuild`.
 
 > Note: only SDK 50 and above are supported, the plugin is configured to handle only the kotlin template.
 
-## Setup
+### Bare
 
-### Android
+#### Android
 
 This library uses a custom broadcast receiver to handle the manual orientation changes: when the user disables the
 autorotation feature and the system prompts the user to rotate the device, the library will listen to the broadcast
@@ -96,12 +100,12 @@ override fun onConfigurationChanged(newConfig: Configuration) {
 
 Nothing else is required for Android.
 
-### iOS
+#### iOS
 
 To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Since React Native
 0.77, the AppDelegate has been migrated to Swift, so see the instructions below for both Swift and Objective-C.
 
-#### Objective-C
+##### Objective-C
 
 In your AppDelegate.h file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
 
@@ -114,7 +118,7 @@ In your AppDelegate.h file, import "OrientationDirector.h" and implement support
 }
 ```
 
-#### Swift
+##### Swift
 
 You need to create a [bridging header](https://developer.apple.com/documentation/swift/importing-objective-c-into-swift#Import-Code-Within-an-App-Target)
 to import the library, as shown below:

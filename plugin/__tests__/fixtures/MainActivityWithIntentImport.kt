@@ -1,5 +1,6 @@
 package com.orientationdirectorexample
 
+import android.content.Intent
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

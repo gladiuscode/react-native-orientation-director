@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`withRNOrientationMainActivity updates the MainActivity.kt with both import and method implementation 1`] = `
+exports[`withRNOrientationMainActivity skips the MainActivity.kt configuration import when it's already set 1`] = `
 "package com.orientationdirectorexample
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import com.facebook.react.ReactActivity
@@ -11,9 +10,127 @@ import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
-// React Native Orientation Director @generated begin @react-native-orientation-director/library-import - expo prebuild (DO NOT MODIFY) sync-dd77fee7fe624fed474053ea60c3105920a01a6a
+// React Native Orientation Director @generated begin @react-native-orientation-director/system-intent-import - expo prebuild (DO NOT MODIFY) sync-e6b9f54e19ab3cfd8689165dc8aa1ae37ba84e44
+import android.content.Intent
+// React Native Orientation Director @generated end @react-native-orientation-director/system-intent-import
+// React Native Orientation Director @generated begin @react-native-orientation-director/library-import - expo prebuild (DO NOT MODIFY) sync-7169e02357214d7bab1282e0a498c9c731ada6ad
 import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
+// React Native Orientation Director @generated end @react-native-orientation-director/library-import
+class MainActivity : ReactActivity() {
 
+  /**
+   * Returns the name of the main component registered from JavaScript. This is used to schedule
+   * rendering of the component.
+   */
+  override fun getMainComponentName(): String = "OrientationDirectorExample"
+
+  /**
+   * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+   * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
+   */
+  override fun createReactActivityDelegate(): ReactActivityDelegate =
+    DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
+  }
+// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-7a5cdf10057b2ddf1bcf4593bf408862cbed5473
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+
+    val orientationDirectorCustomAction =
+      packageName + "." + ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION
+
+    val intent =
+      Intent(orientationDirectorCustomAction).apply {
+        putExtra("newConfig", newConfig)
+        setPackage(packageName)
+      }
+
+    this.sendBroadcast(intent)
+  }
+
+// React Native Orientation Director @generated end @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation
+
+}
+"
+`;
+
+exports[`withRNOrientationMainActivity skips the MainActivity.kt intent import when it's already set 1`] = `
+"package com.orientationdirectorexample
+
+import android.content.Intent
+import android.os.Bundle
+import com.facebook.react.ReactActivity
+import com.facebook.react.ReactActivityDelegate
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
+import com.facebook.react.defaults.DefaultReactActivityDelegate
+
+// React Native Orientation Director @generated begin @react-native-orientation-director/system-configuration-import - expo prebuild (DO NOT MODIFY) sync-e946440a29a0e93549862b7c63f1655b232ef6fb
+import android.content.res.Configuration
+// React Native Orientation Director @generated end @react-native-orientation-director/system-configuration-import
+// React Native Orientation Director @generated begin @react-native-orientation-director/library-import - expo prebuild (DO NOT MODIFY) sync-7169e02357214d7bab1282e0a498c9c731ada6ad
+import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
+// React Native Orientation Director @generated end @react-native-orientation-director/library-import
+class MainActivity : ReactActivity() {
+
+  /**
+   * Returns the name of the main component registered from JavaScript. This is used to schedule
+   * rendering of the component.
+   */
+  override fun getMainComponentName(): String = "OrientationDirectorExample"
+
+  /**
+   * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+   * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
+   */
+  override fun createReactActivityDelegate(): ReactActivityDelegate =
+    DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
+  }
+// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-7a5cdf10057b2ddf1bcf4593bf408862cbed5473
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+    super.onConfigurationChanged(newConfig)
+
+    val orientationDirectorCustomAction =
+      packageName + "." + ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION
+
+    val intent =
+      Intent(orientationDirectorCustomAction).apply {
+        putExtra("newConfig", newConfig)
+        setPackage(packageName)
+      }
+
+    this.sendBroadcast(intent)
+  }
+
+// React Native Orientation Director @generated end @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation
+
+}
+"
+`;
+
+exports[`withRNOrientationMainActivity updates the MainActivity.kt with both imports and method implementation 1`] = `
+"package com.orientationdirectorexample
+
+import android.os.Bundle
+import com.facebook.react.ReactActivity
+import com.facebook.react.ReactActivityDelegate
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
+import com.facebook.react.defaults.DefaultReactActivityDelegate
+
+// React Native Orientation Director @generated begin @react-native-orientation-director/system-intent-import - expo prebuild (DO NOT MODIFY) sync-e6b9f54e19ab3cfd8689165dc8aa1ae37ba84e44
+import android.content.Intent
+// React Native Orientation Director @generated end @react-native-orientation-director/system-intent-import
+// React Native Orientation Director @generated begin @react-native-orientation-director/system-configuration-import - expo prebuild (DO NOT MODIFY) sync-e946440a29a0e93549862b7c63f1655b232ef6fb
+import android.content.res.Configuration
+// React Native Orientation Director @generated end @react-native-orientation-director/system-configuration-import
+// React Native Orientation Director @generated begin @react-native-orientation-director/library-import - expo prebuild (DO NOT MODIFY) sync-7169e02357214d7bab1282e0a498c9c731ada6ad
+import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
 // React Native Orientation Director @generated end @react-native-orientation-director/library-import
 class MainActivity : ReactActivity() {
 
