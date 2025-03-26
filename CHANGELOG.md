@@ -1,5 +1,12 @@
 
 
+## [2.3.2](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.1...v2.3.2) (2025-03-26)
+
+
+### Bug Fixes
+
+* **plugin:** missing intent and configuration imports logic ([#61](https://github.com/gladiuscode/react-native-orientation-director/issues/61)) ([567ec4d](https://github.com/gladiuscode/react-native-orientation-director/commit/567ec4d9b65ae2fdf3c806d6c87583f0601dc76f))
+
 ## [2.3.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.0...v2.3.1) (2025-03-23)
 
 
