@@ -27,6 +27,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ark/schema@npm:0.45.7":
+  version: 0.45.7
+  resolution: "@ark/schema@npm:0.45.7"
+  dependencies:
+    "@ark/util": 0.45.7
+  checksum: a25ae51ae321b225f2e1c71c4bd0c14dc92d1473209d76e1423f060b24d2852fd6aee18e644ecb84c4a5cc5855ae3e257ede7e3ee6aca3aaff136e6c9d257ac9
+  languageName: node
+  linkType: hard
+
+"@ark/util@npm:0.45.7":
+  version: 0.45.7
+  resolution: "@ark/util@npm:0.45.7"
+  checksum: 30260a534ff2fec90bcaee214247066f86f5c00dc7872200eed14bcb4262fb0ee72c866042f27ef2186ef0750b574e2f452e84d4f284d885a04154853adf3e4a
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:^7.23.4":
   version: 7.26.4
   resolution: "@babel/cli@npm:7.26.4"
@@ -4487,6 +4503,16 @@ __metadata:
   version: 2.0.1
   resolution: "argparse@npm:2.0.1"
   checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
+  languageName: node
+  linkType: hard
+
+"arktype@npm:^2.1.15":
+  version: 2.1.17
+  resolution: "arktype@npm:2.1.17"
+  dependencies:
+    "@ark/schema": 0.45.7
+    "@ark/util": 0.45.7
+  checksum: 4cad06481c7f51719136363e3a0f422c9dea01cc7470b75fbaebdd2789e6fdb83ab53a09f9f586c0cd61101680462625ea4636ed731069931d6ea5a29277079e
   languageName: node
   linkType: hard
 
@@ -13632,9 +13658,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-builder-bob@npm:^0.36.0":
-  version: 0.36.0
-  resolution: "react-native-builder-bob@npm:0.36.0"
+"react-native-builder-bob@npm:^0.40.0":
+  version: 0.40.0
+  resolution: "react-native-builder-bob@npm:0.40.0"
   dependencies:
     "@babel/core": ^7.25.2
     "@babel/plugin-transform-strict-mode": ^7.24.7
@@ -13642,9 +13668,9 @@ __metadata:
     "@babel/preset-flow": ^7.24.7
     "@babel/preset-react": ^7.24.7
     "@babel/preset-typescript": ^7.24.7
+    arktype: ^2.1.15
     babel-plugin-module-resolver: ^5.0.2
     browserslist: ^4.20.4
-    cosmiconfig: ^9.0.0
     cross-spawn: ^7.0.3
     dedent: ^0.7.0
     del: ^6.1.1
@@ -13660,7 +13686,7 @@ __metadata:
     yargs: ^17.5.1
   bin:
     bob: bin/bob
-  checksum: 2d47c039e3d6f90cd6a074cbe35c2dfc96868a73a6aee503fb981aace1c1ec2830517ce4910f5e368a558ed2f10302f60361cb1bf37ef341a913d125020bd2ee
+  checksum: 24060ce833ab3ac52f29fc8072cb15d97401aa2f8d67adc2ed7b4359f9879da65858d78e3eb0353a03374a295c931e5201373129e4341bd6f83adf120e70c209
   languageName: node
   linkType: hard
 
@@ -13717,7 +13743,7 @@ __metadata:
     prettier: ^3.0.3
     react: 19.0.0
     react-native: 0.78.2
-    react-native-builder-bob: ^0.36.0
+    react-native-builder-bob: ^0.40.0
     release-it: ^15.0.0
     turbo: ^1.10.7
     typescript: ^5.2.2
