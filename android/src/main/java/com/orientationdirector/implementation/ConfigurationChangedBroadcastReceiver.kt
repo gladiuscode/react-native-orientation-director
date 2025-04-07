@@ -17,6 +17,8 @@ import com.facebook.react.bridge.ReactApplicationContext
 class ConfigurationChangedBroadcastReceiver internal constructor(private val context: ReactApplicationContext) :
   BroadcastReceiver() {
 
+  private var isRegistered = false
+
   private var onReceiveCallback: ((intent: Intent?) -> Unit)? = null
 
   override fun onReceive(context: Context?, intent: Intent?) {
@@ -40,10 +42,21 @@ class ConfigurationChangedBroadcastReceiver internal constructor(private val con
     } else {
       context.registerReceiver(this, filter)
     }
+
+    isRegistered = true
   }
 
   fun unregister() {
-    context.unregisterReceiver(this)
+    if (!isRegistered) {
+      return
+    }
+
+    try {
+      context.unregisterReceiver(this)
+    } catch(_: IllegalArgumentException) {
+    } finally {
+      isRegistered = false
+    }
   }
 
   companion object {
