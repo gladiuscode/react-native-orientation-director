@@ -1,5 +1,18 @@
 
 
+# [2.4.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.2...v2.4.0) (2025-04-10)
+
+
+### Bug Fixes
+
+* **android:** missing check before unregistering receiver ([#66](https://github.com/gladiuscode/react-native-orientation-director/issues/66)) ([bbebf56](https://github.com/gladiuscode/react-native-orientation-director/commit/bbebf565b84172e2e739d9fdfdcc8e79d50673f5))
+
+
+### Features
+
+* upgrade react-native-builder-bob and align output support ([#65](https://github.com/gladiuscode/react-native-orientation-director/issues/65)) ([6826ae4](https://github.com/gladiuscode/react-native-orientation-director/commit/6826ae4d83d5d511ff8f20be9bdc200fcae121ef))
+* upgrade to .78.2 ([#64](https://github.com/gladiuscode/react-native-orientation-director/issues/64)) ([96876fa](https://github.com/gladiuscode/react-native-orientation-director/commit/96876fa96078f60857d32830365af18ac244591c))
+
 ## [2.3.2](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.1...v2.3.2) (2025-03-26)
 
 
