@@ -107,7 +107,7 @@ To properly handle interface orientation changes in iOS, you need to update your
 
 ##### Objective-C
 
-In your AppDelegate.h file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
+In your AppDelegate.mm file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
 
 ```objc
 #import <OrientationDirector.h>
