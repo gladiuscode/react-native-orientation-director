@@ -3,15 +3,8 @@
   "version": "2.4.0",
   "description": "A Modern React Native library that allows you to access orientation",
   "main": "./lib/module/index.js",
+  "module": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
-  "exports": {
-    ".": {
-      "source": "./src/index.tsx",
-      "types": "./lib/typescript/src/index.d.ts",
-      "default": "./lib/module/index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "files": [
     "src",
     "lib",
