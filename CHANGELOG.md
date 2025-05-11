@@ -1,4 +1,9 @@
+# Changelog
 
+## 2.5.0 (2025-05-11)
+
+* feat: upgrade react native to 79.2 (#72) ([0e25040](https://github.com/gladiuscode/react-native-orientation-director/commit/0e25040)), closes [#72](https://github.com/gladiuscode/react-native-orientation-director/issues/72)
+* fix(docs): wrong app delegate file mention (#71) ([6ff29e8](https://github.com/gladiuscode/react-native-orientation-director/commit/6ff29e8)), closes [#71](https://github.com/gladiuscode/react-native-orientation-director/issues/71)
 
 # [2.4.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.3.2...v2.4.0) (2025-04-10)
 
