@@ -12,8 +12,8 @@
     "expo-module": "expo-module"
   },
   "devDependencies": {
-    "expo-module-scripts": "^4.0.4",
-    "glob": "^11.0.1"
+    "expo-module-scripts": "^4.1.7",
+    "glob": "^11.0.2"
   },
   "engines": {
     "node": ">=18"
