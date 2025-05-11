@@ -135,6 +135,8 @@ override func application(_ application: UIApplication, supportedInterfaceOrient
 }
 ```
 
+Note: if you are targeting react-native > 79.x, you can omit the `override` keyword.
+
 If you need help, you can check the example project.
 
 ## Usage
