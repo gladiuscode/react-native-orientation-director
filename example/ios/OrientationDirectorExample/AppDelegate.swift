@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
-  override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
   }
 }
