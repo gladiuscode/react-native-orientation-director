@@ -19,6 +19,13 @@ import UIKit
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
     private var isLocked = false
+  
+    /// # Only on iOS < 16
+    /// This variable is needed to prevent a loop where
+    /// we lock the interface to a specific orientation
+    /// and the sensor picks it up, therefore triggering
+    /// the orientation did change event.
+    private var isLocking = false
 
     @objc public var supportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
 
@@ -56,6 +63,7 @@ import UIKit
     }
 
     @objc public func lockTo(jsValue: NSNumber) {
+        self.isLocking = true;
         let jsOrientation = utils.convertToOrientationFrom(jsValue: jsValue)
         let mask = utils.convertToMaskFrom(jsOrientation: jsOrientation)
         self.requestInterfaceUpdateTo(mask: mask)
@@ -65,17 +73,20 @@ import UIKit
         let orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE
         if orientationCanBeUpdatedDirectly {
             updateLastInterfaceOrientationTo(value: jsOrientation)
+            self.isLocking = false;
             return
         }
 
         let lastInterfaceOrientationIsAlreadyInLandscape = lastInterfaceOrientation == Orientation.LANDSCAPE_RIGHT || lastInterfaceOrientation == Orientation.LANDSCAPE_LEFT
         if lastInterfaceOrientationIsAlreadyInLandscape {
             updateLastInterfaceOrientationTo(value: lastInterfaceOrientation)
+            self.isLocking = false;
             return
         }
 
         let systemDefaultLandscapeOrientation = Orientation.LANDSCAPE_RIGHT
         updateLastInterfaceOrientationTo(value: systemDefaultLandscapeOrientation)
+        self.isLocking = false;
     }
 
     @objc public func unlock() {
@@ -163,7 +174,11 @@ import UIKit
 
     private func onOrientationChanged(uiDeviceOrientation: UIDeviceOrientation) {
         let deviceOrientation = utils.convertToOrientationFrom(deviceOrientation: uiDeviceOrientation)
-        self.eventManager.sendDeviceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
+        
+        if (!self.isLocking) {
+          self.eventManager.sendDeviceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
+        }
+      
         lastDeviceOrientation = deviceOrientation
         adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
