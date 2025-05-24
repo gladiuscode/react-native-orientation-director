@@ -20,7 +20,8 @@ class OrientationSensorsEventListener(
   private var mMagneticFieldSensor: Sensor? =
     mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
-  private var hasRotationSensor: Boolean = mRotationSensor != null
+  private var hasRotationSensor: Boolean =
+   mRotationSensor != null
   private var hasAccelerometerAndMagneticFieldSensors: Boolean =
     mAccelerometerSensor != null && mMagneticFieldSensor != null
 
