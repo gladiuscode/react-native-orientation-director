@@ -155,7 +155,8 @@ import UIKit
                 print("\(OrientationDirectorImpl.TAG) - requestGeometryUpdate error", error)
             }
         } else {
-            UIDevice.current.setValue(mask.rawValue, forKey: "orientation")
+            let interfaceOrientation = self.utils.convertToInterfaceOrientationFrom(mask: mask)
+            UIDevice.current.setValue(interfaceOrientation.rawValue, forKey: "orientation")
             UIViewController.attemptRotationToDeviceOrientation()
         }
     }
