@@ -10,12 +10,16 @@ import com.facebook.react.bridge.ReactApplicationContext
 class OrientationSensorsEventListener(
   context: ReactApplicationContext,
 ) : SensorEventListener {
-  private var mSensorManager: SensorManager = context.getSystemService(SENSOR_SERVICE) as SensorManager
+  private var mSensorManager: SensorManager =
+    context.getSystemService(SENSOR_SERVICE) as SensorManager
 
-  private var mAccelerometerSensor: Sensor? = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-  private var mMagneticFieldSensor: Sensor? = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+  private var mAccelerometerSensor: Sensor? =
+    mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+  private var mMagneticFieldSensor: Sensor? =
+    mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
-  private var hasRequiredSensors: Boolean = mAccelerometerSensor != null && mMagneticFieldSensor != null
+  private var hasRequiredSensors: Boolean =
+    mAccelerometerSensor != null && mMagneticFieldSensor != null
 
   private val accelerometerReading = FloatArray(3)
   private val magnetometerReading = FloatArray(3)
@@ -69,8 +73,18 @@ class OrientationSensorsEventListener(
       return
     }
 
-    mSensorManager.registerListener(this, mAccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
-    mSensorManager.registerListener(this, mMagneticFieldSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    mSensorManager.registerListener(
+      this,
+      mAccelerometerSensor,
+      SensorManager.SENSOR_DELAY_NORMAL,
+      SensorManager.SENSOR_DELAY_UI
+    )
+    mSensorManager.registerListener(
+      this,
+      mMagneticFieldSensor,
+      SensorManager.SENSOR_DELAY_NORMAL,
+      SensorManager.SENSOR_DELAY_UI
+    )
   }
 
   fun disable() {
