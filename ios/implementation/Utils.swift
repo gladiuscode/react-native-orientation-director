@@ -78,6 +78,21 @@ class Utils {
         }
     }
 
+    public func convertToInterfaceOrientationFrom(mask: UIInterfaceOrientationMask) -> UIInterfaceOrientation {
+      switch mask {
+        case .portrait:
+          return .portrait
+        case .landscapeRight:
+          return .landscapeRight
+        case .portraitUpsideDown:
+          return .portraitUpsideDown
+        case .landscapeLeft:
+          return .landscapeLeft
+        default:
+          return .unknown
+      }
+    }
+
     public func getInterfaceOrientation() -> UIInterfaceOrientation {
         guard let windowScene = self.getCurrentWindow()?.windowScene else {
             return UIInterfaceOrientation.unknown
