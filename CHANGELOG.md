@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.5.1 (2025-05-25)</small>
+
+* fix(iOS): iOS 15 doesn't lock the interface using provided methods (#76) ([5e178f8](https://github.com/gladiuscode/react-native-orientation-director/commit/5e178f8)), closes [#76](https://github.com/gladiuscode/react-native-orientation-director/issues/76)
+* fix(iOS): simulator infinite loop rotating orientation (#74) ([dc634c5](https://github.com/gladiuscode/react-native-orientation-director/commit/dc634c5)), closes [#74](https://github.com/gladiuscode/react-native-orientation-director/issues/74)
+
 ## 2.5.0 (2025-05-11)
 
 * feat: upgrade react native to 79.2 (#72) ([0e25040](https://github.com/gladiuscode/react-native-orientation-director/commit/0e25040)), closes [#72](https://github.com/gladiuscode/react-native-orientation-director/issues/72)
