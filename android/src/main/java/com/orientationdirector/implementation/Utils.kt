@@ -26,8 +26,8 @@ class Utils(private val context: ReactContext) {
     val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
     // This is needed to account for inaccuracy due to subtle movements such as tilting
-    val pitchTolerance = 5f
-    val tolerance = 20f
+    val pitchTolerance = 15f
+    val rollTolerance = 20f
 
     //////////////////////////////////////
     // These limits are set based on SensorManager.getOrientation reference
@@ -44,8 +44,8 @@ class Utils(private val context: ReactContext) {
     return when {
       rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
       rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
-      rollDegrees in tolerance..landscapeRightLimit - tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
-      rollDegrees in landscapeLeftLimit + tolerance..-tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
+      rollDegrees in rollTolerance..landscapeRightLimit - rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
+      rollDegrees in landscapeLeftLimit + rollTolerance..-rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
       pitchDegrees in portraitLimit..pitchTolerance -> Orientation.PORTRAIT
       else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
