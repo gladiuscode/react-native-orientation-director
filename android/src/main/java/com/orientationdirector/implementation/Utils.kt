@@ -38,11 +38,13 @@ class Utils(private val context: ReactContext) {
     //
     //////////////////////////////////////
 
+    val isPitchInLandscapeModeRange = checkIfPitchIsInLandscapeModeRange(pitchDegrees)
+
     return when {
       rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
       rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
-      rollDegrees in tolerance..landscapeRightLimit - tolerance -> Orientation.LANDSCAPE_RIGHT
-      rollDegrees in landscapeLeftLimit + tolerance..-tolerance -> Orientation.LANDSCAPE_LEFT
+      rollDegrees in tolerance..landscapeRightLimit - tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
+      rollDegrees in landscapeLeftLimit + tolerance..-tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
       pitchDegrees in portraitLimit..-0f -> Orientation.PORTRAIT
       else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
@@ -93,5 +95,10 @@ class Utils(private val context: ReactContext) {
     }
 
     return context.currentActivity!!.requestedOrientation;
+  }
+
+  private fun checkIfPitchIsInLandscapeModeRange(pitchDegrees: Float): Boolean {
+    val tolerance = 5f
+    return pitchDegrees > -tolerance && pitchDegrees < tolerance
   }
 }
