@@ -26,6 +26,7 @@ class Utils(private val context: ReactContext) {
     val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
     // This is needed to account for inaccuracy due to subtle movements such as tilting
+    val pitchTolerance = 5f
     val tolerance = 20f
 
     //////////////////////////////////////
@@ -38,14 +39,14 @@ class Utils(private val context: ReactContext) {
     //
     //////////////////////////////////////
 
-    val isPitchInLandscapeModeRange = checkIfPitchIsInLandscapeModeRange(pitchDegrees)
+    val isPitchInLandscapeModeRange = checkIfPitchIsInLandscapeModeRange(pitchDegrees, pitchTolerance)
 
     return when {
       rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
       rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
       rollDegrees in tolerance..landscapeRightLimit - tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
       rollDegrees in landscapeLeftLimit + tolerance..-tolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
-      pitchDegrees in portraitLimit..-0f -> Orientation.PORTRAIT
+      pitchDegrees in portraitLimit..pitchTolerance -> Orientation.PORTRAIT
       else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
   }
@@ -97,8 +98,7 @@ class Utils(private val context: ReactContext) {
     return context.currentActivity!!.requestedOrientation;
   }
 
-  private fun checkIfPitchIsInLandscapeModeRange(pitchDegrees: Float): Boolean {
-    val tolerance = 5f
+  private fun checkIfPitchIsInLandscapeModeRange(pitchDegrees: Float, tolerance: Float): Boolean {
     return pitchDegrees > -tolerance && pitchDegrees < tolerance
   }
 }
