@@ -26,8 +26,9 @@ class Utils(private val context: ReactContext) {
     val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
     // This is needed to account for inaccuracy due to subtle movements such as tilting
-    val pitchTolerance = 15f
-    val rollTolerance = 20f
+    val pitchToleranceDefault = 5f
+    val rollTolerance = 0f
+    val toleranceForFaceUpOrDown = 5f;
 
     //////////////////////////////////////
     // These limits are set based on SensorManager.getOrientation reference
@@ -39,14 +40,17 @@ class Utils(private val context: ReactContext) {
     //
     //////////////////////////////////////
 
-    val isPitchInLandscapeModeRange = checkIfPitchIsInLandscapeModeRange(pitchDegrees, pitchTolerance)
+    val isPitchInLandscapeModeRange =
+      checkIfValueIsBetweenTolerance(pitchDegrees, pitchToleranceDefault)
+    val isPitchCloseToFaceUpOrDown =
+      checkIfValueIsBetweenTolerance(pitchDegrees, toleranceForFaceUpOrDown)
 
     return when {
-      rollDegrees.equals(-0f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_UP
-      rollDegrees.equals(-180f) && (pitchDegrees.equals(0f) || pitchDegrees.equals(-0f)) -> Orientation.FACE_DOWN
+      checkIfRollIsCloseToFaceUp(rollDegrees) && isPitchCloseToFaceUpOrDown -> Orientation.FACE_UP
+      checkIfRollIsCloseToFaceDown(rollDegrees) && isPitchCloseToFaceUpOrDown -> Orientation.FACE_DOWN
       rollDegrees in rollTolerance..landscapeRightLimit - rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
       rollDegrees in landscapeLeftLimit + rollTolerance..-rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
-      pitchDegrees in portraitLimit..pitchTolerance -> Orientation.PORTRAIT
+      pitchDegrees in portraitLimit..pitchToleranceDefault -> Orientation.PORTRAIT
       else -> Orientation.PORTRAIT_UPSIDE_DOWN
     }
   }
@@ -98,7 +102,23 @@ class Utils(private val context: ReactContext) {
     return context.currentActivity!!.requestedOrientation;
   }
 
-  private fun checkIfPitchIsInLandscapeModeRange(pitchDegrees: Float, tolerance: Float): Boolean {
-    return pitchDegrees > -tolerance && pitchDegrees < tolerance
+  private fun checkIfValueIsBetweenTolerance(value: Float, tolerance: Float): Boolean {
+    return value > -tolerance && value < tolerance
+  }
+
+  private fun checkIfRollIsCloseToFaceDown(value: Float): Boolean {
+    val landscapeLimit = 180f
+    val faceDownLimit = 170f
+
+    return value in faceDownLimit..landscapeLimit  ||
+      value in -landscapeLimit..-faceDownLimit;
+  }
+
+  private fun checkIfRollIsCloseToFaceUp(value: Float): Boolean {
+    val landscapeLimit = 0f
+    val faceUpLimit = 10f
+
+    return value in landscapeLimit..faceUpLimit ||
+      value in -faceUpLimit..-landscapeLimit
   }
 }
