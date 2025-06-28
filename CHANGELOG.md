@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.6.0 (2025-06-28)
+
+* fix(android): face up or down detection and improve portrait (#84) ([9bc1d9c](https://github.com/gladiuscode/react-native-orientation-director/commit/9bc1d9c)), closes [#84](https://github.com/gladiuscode/react-native-orientation-director/issues/84)
+* fix(android): increase tolerance to tilts and improve landscape checks (#78) ([11df8e6](https://github.com/gladiuscode/react-native-orientation-director/commit/11df8e6)), closes [#78](https://github.com/gladiuscode/react-native-orientation-director/issues/78)
+* fix(iOS): expo plugin override keyword on ios (#86) ([f5465f5](https://github.com/gladiuscode/react-native-orientation-director/commit/f5465f5)), closes [#86](https://github.com/gladiuscode/react-native-orientation-director/issues/86)
+* feat: setup package to use exports keyword and expose app.plugin.js (#79) ([38d0df1](https://github.com/gladiuscode/react-native-orientation-director/commit/38d0df1)), closes [#79](https://github.com/gladiuscode/react-native-orientation-director/issues/79)
+* feat: upgrade example app (#82) ([8e5f89a](https://github.com/gladiuscode/react-native-orientation-director/commit/8e5f89a)), closes [#82](https://github.com/gladiuscode/react-native-orientation-director/issues/82)
+* feat(android): introduce new rotation sensor (#80) ([7397a64](https://github.com/gladiuscode/react-native-orientation-director/commit/7397a64)), closes [#80](https://github.com/gladiuscode/react-native-orientation-director/issues/80)
+* chore: improve tools setup (#81) ([8c6739e](https://github.com/gladiuscode/react-native-orientation-director/commit/8c6739e)), closes [#81](https://github.com/gladiuscode/react-native-orientation-director/issues/81)
+
 ## <small>2.5.1 (2025-05-25)</small>
 
 * fix(iOS): iOS 15 doesn't lock the interface using provided methods (#76) ([5e178f8](https://github.com/gladiuscode/react-native-orientation-director/commit/5e178f8)), closes [#76](https://github.com/gladiuscode/react-native-orientation-director/issues/76)
