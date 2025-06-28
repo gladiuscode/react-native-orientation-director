@@ -19,14 +19,25 @@ describe('withRNOrientationAppDelegate', function () {
     expect(result).toMatchSnapshot();
   });
 
-  it('updates the AppDelegate.swift with the method implementation', async function () {
+  it('updates the AppDelegate52.swift with the method implementation having override when sdk is < 53', async function () {
     const appDelegatePath = path.join(
       __dirname,
-      './fixtures/AppDelegate.swift'
+      './fixtures/AppDelegate52.swift'
     );
     const appDelegate = await fs.promises.readFile(appDelegatePath, 'utf-8');
 
-    const result = swiftFileUpdater(appDelegate);
+    const result = swiftFileUpdater(appDelegate, '52');
+    expect(result).toMatchSnapshot();
+  });
+
+  it('updates the AppDelegate53.swift with the method implementation without override when sdk is >= 53', async function () {
+    const appDelegatePath = path.join(
+      __dirname,
+      './fixtures/AppDelegate53.swift'
+    );
+    const appDelegate = await fs.promises.readFile(appDelegatePath, 'utf-8');
+
+    const result = swiftFileUpdater(appDelegate, '53');
     expect(result).toMatchSnapshot();
   });
 });
