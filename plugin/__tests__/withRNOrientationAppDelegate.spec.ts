@@ -30,7 +30,7 @@ describe('withRNOrientationAppDelegate', function () {
     expect(result).toMatchSnapshot();
   });
 
-  it('updates the AppDelegate52.swift with the method implementation having override when sdk is >= 53', async function () {
+  it('updates the AppDelegate53.swift with the method implementation without override when sdk is >= 53', async function () {
     const appDelegatePath = path.join(
       __dirname,
       './fixtures/AppDelegate53.swift'

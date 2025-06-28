@@ -77,47 +77,6 @@ exports[`withRNOrientationAppDelegate updates the AppDelegate.mm with both heade
 "
 `;
 
-exports[`withRNOrientationAppDelegate updates the AppDelegate.swift with the method implementation 1`] = `
-"import UIKit
-import React
-import React_RCTAppDelegate
-import ReactAppDependencyProvider
-
-@main
-class AppDelegate: RCTAppDelegate {
-  override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    self.moduleName = "main"
-    self.dependencyProvider = RCTAppDependencyProvider()
-
-    // You can add your custom initial props in the dictionary below.
-    // They will be passed down to the ViewController used by React Native.
-    self.initialProps = [:]
-
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-  }
-// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-d346ef386403083e8a91af1cd77a5a77312aacfb
-
-  override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-    return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
-  }
-
-// React Native Orientation Director @generated end @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation
-
-  override func sourceURL(for bridge: RCTBridge) -> URL? {
-    self.bundleURL()
-  }
-
-  override func bundleURL() -> URL? {
-#if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-#else
-    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
-  }
-}
-"
-`;
-
 exports[`withRNOrientationAppDelegate updates the AppDelegate52.swift with the method implementation having override when sdk is < 53 1`] = `
 "import UIKit
 import React
@@ -159,7 +118,7 @@ class AppDelegate: RCTAppDelegate {
 "
 `;
 
-exports[`withRNOrientationAppDelegate updates the AppDelegate52.swift with the method implementation having override when sdk is >= 53 1`] = `
+exports[`withRNOrientationAppDelegate updates the AppDelegate53.swift with the method implementation without override when sdk is >= 53 1`] = `
 "import Expo
 import React
 import ReactAppDependencyProvider
