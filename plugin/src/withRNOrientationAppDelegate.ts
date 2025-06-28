@@ -55,8 +55,12 @@ function getCompatibleFileUpdater(
   }
 }
 
-export function swiftFileUpdater(originalContents: string, _?: string): string {
-  const supportedInterfaceOrientationsForCodeBlock = `\n  override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+export function swiftFileUpdater(
+  originalContents: string,
+  sdkVersion?: string
+): string {
+  const methodPrefix = !sdkVersion?.includes('53') ? 'override' : '';
+  const supportedInterfaceOrientationsForCodeBlock = `\n  ${methodPrefix} func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
   }\n`;
   const rightBeforeLastClosingBrace =
