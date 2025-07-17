@@ -78,23 +78,34 @@ This library uses a custom broadcast receiver to handle the manual orientation c
 autorotation feature and the system prompts the user to rotate the device, the library will listen to the broadcast
 sent by the MainActivity and update the interface orientation accordingly.
 
-To allow the library to listen to the broadcast, you need to override the `onConfigurationChanged` method in your
-MainActivity file, as shown below:
+To allow the library to listen to the broadcast, you need to override the `onConfigurationChanged` method in MainActivity.kt as shown below:
 
 ```kotlin
-override fun onConfigurationChanged(newConfig: Configuration) {
-    super.onConfigurationChanged(newConfig)
+// ...
 
-    val orientationDirectorCustomAction =
-      "${packageName}.${ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION}"
+import android.content.Intent
+import android.content.res.Configuration
+import android.os.Bundle
+import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
 
-    val intent =
-      Intent(orientationDirectorCustomAction).apply {
-        putExtra("newConfig", newConfig)
-        setPackage(packageName)
-      }
+class MainActivity : ReactActivity() {
 
-    this.sendBroadcast(intent)
+  // ...
+
+  override fun onConfigurationChanged(newConfig: Configuration) {
+      super.onConfigurationChanged(newConfig)
+
+      val orientationDirectorCustomAction =
+        "${packageName}.${ConfigurationChangedBroadcastReceiver.CUSTOM_INTENT_ACTION}"
+
+      val intent =
+        Intent(orientationDirectorCustomAction).apply {
+          putExtra("newConfig", newConfig)
+          setPackage(packageName)
+        }
+
+      this.sendBroadcast(intent)
+  }
 }
 ```
 
