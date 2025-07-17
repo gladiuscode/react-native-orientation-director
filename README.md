@@ -85,7 +85,6 @@ To allow the library to listen to the broadcast, you need to override the `onCon
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.os.Bundle
 import com.orientationdirector.implementation.ConfigurationChangedBroadcastReceiver
 
 class MainActivity : ReactActivity() {
