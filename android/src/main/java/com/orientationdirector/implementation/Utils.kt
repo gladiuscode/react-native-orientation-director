@@ -20,38 +20,37 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToDeviceOrientationFrom(orientationAngles: FloatArray): Orientation {
-    val (_, pitchRadians, rollRadians) = orientationAngles;
+    val (_, pitchRadians, rollRadians) = orientationAngles
 
-    val pitchDegrees = Math.toDegrees(pitchRadians.toDouble()).toFloat()
-    val rollDegrees = Math.toDegrees(rollRadians.toDouble()).toFloat()
+    val pitch = Math.toDegrees(pitchRadians.toDouble()).toFloat()
+    val roll = Math.toDegrees(rollRadians.toDouble()).toFloat()
 
-    // This is needed to account for inaccuracy due to subtle movements such as tilting
-    val pitchToleranceDefault = 5f
-    val rollTolerance = 0f
-    val toleranceForFaceUpOrDown = 5f;
+    val faceUpDownPitchTolerance = 30f
 
-    //////////////////////////////////////
-    // These limits are set based on SensorManager.getOrientation reference
-    // https://developer.android.com/develop/sensors-and-location/sensors/sensors_position#sensors-pos-orient
-    //
-    val portraitLimit = -90f
-    val landscapeRightLimit = 180f
-    val landscapeLeftLimit = -180f
-    //
-    //////////////////////////////////////
-
-    val isPitchInLandscapeModeRange =
-      checkIfValueIsBetweenTolerance(pitchDegrees, pitchToleranceDefault)
-    val isPitchCloseToFaceUpOrDown =
-      checkIfValueIsBetweenTolerance(pitchDegrees, toleranceForFaceUpOrDown)
+    fun isValueCloseTo(value: Float, target: Float, tolerance: Float): Boolean {
+      return value in (target - tolerance)..(target + tolerance)
+    }
 
     return when {
-      checkIfRollIsCloseToFaceUp(rollDegrees) && isPitchCloseToFaceUpOrDown -> Orientation.FACE_UP
-      checkIfRollIsCloseToFaceDown(rollDegrees) && isPitchCloseToFaceUpOrDown -> Orientation.FACE_DOWN
-      rollDegrees in rollTolerance..landscapeRightLimit - rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_RIGHT
-      rollDegrees in landscapeLeftLimit + rollTolerance..-rollTolerance && isPitchInLandscapeModeRange -> Orientation.LANDSCAPE_LEFT
-      pitchDegrees in portraitLimit..pitchToleranceDefault -> Orientation.PORTRAIT
-      else -> Orientation.PORTRAIT_UPSIDE_DOWN
+      // Face up: device is lying flat with screen up
+      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) && isValueCloseTo(roll, 0f, 45f) -> Orientation.FACE_UP
+
+      // Face down: device is lying flat with screen down
+      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) && isValueCloseTo(roll, 180f, 45f) -> Orientation.FACE_DOWN
+
+      // Portrait: upright
+      isValueCloseTo(pitch, -90f, 45f) -> Orientation.PORTRAIT
+
+      // Portrait upside down
+      isValueCloseTo(pitch, 90f, 45f) -> Orientation.PORTRAIT_UPSIDE_DOWN
+
+      // Landscape left
+      isValueCloseTo(roll, -90f, 45f) -> Orientation.LANDSCAPE_LEFT
+
+      // Landscape right
+      isValueCloseTo(roll, 90f, 45f) -> Orientation.LANDSCAPE_RIGHT
+
+      else -> Orientation.PORTRAIT // fallback
     }
   }
 
@@ -92,33 +91,5 @@ class Utils(private val context: ReactContext) {
       Orientation.LANDSCAPE_LEFT -> Orientation.LANDSCAPE_RIGHT
       else -> Orientation.UNKNOWN
     }
-  }
-
-  fun getRequestedOrientation(): Int {
-    if (context.currentActivity?.requestedOrientation == null) {
-      return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-    }
-
-    return context.currentActivity!!.requestedOrientation;
-  }
-
-  private fun checkIfValueIsBetweenTolerance(value: Float, tolerance: Float): Boolean {
-    return value > -tolerance && value < tolerance
-  }
-
-  private fun checkIfRollIsCloseToFaceDown(value: Float): Boolean {
-    val landscapeLimit = 180f
-    val faceDownLimit = 170f
-
-    return value in faceDownLimit..landscapeLimit  ||
-      value in -landscapeLimit..-faceDownLimit;
-  }
-
-  private fun checkIfRollIsCloseToFaceUp(value: Float): Boolean {
-    val landscapeLimit = 0f
-    val faceUpLimit = 10f
-
-    return value in landscapeLimit..faceUpLimit ||
-      value in -faceUpLimit..-landscapeLimit
   }
 }
