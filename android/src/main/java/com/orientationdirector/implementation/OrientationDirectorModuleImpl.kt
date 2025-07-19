@@ -184,7 +184,21 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    updateLastInterfaceOrientationTo(newInterfaceOrientation)
+    if (newInterfaceOrientation != Orientation.LANDSCAPE_LEFT && newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT) {
+      updateLastInterfaceOrientationTo(newInterfaceOrientation)
+      return;
+    }
+
+    /**
+     * The reason we invert the interface orientation is to match iOS behavior with
+     * UIInterfaceOrientation
+     */
+    val invertedLandscapeOrientation = if (newInterfaceOrientation == Orientation.LANDSCAPE_RIGHT) {
+      Orientation.LANDSCAPE_LEFT
+    } else {
+      Orientation.LANDSCAPE_RIGHT
+    }
+    updateLastInterfaceOrientationTo(invertedLandscapeOrientation)
   }
 
   private fun updateIsLockedTo(value: Boolean) {
