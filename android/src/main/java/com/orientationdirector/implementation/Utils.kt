@@ -37,12 +37,14 @@ class Utils(private val context: ReactContext) {
 
     return when {
       // Face up: device is lying flat with screen up
-      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) && isValueCloseTo(roll, 0f, 45f) -> Orientation.FACE_UP
+      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) &&
+        isValueCloseTo(roll, 0f, faceUpDownPitchTolerance) -> Orientation.FACE_UP
 
       // Face down: device is lying flat with screen down
-      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) && isValueCloseTo(roll, 180f, 45f) -> Orientation.FACE_DOWN
+      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) &&
+        (isValueCloseTo(roll, 180f, faceUpDownPitchTolerance) || isValueCloseTo(roll, -180f, faceUpDownPitchTolerance)) -> Orientation.FACE_DOWN
 
-      // Portrait: upright
+      // Portrait
       isValueCloseTo(pitch, -90f, 45f) -> Orientation.PORTRAIT
 
       // Portrait upside down
@@ -54,7 +56,7 @@ class Utils(private val context: ReactContext) {
       // Landscape right
       isValueCloseTo(roll, 90f, 45f) -> Orientation.LANDSCAPE_RIGHT
 
-      else -> Orientation.PORTRAIT // fallback
+      else -> Orientation.PORTRAIT
     }
   }
 
