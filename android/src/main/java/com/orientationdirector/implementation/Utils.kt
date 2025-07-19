@@ -42,7 +42,11 @@ class Utils(private val context: ReactContext) {
 
       // Face down: device is lying flat with screen down
       isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) &&
-        (isValueCloseTo(roll, 180f, faceUpDownPitchTolerance) || isValueCloseTo(roll, -180f, faceUpDownPitchTolerance)) -> Orientation.FACE_DOWN
+        (isValueCloseTo(roll, 180f, faceUpDownPitchTolerance) || isValueCloseTo(
+          roll,
+          -180f,
+          faceUpDownPitchTolerance
+        )) -> Orientation.FACE_DOWN
 
       // Portrait
       isValueCloseTo(pitch, -90f, 45f) -> Orientation.PORTRAIT
