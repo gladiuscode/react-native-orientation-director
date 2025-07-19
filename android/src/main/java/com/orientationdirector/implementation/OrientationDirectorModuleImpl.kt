@@ -33,7 +33,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     mAutoRotationObserver.enable()
 
     mBroadcastReceiver.setOnReceiveCallback {
-      adaptInterfaceTo(lastDeviceOrientation, false)
+      checkInterfaceOrientation(false)
     }
 
     context.addLifecycleEventListener(mLifecycleListener)
@@ -113,7 +113,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     context.currentActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
     updateIsLockedTo(false)
-    adaptInterfaceTo(lastDeviceOrientation)
+    checkInterfaceOrientation()
   }
 
   fun resetSupportedInterfaceOrientations() {
@@ -161,7 +161,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     mEventManager.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
     lastDeviceOrientation = deviceOrientation
 
-    adaptInterfaceTo(deviceOrientation)
+    checkInterfaceOrientation()
 
     if (!didComputeInitialDeviceOrientation) {
       didComputeInitialDeviceOrientation = true
@@ -169,45 +169,17 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     }
   }
 
-  private fun adaptInterfaceTo(deviceOrientation: Orientation, checkLastAutoRotationStatus: Boolean = true) {
-    if (checkLastAutoRotationStatus && !mAutoRotationObserver.getLastAutoRotationStatus()) {
+  private fun checkInterfaceOrientation(skipIfAutoRotationIsDisabled: Boolean = true) {
+    if (skipIfAutoRotationIsDisabled && !mAutoRotationObserver.getLastAutoRotationStatus()) {
       return
     }
 
-    val supportsLandscape =
-      mUtils.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-    if (isLocked && !supportsLandscape) {
+    if (isLocked) {
       return
     }
 
-    var newInterfaceOrientation = mUtils.convertToInterfaceOrientationFrom(deviceOrientation);
-
-    /**
-     * When the device orientation is either face up or face down,
-     * we can't match it to an interface orientation, because
-     * it could be either portrait or any landscape.
-     * So we read it from the system itself.
-     */
-    if (newInterfaceOrientation == Orientation.UNKNOWN) {
-      val rotation = mUtils.getInterfaceRotation()
-      newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
-    }
-
-    /**
-     * This differs from iOS because we can't read the actual orientation of the interface,
-     * we read its rotation.
-     * This means that even if the requestedOrientation of the currentActivity is locked to landscape
-     * it reads every possible orientation and this is not what we want.
-     * Instead, we check that its value is either LANDSCAPE_RIGHT or LANDSCAPE_LEFT, otherwise we
-     * exit
-     */
-    val newInterfaceOrientationIsNotLandscape =
-      newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT
-        && newInterfaceOrientation != Orientation.LANDSCAPE_LEFT;
-    if (supportsLandscape && newInterfaceOrientationIsNotLandscape) {
-      return
-    }
-
+    val rotation = mUtils.getInterfaceRotation()
+    val newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
     if (newInterfaceOrientation == lastInterfaceOrientation) {
       return
     }
