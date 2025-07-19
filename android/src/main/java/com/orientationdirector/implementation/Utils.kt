@@ -77,8 +77,8 @@ class Utils(private val context: ReactContext) {
 
   fun convertToOrientationFromScreenRotation(screenRotation: Int): Orientation {
     return when (screenRotation) {
-      Surface.ROTATION_270 -> Orientation.LANDSCAPE_LEFT
-      Surface.ROTATION_90 -> Orientation.LANDSCAPE_RIGHT
+      Surface.ROTATION_270 -> Orientation.LANDSCAPE_RIGHT
+      Surface.ROTATION_90 -> Orientation.LANDSCAPE_LEFT
       Surface.ROTATION_180 -> Orientation.PORTRAIT_UPSIDE_DOWN
       else -> Orientation.PORTRAIT
     }
