@@ -20,6 +20,10 @@ class Utils(private val context: ReactContext) {
   }
 
   fun convertToDeviceOrientationFrom(orientationAngles: FloatArray): Orientation {
+    if (orientationAngles.size < 3) {
+      return Orientation.PORTRAIT
+    }
+
     val (_, pitchRadians, rollRadians) = orientationAngles
 
     val pitch = Math.toDegrees(pitchRadians.toDouble()).toFloat()
