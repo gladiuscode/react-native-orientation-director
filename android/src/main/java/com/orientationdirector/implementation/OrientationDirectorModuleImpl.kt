@@ -178,27 +178,26 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       return
     }
 
-    val rotation = mUtils.getInterfaceRotation()
-    val newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
-    if (newInterfaceOrientation == lastInterfaceOrientation) {
-      return
-    }
+    if (lastDeviceOrientation != Orientation.LANDSCAPE_RIGHT && lastDeviceOrientation != Orientation.LANDSCAPE_LEFT) {
+      val rotation = mUtils.getInterfaceRotation()
+      val newInterfaceOrientation = mUtils.convertToOrientationFromScreenRotation(rotation)
 
-    if (newInterfaceOrientation != Orientation.LANDSCAPE_LEFT && newInterfaceOrientation != Orientation.LANDSCAPE_RIGHT) {
       updateLastInterfaceOrientationTo(newInterfaceOrientation)
-      return;
+      return
     }
 
     /**
      * The reason we invert the interface orientation is to match iOS behavior with
-     * UIInterfaceOrientation
+     * UIInterfaceOrientation when device is in landscape mode
      */
-    val invertedLandscapeOrientation = if (newInterfaceOrientation == Orientation.LANDSCAPE_RIGHT) {
-      Orientation.LANDSCAPE_LEFT
-    } else {
-      Orientation.LANDSCAPE_RIGHT
-    }
-    updateLastInterfaceOrientationTo(invertedLandscapeOrientation)
+    val interfaceOrientationBasedOnDeviceOne =
+      if (lastDeviceOrientation == Orientation.LANDSCAPE_RIGHT) {
+        Orientation.LANDSCAPE_LEFT
+      } else {
+        Orientation.LANDSCAPE_RIGHT
+      }
+
+    updateLastInterfaceOrientationTo(interfaceOrientationBasedOnDeviceOne)
   }
 
   private fun updateIsLockedTo(value: Boolean) {
@@ -207,6 +206,10 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   }
 
   private fun updateLastInterfaceOrientationTo(value: Orientation) {
+    if (value == lastInterfaceOrientation) {
+      return
+    }
+
     lastInterfaceOrientation = value
     mEventManager.sendInterfaceOrientationDidChange(value.ordinal)
   }
