@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.6.1 (2025-07-27)</small>
+
+* fix(android): broken interface computation (#89) ([26cf330](https://github.com/gladiuscode/react-native-orientation-director/commit/26cf330)), closes [#89](https://github.com/gladiuscode/react-native-orientation-director/issues/89)
+* docs: indicate required android imports (#88) ([ef8a429](https://github.com/gladiuscode/react-native-orientation-director/commit/ef8a429)), closes [#88](https://github.com/gladiuscode/react-native-orientation-director/issues/88)
+
 ## 2.6.0 (2025-06-28)
 
 * fix(android): face up or down detection and improve portrait (#84) ([9bc1d9c](https://github.com/gladiuscode/react-native-orientation-director/commit/9bc1d9c)), closes [#84](https://github.com/gladiuscode/react-native-orientation-director/issues/84)
