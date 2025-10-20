@@ -59,7 +59,7 @@ export function swiftFileUpdater(
   originalContents: string,
   sdkVersion?: string
 ): string {
-  const methodPrefix = !sdkVersion?.includes('53') ? 'override' : '';
+  const methodPrefix = computeMethodPrefix(sdkVersion);
   const supportedInterfaceOrientationsForCodeBlock = `\n  ${methodPrefix} func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
   }\n`;
@@ -77,6 +77,24 @@ export function swiftFileUpdater(
   });
 
   return results.contents;
+
+  function computeMethodPrefix(_sdkVersion?: string) {
+    if (!_sdkVersion) {
+      return '';
+    }
+
+    const sdkVersionAsNumber = Number(_sdkVersion);
+    if (Number.isNaN(sdkVersionAsNumber)) {
+      return '';
+    }
+
+    if (sdkVersionAsNumber >= 53) {
+      return '';
+    }
+
+    // Older SDK versions need the override keyword
+    return 'override';
+  }
 }
 
 export function objCFileUpdater(originalContents: string): string {
