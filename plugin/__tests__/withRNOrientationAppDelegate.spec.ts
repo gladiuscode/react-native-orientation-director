@@ -19,7 +19,7 @@ describe('withRNOrientationAppDelegate', function () {
     expect(result).toMatchSnapshot();
   });
 
-  it('updates the AppDelegate52.swift with the method implementation having public override when sdk is < 53', async function () {
+  it('updates the AppDelegate52.swift with the method implementation having public override when sdk is <= 52', async function () {
     const appDelegatePath = path.join(
       __dirname,
       './fixtures/AppDelegate52.swift'
@@ -30,7 +30,7 @@ describe('withRNOrientationAppDelegate', function () {
     expect(result).toMatchSnapshot();
   });
 
-  it('updates the AppDelegate53.swift with the method implementation without override when sdk is greater than or equal to 53', async function () {
+  it('updates the AppDelegate53.swift with the method implementation without public override when sdk is equal to 53', async function () {
     const appDelegatePath = path.join(
       __dirname,
       './fixtures/AppDelegate53.swift'
@@ -41,7 +41,7 @@ describe('withRNOrientationAppDelegate', function () {
     expect(result).toMatchSnapshot();
   });
 
-  it('updates the AppDelegate53.swift with the method implementation without override when sdk is greater than or equal to 54', async function () {
+  it('updates the AppDelegate53.swift with the method implementation having public override when sdk is greater than or equal to 54', async function () {
     const appDelegatePath = path.join(
       __dirname,
       './fixtures/AppDelegate53.swift'

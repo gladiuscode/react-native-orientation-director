@@ -93,11 +93,11 @@ export function swiftFileUpdater(
       return '';
     }
 
-    if (major >= 53) {
-      return 'public override';
+    if (major === 53) {
+      return '';
     }
 
-    return '';
+    return 'public override';
   }
 }
 
