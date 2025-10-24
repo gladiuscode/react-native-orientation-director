@@ -83,17 +83,21 @@ export function swiftFileUpdater(
       return '';
     }
 
-    const sdkVersionAsNumber = Number(_sdkVersion);
-    if (Number.isNaN(sdkVersionAsNumber)) {
+    const rawMajor = _sdkVersion.split('.').at(0);
+    if (!rawMajor) {
       return '';
     }
 
-    if (sdkVersionAsNumber >= 53) {
+    const major = Number(rawMajor);
+    if (Number.isNaN(major)) {
       return '';
     }
 
-    // Older SDK versions need the override keyword
-    return 'override';
+    if (major === 53) {
+      return '';
+    }
+
+    return 'public override';
   }
 }
 
