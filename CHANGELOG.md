@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.6.3 (2025-10-24)</small>
+
+* fix: expo plugin breaking due to override keyword needing to be public in version 54 (#95) ([91d4a30](https://github.com/gladiuscode/react-native-orientation-director/commit/91d4a30)), closes [#95](https://github.com/gladiuscode/react-native-orientation-director/issues/95)
+
 ## <small>2.6.2 (2025-10-20)</small>
 
 * fix: expo plugin breaking due to override keyword not supported in version 54 (#92) ([1142126](https://github.com/gladiuscode/react-native-orientation-director/commit/1142126)), closes [#92](https://github.com/gladiuscode/react-native-orientation-director/issues/92)
