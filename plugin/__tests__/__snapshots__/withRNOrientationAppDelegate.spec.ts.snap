@@ -77,7 +77,7 @@ exports[`withRNOrientationAppDelegate updates the AppDelegate.mm with both heade
 "
 `;
 
-exports[`withRNOrientationAppDelegate updates the AppDelegate52.swift with the method implementation having public override when sdk is < 53 1`] = `
+exports[`withRNOrientationAppDelegate updates the AppDelegate52.swift with the method implementation having public override when sdk is <= 52 1`] = `
 "import UIKit
 import React
 import React_RCTAppDelegate
@@ -95,9 +95,9 @@ class AppDelegate: RCTAppDelegate {
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-e6869f486930a8ef16098c6ceec0011ee7ff621f
+// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-147d50248b7b55d1acbe02fc03ff4cde90a30975
 
-   func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  public override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
   }
 
@@ -118,7 +118,7 @@ class AppDelegate: RCTAppDelegate {
 "
 `;
 
-exports[`withRNOrientationAppDelegate updates the AppDelegate53.swift with the method implementation without override when sdk is greater than or equal to 53 1`] = `
+exports[`withRNOrientationAppDelegate updates the AppDelegate53.swift with the method implementation having public override when sdk is greater than or equal to 54 1`] = `
 "import Expo
 import React
 import ReactAppDependencyProvider
@@ -199,7 +199,7 @@ class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
 "
 `;
 
-exports[`withRNOrientationAppDelegate updates the AppDelegate53.swift with the method implementation without override when sdk is greater than or equal to 54 1`] = `
+exports[`withRNOrientationAppDelegate updates the AppDelegate53.swift with the method implementation without public override when sdk is equal to 53 1`] = `
 "import Expo
 import React
 import ReactAppDependencyProvider
@@ -233,9 +233,9 @@ public class AppDelegate: ExpoAppDelegate {
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-147d50248b7b55d1acbe02fc03ff4cde90a30975
+// React Native Orientation Director @generated begin @react-native-orientation-director/supportedInterfaceOrientationsFor-implementation - expo prebuild (DO NOT MODIFY) sync-e6869f486930a8ef16098c6ceec0011ee7ff621f
 
-  public override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+   func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
   }
 
