@@ -60,7 +60,7 @@ class Utils(private val context: ReactContext) {
       // Landscape right
       isValueCloseTo(roll, 90f, 45f) -> Orientation.LANDSCAPE_RIGHT
 
-      else -> Orientation.PORTRAIT
+      else -> Orientation.UNKNOWN
     }
   }
 
