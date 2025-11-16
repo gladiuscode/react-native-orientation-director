@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.6.4 (2025-11-16)</small>
+
+* fix(android): portrait falsy report when degrees don't match clauses (#96) ([b6a27da](https://github.com/gladiuscode/react-native-orientation-director/commit/b6a27da)), closes [#96](https://github.com/gladiuscode/react-native-orientation-director/issues/96)
+
 ## <small>2.6.3 (2025-10-24)</small>
 
 * fix: expo plugin breaking due to override keyword needing to be public in version 54 (#95) ([91d4a30](https://github.com/gladiuscode/react-native-orientation-director/commit/91d4a30)), closes [#95](https://github.com/gladiuscode/react-native-orientation-director/issues/95)
