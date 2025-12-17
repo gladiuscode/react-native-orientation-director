@@ -36,6 +36,9 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       checkInterfaceOrientation(false)
     }
 
+    // NOTE(1.init): This is needed to compute the initial device orientation
+    mOrientationSensorsEventListener.enable()
+
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
       if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
@@ -45,17 +48,17 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       mBroadcastReceiver.register()
     }
     mLifecycleListener.setOnHostPauseCallback {
-      if (initialized && areOrientationSensorsEnabled) {
+      if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.disable()
-        mAutoRotationObserver.disable()
       }
+      mAutoRotationObserver.disable()
       mBroadcastReceiver.unregister()
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      if (areOrientationSensorsEnabled) {
+      if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
         mOrientationSensorsEventListener.disable()
-        mAutoRotationObserver.disable()
       }
+      mAutoRotationObserver.disable()
       mBroadcastReceiver.unregister()
     }
 
@@ -163,8 +166,14 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     checkInterfaceOrientation()
 
-    if (!didComputeInitialDeviceOrientation) {
-      didComputeInitialDeviceOrientation = true
+    // NOTE(2.init): This is needed to disable sensors if they were needed just for the initial
+    //  device computation.
+    if (didComputeInitialDeviceOrientation) {
+      return
+    }
+    didComputeInitialDeviceOrientation = true
+
+    if (!areOrientationSensorsEnabled) {
       mOrientationSensorsEventListener.disable()
     }
   }
