@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.6.5 (2025-12-17)</small>
+
+* fix(#98): initial device computation breaking sensor usages on android (#100) ([d877a78](https://github.com/gladiuscode/react-native-orientation-director/commit/d877a78)), closes [#98](https://github.com/gladiuscode/react-native-orientation-director/issues/98) [#100](https://github.com/gladiuscode/react-native-orientation-director/issues/100)
+
 ## <small>2.6.4 (2025-11-16)</small>
 
 * fix(android): portrait falsy report when degrees don't match clauses (#96) ([b6a27da](https://github.com/gladiuscode/react-native-orientation-director/commit/b6a27da)), closes [#96](https://github.com/gladiuscode/react-native-orientation-director/issues/96)
