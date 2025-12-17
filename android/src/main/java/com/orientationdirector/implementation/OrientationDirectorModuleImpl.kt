@@ -41,21 +41,21 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     context.addLifecycleEventListener(mLifecycleListener)
     mLifecycleListener.setOnHostResumeCallback {
-      if (areOrientationSensorsEnabled) {
+      if (areOrientationSensorsEnabled || !didComputeInitialDeviceOrientation) {
         mOrientationSensorsEventListener.enable()
       }
       mAutoRotationObserver.enable()
       mBroadcastReceiver.register()
     }
     mLifecycleListener.setOnHostPauseCallback {
-      if (areOrientationSensorsEnabled) {
+      if (areOrientationSensorsEnabled || !didComputeInitialDeviceOrientation) {
         mOrientationSensorsEventListener.disable()
       }
       mAutoRotationObserver.disable()
       mBroadcastReceiver.unregister()
     }
     mLifecycleListener.setOnHostDestroyCallback {
-      if (areOrientationSensorsEnabled) {
+      if (areOrientationSensorsEnabled || !didComputeInitialDeviceOrientation) {
         mOrientationSensorsEventListener.disable()
       }
       mAutoRotationObserver.disable()
