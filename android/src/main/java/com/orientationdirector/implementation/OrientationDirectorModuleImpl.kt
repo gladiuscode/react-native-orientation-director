@@ -168,8 +168,12 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     // NOTE(2.init): This is needed to disable sensors if they were needed just for the initial
     //  device computation.
-    if (!didComputeInitialDeviceOrientation && !areOrientationSensorsEnabled) {
-      didComputeInitialDeviceOrientation = true
+    if (didComputeInitialDeviceOrientation) {
+      return
+    }
+    didComputeInitialDeviceOrientation = true
+
+    if (!areOrientationSensorsEnabled) {
       mOrientationSensorsEventListener.disable()
     }
   }
