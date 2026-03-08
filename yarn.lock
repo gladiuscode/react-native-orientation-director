@@ -8979,6 +8979,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob@npm:^10.5.0":
+  version: 10.5.0
+  resolution: "glob@npm:10.5.0"
+  dependencies:
+    foreground-child: ^3.1.0
+    jackspeak: ^3.1.2
+    minimatch: ^9.0.4
+    minipass: ^7.1.2
+    package-json-from-dist: ^1.0.0
+    path-scurry: ^1.11.1
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: cda96c074878abca9657bd984d2396945cf0d64283f6feeb40d738fe2da642be0010ad5210a1646244a5fc3511b0cab5a374569b3de5a12b8a63d392f18c6043
+  languageName: node
+  linkType: hard
+
 "glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.0":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
@@ -13705,6 +13721,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-builder-bob@npm:0.40.18":
+  version: 0.40.18
+  resolution: "react-native-builder-bob@npm:0.40.18"
+  dependencies:
+    "@babel/core": ^7.25.2
+    "@babel/plugin-transform-flow-strip-types": ^7.26.5
+    "@babel/plugin-transform-strict-mode": ^7.24.7
+    "@babel/preset-env": ^7.25.2
+    "@babel/preset-react": ^7.24.7
+    "@babel/preset-typescript": ^7.24.7
+    arktype: ^2.1.15
+    babel-plugin-syntax-hermes-parser: ^0.28.0
+    browserslist: ^4.20.4
+    cross-spawn: ^7.0.3
+    dedent: ^0.7.0
+    del: ^6.1.1
+    escape-string-regexp: ^4.0.0
+    fs-extra: ^10.1.0
+    glob: ^10.5.0
+    is-git-dirty: ^2.0.1
+    json5: ^2.2.1
+    kleur: ^4.1.4
+    prompts: ^2.4.2
+    react-native-monorepo-config: ^0.3.3
+    which: ^2.0.2
+    yargs: ^17.5.1
+  bin:
+    bob: bin/bob
+  checksum: 429cfa0fa4aa1bcc8410718563449dd31f450010d7d3c8be8a4a2ac0ac82b20be3bb2c2f0811df64e1cf2e4714f73c8cb9dd031e4a0a0e07ee0b1b96d8a4d70a
+  languageName: node
+  linkType: hard
+
 "react-native-builder-bob@npm:^0.40.10":
   version: 0.40.10
   resolution: "react-native-builder-bob@npm:0.40.10"
@@ -13755,6 +13803,16 @@ __metadata:
     escape-string-regexp: ^5.0.0
     fast-glob: ^3.3.3
   checksum: 6356c362c517c49e17d54ee764c3566ba71491fa0d755618ecf2ca548348668e84fe448c24066645983acbc2bd4c0ed47594f9b3ec9dcc0558c0fd9594d2391e
+  languageName: node
+  linkType: hard
+
+"react-native-monorepo-config@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "react-native-monorepo-config@npm:0.3.3"
+  dependencies:
+    escape-string-regexp: ^5.0.0
+    fast-glob: ^3.3.3
+  checksum: 6e9491d416c5b035fbe8da77fc36d18cd2b726bc4024605e3aae46c7da7f8d3d8c8618cfb474bca84008b269cb0516e130e4e513a6f4b92fb6033496800c646b
   languageName: node
   linkType: hard
 
@@ -13822,7 +13880,7 @@ __metadata:
     prettier: ^3.0.3
     react: 19.2.3
     react-native: 0.84.1
-    react-native-builder-bob: ^0.40.10
+    react-native-builder-bob: 0.40.18
     release-it: ^17.10.0
     turbo: ^1.10.7
     typescript: ^5.8.3
