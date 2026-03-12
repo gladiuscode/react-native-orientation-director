@@ -1,5 +1,5 @@
 {
-  "name": "react-native-orientation-director-example",
+  "name": "react-native-awesome-library-example",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -30,9 +30,8 @@
     "@react-native/metro-config": "0.84.1",
     "@react-native/typescript-config": "0.84.1",
     "@types/react": "^19.2.0",
-    "react-native-builder-bob": "^0.40.10",
-    "react-test-renderer": "19.2.3",
-    "typescript": "^5.8.3"
+    "react-native-builder-bob": "^0.40.18",
+    "react-native-monorepo-config": "^0.3.3"
   },
   "engines": {
     "node": ">= 22.11.0"
