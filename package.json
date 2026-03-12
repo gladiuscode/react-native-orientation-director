@@ -127,6 +127,11 @@
     "jsSrcsDir": "src",
     "android": {
       "javaPackageName": "com.orientationdirector"
+    },
+    "ios": {
+      "modulesProvider": {
+        "OrientationDirector": "OrientationDirector"
+      }
     }
   },
   "jest": {
