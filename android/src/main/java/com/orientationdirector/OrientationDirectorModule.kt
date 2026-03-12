@@ -4,33 +4,28 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.orientationdirector.implementation.OrientationDirectorModuleImpl
 
-class OrientationDirectorModule internal constructor(context: ReactApplicationContext) :
-  NativeOrientationDirectorSpec(context) {
+class OrientationDirectorModule(reactContext: ReactApplicationContext) :
+  NativeOrientationDirectorSpec(reactContext) {
 
-  private var implementation = OrientationDirectorModuleImpl(context)
+  override fun getName() = NAME
 
-  override fun getName() = OrientationDirectorModuleImpl.NAME
-
+  private var implementation = OrientationDirectorModuleImpl(reactContext)
 
   override fun getInterfaceOrientation(promise: Promise) {
     promise.resolve(implementation.getInterfaceOrientation().ordinal)
   }
 
-
   override fun getDeviceOrientation(promise: Promise) {
     promise.resolve(implementation.getDeviceOrientation().ordinal)
   }
-
 
   override fun lockTo(orientation: Double) {
     implementation.lockTo(orientation.toInt())
   }
 
-
   override fun unlock() {
     implementation.unlock()
   }
-
 
   override fun resetSupportedInterfaceOrientations() {
     implementation.resetSupportedInterfaceOrientations()
@@ -55,5 +50,9 @@ class OrientationDirectorModule internal constructor(context: ReactApplicationCo
   override fun addListener(eventName: String) {}
 
   override fun removeListeners(count: Double) {}
+
+  companion object {
+    const val NAME = OrientationDirectorModuleImpl.NAME
+  }
 
 }
