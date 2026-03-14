@@ -6,7 +6,10 @@
 
 A React Native library that allows you to listen to orientation changes, lock interface orientation
 to a selected one and get current orientation.
-Written in Kotlin, Swift and Typescript. It supports both the Old and New React Native architecture.
+Written in Kotlin, Swift and Typescript.
+
+Kindly note that this library only supports the new architecture since v3.0.0, if you are looking for a version that
+supports the old architecture, please check older versions.
 
 This library takes inspiration from and builds upon the following amazing alternatives:
 
@@ -112,40 +115,20 @@ Nothing else is required for Android.
 
 #### iOS
 
-To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Since React Native
-0.77, the AppDelegate has been migrated to Swift, so see the instructions below for both Swift and Objective-C.
-
-##### Objective-C
-
-In your AppDelegate.mm file, import "OrientationDirector.h" and implement supportedInterfaceOrientationsForWindow method as follows:
-
-```objc
-#import <OrientationDirector.h>
-
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-  return [OrientationDirector getSupportedInterfaceOrientationsForWindow];
-}
-```
-
-##### Swift
-
-You need to create a [bridging header](https://developer.apple.com/documentation/swift/importing-objective-c-into-swift#Import-Code-Within-an-App-Target)
-to import the library, as shown below:
-
-```
-#import "OrientationDirector.h"
-```
+To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Follow the instructions
+below to set it up:
 
 Then, in your AppDelegate.swift file, implement the supportedInterfaceOrientationsFor method as follows:
 
 ```swift
-override func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-  return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
-}
-```
 
-Note: if you are targeting react-native > 79.x, you can omit the `override` keyword.
+#import "OrientationDirector.h"
+
+func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+  return SharedOrientationDirectorImpl.shared.supportedInterfaceOrientations
+}
+
+```
 
 If you need help, you can check the example project.
 
