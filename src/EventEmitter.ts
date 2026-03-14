@@ -1,27 +1,22 @@
-import { Platform, type EmitterSubscription } from 'react-native';
-import Module, { ModuleEventEmitter } from './module';
-import Event from './types/Event.enum';
+import { Platform, type EventSubscription } from 'react-native';
+import Module from './module';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockedEvent } from './types/LockedEvent.interface';
 
 class EventEmitter {
+  private static androidListenerCount = 0;
+
   static addDeviceOrientationDidChangeListener(
     callback: (orientation: OrientationEvent) => void
   ) {
-    let listener = ModuleEventEmitter.addListener(
-      Event.DeviceOrientationDidChange,
-      callback
-    );
+    let listener = Module.onDeviceOrientationChanged(callback);
 
     if (Platform.OS !== 'android') {
       return listener;
     }
 
-    const listenerCount = ModuleEventEmitter.listenerCount(
-      Event.DeviceOrientationDidChange
-    );
-
-    if (listenerCount === 1) {
+    EventEmitter.androidListenerCount++;
+    if (EventEmitter.androidListenerCount === 1) {
       Module.enableOrientationSensors();
     }
 
@@ -31,20 +26,17 @@ class EventEmitter {
   static addInterfaceOrientationDidChangeListener(
     callback: (orientation: OrientationEvent) => void
   ) {
-    return ModuleEventEmitter.addListener(
-      Event.InterfaceOrientationDidChange,
-      callback
-    );
+    return Module.onInterfaceOrientationChanged(callback);
   }
 
   static addLockDidChangeListener(callback: (event: LockedEvent) => void) {
-    return ModuleEventEmitter.addListener(Event.LockDidChange, callback);
+    return Module.onLockChanged(callback);
   }
 
   private static createDeviceOrientationListenerProxy(
-    listener: EmitterSubscription
+    listener: EventSubscription
   ) {
-    const handler: ProxyHandler<EmitterSubscription> = {
+    const handler: ProxyHandler<EventSubscription> = {
       get(target, propertyKey, receiver) {
         if (propertyKey === 'remove') {
           disableOrientationSensorsIfLastListener();
@@ -56,13 +48,18 @@ class EventEmitter {
     return new Proxy(listener, handler);
 
     function disableOrientationSensorsIfLastListener() {
-      const listenerCount = ModuleEventEmitter.listenerCount(
-        Event.DeviceOrientationDidChange
-      );
-
-      if (listenerCount === 1) {
+      if (EventEmitter.androidListenerCount === 1) {
+        EventEmitter.androidListenerCount = 0;
         Module.disableOrientationSensors();
+        return;
       }
+
+      if (EventEmitter.androidListenerCount === 0) {
+        return;
+      }
+
+      EventEmitter.androidListenerCount--;
+      return;
     }
   }
 }

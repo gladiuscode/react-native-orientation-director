@@ -51,12 +51,16 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
     self.isJsListening = NO;
 }
 
-- (NSArray<NSString *> *)supportedEvents {
-    return [EventManager supportedEvents];
+-(void)emitOnDeviceOrientationDidChangeWithParams:(NSDictionary*)params {
+  [self emitOnDeviceOrientationChanged:params];
 }
 
-- (void)sendEventWithName:(NSString * _Nonnull)name params:(NSDictionary *)params {
-    [self sendEventWithName:name body:params];
+-(void)emitOnInterfaceOrientationDidChangeWithParams:(NSDictionary*)params {
+  [self emitOnInterfaceOrientationChanged:params];
+}
+
+-(void)emitOnLockChangedWithParams:(NSDictionary*)params {
+  [self emitOnLockChanged:params];
 }
 ///
 ///////////////////////////////////////////////////////////////////////////////////////

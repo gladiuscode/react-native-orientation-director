@@ -1,4 +1,4 @@
-import type { TurboModule } from 'react-native';
+import { type CodegenTypes, type TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
 
 export interface Spec extends TurboModule {
@@ -21,8 +21,13 @@ export interface Spec extends TurboModule {
   //
   ////////////////////////////////////
 
-  addListener: (eventType: string) => void;
-  removeListeners: (count: number) => void;
+  readonly onDeviceOrientationChanged: CodegenTypes.EventEmitter<{
+    orientation: number;
+  }>;
+  readonly onInterfaceOrientationChanged: CodegenTypes.EventEmitter<{
+    orientation: number;
+  }>;
+  readonly onLockChanged: CodegenTypes.EventEmitter<{ locked: boolean }>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('OrientationDirector');
