@@ -4,13 +4,13 @@
  This condition is needed to support use_frameworks.
  https://github.com/callstack/react-native-builder-bob/discussions/412#discussioncomment-6352402
  */
-#if __has_include("react_native_orientation_director-Swift.h")
-#import "react_native_orientation_director-Swift.h"
+#if __has_include("OrientationDirector-Swift.h")
+#import "OrientationDirector-Swift.h"
 #else
-#import "react_native_orientation_director/react_native_orientation_director-Swift.h"
+#import "OrientationDirector/OrientationDirector-Swift.h"
 #endif
 
-static OrientationDirectorImpl *_director = [OrientationDirectorImpl new];
+static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
@@ -38,11 +38,6 @@ static OrientationDirectorImpl *_director = [OrientationDirectorImpl new];
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
-}
-
-+ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
-{
-    return [_director supportedInterfaceOrientations];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

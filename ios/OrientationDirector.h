@@ -7,8 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL isJsListening;
 
-+(UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow;
-
 @end
 
 NS_ASSUME_NONNULL_END

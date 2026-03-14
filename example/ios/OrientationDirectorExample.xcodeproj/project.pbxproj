@@ -20,7 +20,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OrientationDirectorExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = OrientationDirectorExample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1B92D7FA4703F1B0B676C06C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = OrientationDirectorExample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2A603DD92D59212A00CE7330 /* OrientationDirectorExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OrientationDirectorExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		2A603DDA2D59212A00CE7330 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = OrientationDirectorExample/AppDelegate.swift; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-OrientationDirectorExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrientationDirectorExample.debug.xcconfig"; path = "Target Support Files/Pods-OrientationDirectorExample/Pods-OrientationDirectorExample.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-OrientationDirectorExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrientationDirectorExample.release.xcconfig"; path = "Target Support Files/Pods-OrientationDirectorExample/Pods-OrientationDirectorExample.release.xcconfig"; sourceTree = "<group>"; };
@@ -50,7 +49,6 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				1B92D7FA4703F1B0B676C06C /* PrivacyInfo.xcprivacy */,
 				2A603DDA2D59212A00CE7330 /* AppDelegate.swift */,
-				2A603DD92D59212A00CE7330 /* OrientationDirectorExample-Bridging-Header.h */,
 			);
 			name = OrientationDirectorExample;
 			sourceTree = "<group>";
@@ -280,7 +278,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OrientationDirectorExample;
-				SWIFT_OBJC_BRIDGING_HEADER = "OrientationDirectorExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -309,7 +306,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OrientationDirectorExample;
-				SWIFT_OBJC_BRIDGING_HEADER = "OrientationDirectorExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
