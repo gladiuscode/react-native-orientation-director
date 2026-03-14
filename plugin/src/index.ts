@@ -4,9 +4,7 @@ import {
   withPlugins,
 } from '@expo/config-plugins';
 
-import { withAppBridgingHeaderMod } from './custom-mod/withBridgingHeader';
 import { withRNOrientationAppDelegate } from './withRNOrientationAppDelegate';
-import { withRNOrientationBridgingHeader } from './withRNOrientationBridgingHeader';
 import { withRNOrientationMainActivity } from './withRNOrientationMainActivity';
 
 /**
@@ -22,9 +20,7 @@ import { withRNOrientationMainActivity } from './withRNOrientationMainActivity';
 const withRNOrientationDirector: ConfigPlugin = (config) => {
   return withPlugins(config, [
     withRNOrientationAppDelegate,
-    withRNOrientationBridgingHeader,
     withRNOrientationMainActivity,
-    withAppBridgingHeaderMod,
   ]);
 };
 

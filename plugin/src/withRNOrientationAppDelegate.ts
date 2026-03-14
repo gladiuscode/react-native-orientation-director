@@ -15,44 +15,18 @@ async function readAppDelegateFileAndUpdateContents(
 ): Promise<ExportedConfigWithProps<AppDelegateProjectFile>> {
   const { modResults: appDelegateFile } = config;
 
-  const fileUpdater = getCompatibleFileUpdater(appDelegateFile.language);
-  if (fileUpdater.language === 'swift') {
-    const { worker } = fileUpdater;
-    appDelegateFile.contents = worker(
-      appDelegateFile.contents,
-      config.sdkVersion
+  if (appDelegateFile.language !== 'swift') {
+    throw new Error(
+      `Cannot add React Native Orientation Director code to AppDelegate of language "${appDelegateFile.language}"`
     );
-  } else {
-    const { worker } = fileUpdater;
-    appDelegateFile.contents = worker(appDelegateFile.contents);
   }
+
+  appDelegateFile.contents = swiftFileUpdater(
+    appDelegateFile.contents,
+    config.sdkVersion
+  );
 
   return config;
-}
-
-function getCompatibleFileUpdater(
-  language: AppDelegateProjectFile['language']
-):
-  | { language: 'swift'; worker: typeof swiftFileUpdater }
-  | { language: 'objc' | 'objcpp'; worker: typeof objCFileUpdater } {
-  switch (language) {
-    case 'objc':
-    case 'objcpp': {
-      return {
-        language,
-        worker: objCFileUpdater,
-      };
-    }
-    case 'swift':
-      return {
-        language,
-        worker: swiftFileUpdater,
-      };
-    default:
-      throw new Error(
-        `Cannot add React Native Orientation Director code to AppDelegate of language "${language}"`
-      );
-  }
 }
 
 export function swiftFileUpdater(
@@ -60,23 +34,34 @@ export function swiftFileUpdater(
   sdkVersion?: string
 ): string {
   const methodPrefix = computeMethodPrefix(sdkVersion);
-  const supportedInterfaceOrientationsForCodeBlock = `\n  ${methodPrefix} func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-    return OrientationDirector.getSupportedInterfaceOrientationsForWindow()
+
+  const libraryImportCodeBlock = `import OrientationDirector`;
+  const rightBeforeAnnotation = /@main|@UIApplicationMain/g;
+  const withImport = mergeContents({
+    tag: '@react-native-orientation-director/library-import',
+    src: originalContents,
+    newSrc: libraryImportCodeBlock,
+    anchor: rightBeforeAnnotation,
+    offset: -1,
+    comment: '// React Native Orientation Director',
+  });
+
+  const supportedInterfaceOrientationsCodeBlock = `\n  ${methodPrefix} func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    return SharedOrientationDirectorImpl.shared.supportedInterfaceOrientations
   }\n`;
   const rightBeforeLastClosingBrace =
     /didFinishLaunchingWithOptions:\s*launchOptions\)/g;
   const pasteInTheListJustAfterTheClosingBracket = 2;
-
-  const results = mergeContents({
-    tag: '@react-native-orientation-director/supportedInterfaceOrientationsFor-implementation',
-    src: originalContents,
-    newSrc: supportedInterfaceOrientationsForCodeBlock,
+  const completedMerge = mergeContents({
+    tag: '@react-native-orientation-director/supportedInterfaceOrientations-implementation',
+    src: withImport.contents,
+    newSrc: supportedInterfaceOrientationsCodeBlock,
     anchor: rightBeforeLastClosingBrace,
     offset: pasteInTheListJustAfterTheClosingBracket,
     comment: '// React Native Orientation Director',
   });
 
-  return results.contents;
+  return completedMerge.contents;
 
   function computeMethodPrefix(_sdkVersion?: string) {
     if (!_sdkVersion) {
@@ -99,35 +84,4 @@ export function swiftFileUpdater(
 
     return 'public override';
   }
-}
-
-export function objCFileUpdater(originalContents: string): string {
-  const libraryHeaderImportCodeBlock = '#import "OrientationDirector.h"\n';
-  const rightBeforeAppDelegateImplementation = /@implementation\s+\w+/g;
-
-  const headerImportMergeResults = mergeContents({
-    tag: '@react-native-orientation-director/library-header-import',
-    src: originalContents,
-    newSrc: libraryHeaderImportCodeBlock,
-    anchor: rightBeforeAppDelegateImplementation,
-    offset: 0,
-    comment: '// React Native Orientation Director',
-  });
-
-  const supportedInterfaceOrientationsForCodeBlock = `- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-  return [OrientationDirector getSupportedInterfaceOrientationsForWindow];
-}\n`;
-  const rightBeforeLastClosingEnd = /@end[^@]*$/g;
-
-  const implementationMergeResults = mergeContents({
-    tag: '@react-native-orientation-director/supportedInterfaceOrientationsFor-implementation',
-    src: headerImportMergeResults.contents,
-    newSrc: supportedInterfaceOrientationsForCodeBlock,
-    anchor: rightBeforeLastClosingEnd,
-    offset: 0,
-    comment: '// React Native Orientation Director',
-  });
-
-  return implementationMergeResults.contents;
 }
