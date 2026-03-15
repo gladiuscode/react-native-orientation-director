@@ -195,11 +195,6 @@ differently than on iOS, mainly in the following ways:
 
 This behavior allows us to follow Google's best practices related to the Sensors Framework. More [here](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview#sensors-practices).
 
-## Roadmap
-
-- [ ] Add JS side tests
-- [ ] Add iOS side tests
-
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
