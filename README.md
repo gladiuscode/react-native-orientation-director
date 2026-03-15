@@ -118,7 +118,7 @@ Nothing else is required for Android.
 To properly handle interface orientation changes in iOS, you need to update your AppDelegate file. Follow the instructions
 below to set it up:
 
-Then, in your AppDelegate.swift file, implement the supportedInterfaceOrientationsFor method as follows:
+In your AppDelegate.swift file, implement the supportedInterfaceOrientationsFor method as follows:
 
 ```swift
 
