@@ -2,14 +2,16 @@ package com.orientationdirector
 
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.WritableMap
+import com.orientationdirector.implementation.EventManagerDelegate
 import com.orientationdirector.implementation.OrientationDirectorModuleImpl
 
 class OrientationDirectorModule(reactContext: ReactApplicationContext) :
-  NativeOrientationDirectorSpec(reactContext) {
+  NativeOrientationDirectorSpec(reactContext), EventManagerDelegate {
 
   override fun getName() = NAME
 
-  private var implementation = OrientationDirectorModuleImpl(reactContext)
+  private var implementation = OrientationDirectorModuleImpl(reactContext, this)
 
   override fun getInterfaceOrientation(promise: Promise) {
     promise.resolve(implementation.getInterfaceOrientation().ordinal)
@@ -47,9 +49,17 @@ class OrientationDirectorModule(reactContext: ReactApplicationContext) :
     return implementation.disableOrientationSensors()
   }
 
-  override fun addListener(eventName: String) {}
+  override fun sendOnDeviceOrientationChanged(params: WritableMap) {
+    emitOnDeviceOrientationChanged(params)
+  }
 
-  override fun removeListeners(count: Double) {}
+  override fun sendOnInterfaceOrientationChanged(params: WritableMap) {
+    emitOnInterfaceOrientationChanged(params)
+  }
+
+  override fun sendOnLockChanged(params: WritableMap) {
+    emitOnLockChanged(params)
+  }
 
   companion object {
     const val NAME = OrientationDirectorModuleImpl.NAME
