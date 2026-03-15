@@ -176,7 +176,7 @@ import UIKit
         let deviceOrientation = utils.convertToOrientationFrom(deviceOrientation: uiDeviceOrientation)
 
         if (!self.isLocking) {
-          self.eventManager.sendDeviceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
+          self.eventManager.sendDeviceOrientationDidChange(value: deviceOrientation.rawValue)
         }
 
         lastDeviceOrientation = deviceOrientation
@@ -203,7 +203,7 @@ import UIKit
     }
 
     private func updateLastInterfaceOrientationTo(value: Orientation) {
-        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
+      self.eventManager.sendInterfaceOrientationDidChange(value: value.rawValue)
         lastInterfaceOrientation = value
     }
 
