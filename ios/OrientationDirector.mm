@@ -43,14 +43,6 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
--(void)startObserving {
-    self.isJsListening = YES;
-}
-
--(void)stopObserving {
-    self.isJsListening = NO;
-}
-
 -(void)emitOnDeviceOrientationDidChangeWithParams:(NSDictionary*)params {
   [self emitOnDeviceOrientationChanged:params];
 }

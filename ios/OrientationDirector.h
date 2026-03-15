@@ -2,6 +2,4 @@
 
 @interface OrientationDirector : NativeOrientationDirectorSpecBase <NativeOrientationDirectorSpec>
 
-@property (nonatomic, assign) BOOL isJsListening;
-
 @end
