@@ -1,12 +1,9 @@
-import {
-  type ConfigPlugin,
-  type ExportedConfigWithProps,
-  withAppDelegate,
-} from '@expo/config-plugins';
-import { type AppDelegateProjectFile } from '@expo/config-plugins/build/ios/Paths';
+import { type ConfigPlugin } from 'expo/config-plugins';
+import { ExportedConfigWithProps, withAppDelegate } from '@expo/config-plugins';
+import { AppDelegateProjectFile } from '@expo/config-plugins/build/ios/Paths';
 import { mergeContents } from '@expo/config-plugins/build/utils/generateCode';
 
-export const withRNOrientationAppDelegate: ConfigPlugin = (config) => {
+export const withIosConfiguration: ConfigPlugin = (config) => {
   return withAppDelegate(config, readAppDelegateFileAndUpdateContents);
 };
 

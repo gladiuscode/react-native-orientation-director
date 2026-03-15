@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`withRNOrientationMainActivity skips the MainActivity.kt configuration import when it's already set 1`] = `
+exports[`withAndroidConfiguration skips the MainActivity.kt configuration import when it's already set 1`] = `
 "package com.orientationdirectorexample
 
 import android.content.res.Configuration
@@ -57,7 +57,7 @@ class MainActivity : ReactActivity() {
 "
 `;
 
-exports[`withRNOrientationMainActivity skips the MainActivity.kt intent import when it's already set 1`] = `
+exports[`withAndroidConfiguration skips the MainActivity.kt intent import when it's already set 1`] = `
 "package com.orientationdirectorexample
 
 import android.content.Intent
@@ -114,7 +114,7 @@ class MainActivity : ReactActivity() {
 "
 `;
 
-exports[`withRNOrientationMainActivity updates the MainActivity.kt with both imports and method implementation 1`] = `
+exports[`withAndroidConfiguration updates the MainActivity.kt with both imports and method implementation 1`] = `
 "package com.orientationdirectorexample
 
 import android.os.Bundle

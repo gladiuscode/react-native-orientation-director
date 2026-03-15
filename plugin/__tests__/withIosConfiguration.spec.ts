@@ -1,11 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { swiftFileUpdater } from '../src/withIosConfiguration';
 
-import {
-  swiftFileUpdater,
-} from '../src/withRNOrientationAppDelegate';
-
-describe('withRNOrientationAppDelegate', function () {
+describe('withIosConfiguration', function () {
   beforeEach(function () {
     jest.resetAllMocks();
   });
