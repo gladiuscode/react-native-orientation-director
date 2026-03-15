@@ -122,7 +122,7 @@ Then, in your AppDelegate.swift file, implement the supportedInterfaceOrientatio
 
 ```swift
 
-#import "OrientationDirector.h"
+import OrientationDirector
 
 func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
   return SharedOrientationDirectorImpl.shared.supportedInterfaceOrientations
