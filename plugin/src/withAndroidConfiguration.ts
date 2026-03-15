@@ -1,12 +1,12 @@
+import { type ConfigPlugin } from 'expo/config-plugins';
 import {
-  type ConfigPlugin,
   type ExportedConfigWithProps,
   withMainActivity,
 } from '@expo/config-plugins';
-import { type ApplicationProjectFile } from '@expo/config-plugins/build/android/Paths';
+import type { ApplicationProjectFile } from '@expo/config-plugins/build/android/Paths';
 import { mergeContents } from '@expo/config-plugins/build/utils/generateCode';
 
-export const withRNOrientationMainActivity: ConfigPlugin = (config) => {
+export const withAndroidConfiguration: ConfigPlugin = (config) => {
   return withMainActivity(config, readMainActivityFileAndUpdateContents);
 };
 
@@ -110,6 +110,7 @@ function updateContentsWithSystemImports(originalContents: string) {
 
     return mergeResults.contents;
   }
+
   function addConfigurationImportIfNecessary(_contents: string) {
     const systemConfigurationImportCodeBlock =
       'import android.content.res.Configuration';

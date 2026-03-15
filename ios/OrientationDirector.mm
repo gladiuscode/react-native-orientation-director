@@ -4,13 +4,13 @@
  This condition is needed to support use_frameworks.
  https://github.com/callstack/react-native-builder-bob/discussions/412#discussioncomment-6352402
  */
-#if __has_include("react_native_orientation_director-Swift.h")
-#import "react_native_orientation_director-Swift.h"
+#if __has_include("OrientationDirector-Swift.h")
+#import "OrientationDirector-Swift.h"
 #else
-#import "react_native_orientation_director/react_native_orientation_director-Swift.h"
+#import "OrientationDirector/OrientationDirector-Swift.h"
 #endif
 
-static OrientationDirectorImpl *_director = [OrientationDirectorImpl new];
+static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
@@ -21,7 +21,6 @@ static OrientationDirectorImpl *_director = [OrientationDirectorImpl new];
 //////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation OrientationDirector
-RCT_EXPORT_MODULE()
 
 - (instancetype)init
 {
@@ -41,28 +40,19 @@ RCT_EXPORT_MODULE()
     return YES;
 }
 
-+ (UIInterfaceOrientationMask)getSupportedInterfaceOrientationsForWindow
-{
-    return [_director supportedInterfaceOrientations];
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
--(void)startObserving {
-    self.isJsListening = YES;
+-(void)emitOnDeviceOrientationDidChangeWithParams:(NSDictionary*)params {
+  [self emitOnDeviceOrientationChanged:params];
 }
 
--(void)stopObserving {
-    self.isJsListening = NO;
+-(void)emitOnInterfaceOrientationDidChangeWithParams:(NSDictionary*)params {
+  [self emitOnInterfaceOrientationChanged:params];
 }
 
-- (NSArray<NSString *> *)supportedEvents {
-    return [EventManager supportedEvents];
-}
-
-- (void)sendEventWithName:(NSString * _Nonnull)name params:(NSDictionary *)params {
-    [self sendEventWithName:name body:params];
+-(void)emitOnLockChangedWithParams:(NSDictionary*)params {
+  [self emitOnLockChanged:params];
 }
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -70,28 +60,29 @@ RCT_EXPORT_MODULE()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EXPORTED METHODS
 ///
-RCT_EXPORT_METHOD(getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+
+- (void)getInterfaceOrientation:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_director getInterfaceOrientation]));
     });
 }
 
-RCT_EXPORT_METHOD(getDeviceOrientation:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
+- (void)getDeviceOrientation:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         resolve(@([_director getDeviceOrientation]));
     });
 }
 
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isLocked)
+- (NSNumber *)isLocked
 {
     return @([_director getIsLocked]);
 }
 
-RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
+- (void)lockTo:(double)jsOrientation
 {
     NSNumber *jsOrientationNumber = @(jsOrientation);
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -99,37 +90,46 @@ RCT_EXPORT_METHOD(lockTo:(double)jsOrientation)
     });
 }
 
-RCT_EXPORT_METHOD(unlock)
+- (void)unlock
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_director unlock];
     });
 }
 
-RCT_EXPORT_METHOD(resetSupportedInterfaceOrientations)
+- (void)resetSupportedInterfaceOrientations
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_director resetSupportedInterfaceOrientations];
     });
 }
 
-/**
- This method is a pure stub since we cannot access auto rotation setting in iOS
- */
-RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(isAutoRotationEnabled)
+///////////////////////////////////////////////////////////////////////////////////////
+///         STUBS
+///
+
+- (NSNumber *)isAutoRotationEnabled
 {
     return @(NO);
 }
+
+- (void)disableOrientationSensors {}
+
+
+- (void)enableOrientationSensors {}
+
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// Don't compile this code when we build for the old architecture.
-#ifdef RCT_NEW_ARCH_ENABLED
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
     return std::make_shared<facebook::react::NativeOrientationDirectorSpecJSI>(params);
 }
-#endif
+
++ (NSString *)moduleName
+{
+  return @"OrientationDirector";
+}
 
 @end

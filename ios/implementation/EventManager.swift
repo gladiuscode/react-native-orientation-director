@@ -7,33 +7,25 @@
 
 import Foundation
 
-@objc public class EventManager: NSObject {
-    @objc public weak var delegate: OrientationEventEmitterDelegate?
+public class EventManager: NSObject {
+    public weak var delegate: OrientationEventEmitterDelegate?
 
-    func sendDeviceOrientationDidChange(orientationValue: Int) {
+    func sendDeviceOrientationDidChange(value: Int) {
         guard let delegate = delegate else {
             return
         }
 
-        if !delegate.isJsListening {
-            return
-        }
-
-        let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
-        delegate.sendEvent(name: Event.DeviceOrientationDidChange.rawValue, params: params as NSDictionary)
+        let params = Dictionary(dictionaryLiteral: ("orientation", value))
+        delegate.emitOnDeviceOrientationDidChange(params: params as NSDictionary)
     }
 
-    func sendInterfaceOrientationDidChange(orientationValue: Int) {
+    func sendInterfaceOrientationDidChange(value: Int) {
         guard let delegate = delegate else {
             return
         }
 
-        if !delegate.isJsListening {
-            return
-        }
-
-        let params = Dictionary(dictionaryLiteral: ("orientation", orientationValue))
-        delegate.sendEvent(name: Event.InterfaceOrientationDidChange.rawValue, params: params as NSDictionary)
+        let params = Dictionary(dictionaryLiteral: ("orientation", value))
+        delegate.emitOnInterfaceOrientationDidChange(params: params as NSDictionary)
     }
 
     func sendLockDidChange(value: Bool) {
@@ -41,30 +33,13 @@ import Foundation
             return
         }
 
-        if !delegate.isJsListening {
-            return
-        }
-
         let params = Dictionary(dictionaryLiteral: ("locked", value))
-        delegate.sendEvent(name: Event.LockDidChange.rawValue, params: params as NSDictionary)
+        delegate.emitOnLockChanged(params: params as NSDictionary)
     }
 }
 
 @objc public protocol OrientationEventEmitterDelegate {
-    var isJsListening: Bool { get set }
-
-    func sendEvent(name: String, params: NSDictionary)
-}
-
-public extension EventManager {
-
-  enum Event: String, CaseIterable {
-    case DeviceOrientationDidChange
-    case InterfaceOrientationDidChange
-    case LockDidChange
-  }
-
-  @objc static var supportedEvents: [String] {
-    return Event.allCases.map(\.rawValue)
-  }
+    func emitOnLockChanged(params: NSDictionary)
+    func emitOnDeviceOrientationDidChange(params: NSDictionary)
+    func emitOnInterfaceOrientationDidChange(params: NSDictionary)
 }

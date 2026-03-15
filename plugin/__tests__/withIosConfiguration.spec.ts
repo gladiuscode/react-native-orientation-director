@@ -1,22 +1,10 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { swiftFileUpdater } from '../src/withIosConfiguration';
 
-import {
-  objCFileUpdater,
-  swiftFileUpdater,
-} from '../src/withRNOrientationAppDelegate';
-
-describe('withRNOrientationAppDelegate', function () {
+describe('withIosConfiguration', function () {
   beforeEach(function () {
     jest.resetAllMocks();
-  });
-
-  it('updates the AppDelegate.mm with both header import and method implementation', async function () {
-    const appDelegatePath = path.join(__dirname, './fixtures/AppDelegate.mm');
-    const appDelegate = await fs.promises.readFile(appDelegatePath, 'utf-8');
-
-    const result = objCFileUpdater(appDelegate);
-    expect(result).toMatchSnapshot();
   });
 
   it('updates the AppDelegate52.swift with the method implementation having public override when sdk is <= 52', async function () {

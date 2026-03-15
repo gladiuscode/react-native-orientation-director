@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-@objc public class OrientationDirectorImpl: NSObject {
+@objcMembers public class OrientationDirectorImpl: NSObject {
     private static let TAG = "OrientationDirectorImpl"
 
     private let bundleManager: BundleManager = BundleManager()
@@ -19,7 +19,7 @@ import UIKit
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
     private var isLocked = false
-  
+
     /// # Only on iOS < 16
     /// This variable is needed to prevent a loop where
     /// we lock the interface to a specific orientation
@@ -174,11 +174,11 @@ import UIKit
 
     private func onOrientationChanged(uiDeviceOrientation: UIDeviceOrientation) {
         let deviceOrientation = utils.convertToOrientationFrom(deviceOrientation: uiDeviceOrientation)
-        
+
         if (!self.isLocking) {
-          self.eventManager.sendDeviceOrientationDidChange(orientationValue: deviceOrientation.rawValue)
+          self.eventManager.sendDeviceOrientationDidChange(value: deviceOrientation.rawValue)
         }
-      
+
         lastDeviceOrientation = deviceOrientation
         adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
@@ -203,7 +203,7 @@ import UIKit
     }
 
     private func updateLastInterfaceOrientationTo(value: Orientation) {
-        self.eventManager.sendInterfaceOrientationDidChange(orientationValue: value.rawValue)
+      self.eventManager.sendInterfaceOrientationDidChange(value: value.rawValue)
         lastInterfaceOrientation = value
     }
 

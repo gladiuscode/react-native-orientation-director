@@ -1,9 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { ktFileUpdater } from '../src/withAndroidConfiguration';
 
-import { ktFileUpdater } from '../src/withRNOrientationMainActivity';
-
-describe('withRNOrientationMainActivity', function () {
+describe('withAndroidConfiguration', function () {
   beforeEach(function () {
     jest.resetAllMocks();
   });

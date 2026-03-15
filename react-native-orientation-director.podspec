@@ -14,7 +14,9 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/gladiuscode/react-native-orientation-director.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm,swift,cpp}"
-  s.private_header_files = "ios/generated/**/*.h"
+  s.private_header_files = "ios/**/*.h"
+
+  s.module_name = "OrientationDirector"
 
   install_modules_dependencies(s)
 end

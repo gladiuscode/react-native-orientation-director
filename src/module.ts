@@ -1,4 +1,4 @@
-import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import type { Spec } from './NativeOrientationDirector';
 
 const LINKING_ERROR =
@@ -24,7 +24,5 @@ const OrientationDirectorModule = Module
         },
       }
     );
-
-export const ModuleEventEmitter = new NativeEventEmitter(Module);
 
 export default OrientationDirectorModule as Spec;
