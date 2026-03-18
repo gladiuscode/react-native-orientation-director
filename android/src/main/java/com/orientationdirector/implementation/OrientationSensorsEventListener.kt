@@ -41,8 +41,10 @@ class OrientationSensorsEventListener(
         SensorManager.SENSOR_DELAY_NORMAL,
         SensorManager.SENSOR_DELAY_UI
       )
-      return
     }
+
+    lastComputedDeviceOrientation = Orientation.UNKNOWN
+    lastComputedFaceOrientation = Orientation.UNKNOWN
   }
 
   override fun disable() {
@@ -51,6 +53,9 @@ class OrientationSensorsEventListener(
     if (hasRotationSensor) {
       mSensorManager.unregisterListener(this)
     }
+
+    lastComputedDeviceOrientation = Orientation.UNKNOWN
+    lastComputedFaceOrientation = Orientation.UNKNOWN
   }
 
   override fun onOrientationChanged(angleDegrees: Int) {
