@@ -110,7 +110,7 @@ class OrientationSensorsEventListener(
     lastComputedFaceOrientation = faceOrientation
   }
 
-  override fun onAccuracyChanged(p0: Sensor?, p1: Int) {}
+  override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
 
   companion object {
     private const val LANDSCAPE_RIGHT_START = 45
