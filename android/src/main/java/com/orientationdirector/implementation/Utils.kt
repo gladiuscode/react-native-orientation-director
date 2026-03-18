@@ -19,51 +19,6 @@ class Utils(private val context: ReactContext) {
     }
   }
 
-  fun convertToDeviceOrientationFrom(orientationAngles: FloatArray): Orientation {
-    if (orientationAngles.size < 3) {
-      return Orientation.PORTRAIT
-    }
-
-    val (_, pitchRadians, rollRadians) = orientationAngles
-
-    val pitch = Math.toDegrees(pitchRadians.toDouble()).toFloat()
-    val roll = Math.toDegrees(rollRadians.toDouble()).toFloat()
-
-    val faceUpDownPitchTolerance = 30f
-
-    fun isValueCloseTo(value: Float, target: Float, tolerance: Float): Boolean {
-      return value in (target - tolerance)..(target + tolerance)
-    }
-
-    return when {
-      // Face up: device is lying flat with screen up
-      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) &&
-        isValueCloseTo(roll, 0f, faceUpDownPitchTolerance) -> Orientation.FACE_UP
-
-      // Face down: device is lying flat with screen down
-      isValueCloseTo(pitch, 0f, faceUpDownPitchTolerance) &&
-        (isValueCloseTo(roll, 180f, faceUpDownPitchTolerance) || isValueCloseTo(
-          roll,
-          -180f,
-          faceUpDownPitchTolerance
-        )) -> Orientation.FACE_DOWN
-
-      // Portrait
-      isValueCloseTo(pitch, -90f, 45f) -> Orientation.PORTRAIT
-
-      // Portrait upside down
-      isValueCloseTo(pitch, 90f, 45f) -> Orientation.PORTRAIT_UPSIDE_DOWN
-
-      // Landscape left
-      isValueCloseTo(roll, -90f, 45f) -> Orientation.LANDSCAPE_LEFT
-
-      // Landscape right
-      isValueCloseTo(roll, 90f, 45f) -> Orientation.LANDSCAPE_RIGHT
-
-      else -> Orientation.UNKNOWN
-    }
-  }
-
   fun convertToActivityOrientationFrom(orientation: Orientation): Int {
     return when (orientation) {
       Orientation.LANDSCAPE_RIGHT -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -93,13 +48,4 @@ class Utils(private val context: ReactContext) {
     }
   }
 
-  fun convertToInterfaceOrientationFrom(deviceOrientation: Orientation): Orientation {
-    return when (deviceOrientation) {
-      Orientation.PORTRAIT -> Orientation.PORTRAIT
-      Orientation.LANDSCAPE_RIGHT -> Orientation.LANDSCAPE_LEFT
-      Orientation.PORTRAIT_UPSIDE_DOWN -> Orientation.PORTRAIT_UPSIDE_DOWN
-      Orientation.LANDSCAPE_LEFT -> Orientation.LANDSCAPE_RIGHT
-      else -> Orientation.UNKNOWN
-    }
-  }
 }

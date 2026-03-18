@@ -26,8 +26,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   private var didComputeInitialDeviceOrientation = false;
 
   init {
-    mOrientationSensorsEventListener.setOnOrientationAnglesChangedCallback { orientation ->
-      onOrientationAnglesChanged(orientation)
+    mOrientationSensorsEventListener.setOnDeviceOrientationChangedCallback { orientation ->
+      onDeviceOrientationChanged(orientation)
     }
 
     mAutoRotationObserver.enable()
@@ -151,15 +151,10 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
     ).contains(activity.requestedOrientation)
   }
 
-  private fun onOrientationAnglesChanged(orientationAngles: FloatArray) {
-    val deviceOrientation = mUtils.convertToDeviceOrientationFrom(orientationAngles)
-    if (deviceOrientation == Orientation.UNKNOWN) {
-      return
-    }
+  private fun onDeviceOrientationChanged(deviceOrientation: Orientation) {
+    if (deviceOrientation == Orientation.UNKNOWN) return
 
-    if (lastDeviceOrientation == deviceOrientation) {
-      return
-    }
+    if (lastDeviceOrientation == deviceOrientation) return
 
     mEventManager.sendDeviceOrientationDidChange(deviceOrientation.ordinal)
     lastDeviceOrientation = deviceOrientation
@@ -168,9 +163,8 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     // NOTE(2.init): This is needed to disable sensors if they were needed just for the initial
     //  device computation.
-    if (didComputeInitialDeviceOrientation) {
-      return
-    }
+    if (didComputeInitialDeviceOrientation) return
+
     didComputeInitialDeviceOrientation = true
 
     if (!areOrientationSensorsEnabled) {
@@ -179,13 +173,9 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   }
 
   private fun checkInterfaceOrientation(skipIfAutoRotationIsDisabled: Boolean = true) {
-    if (skipIfAutoRotationIsDisabled && !mAutoRotationObserver.getLastAutoRotationStatus()) {
-      return
-    }
+    if (skipIfAutoRotationIsDisabled && !mAutoRotationObserver.getLastAutoRotationStatus()) return
 
-    if (isLocked) {
-      return
-    }
+    if (isLocked) return
 
     if (lastDeviceOrientation != Orientation.LANDSCAPE_RIGHT && lastDeviceOrientation != Orientation.LANDSCAPE_LEFT) {
       val rotation = mUtils.getInterfaceRotation()

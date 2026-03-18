@@ -5,52 +5,35 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
+import android.view.OrientationEventListener
 import com.facebook.react.bridge.ReactApplicationContext
+import kotlin.math.abs
 
 class OrientationSensorsEventListener(
   context: ReactApplicationContext,
-) : SensorEventListener {
+) : SensorEventListener, OrientationEventListener(context, SensorManager.SENSOR_DELAY_UI) {
+  private val rotationMatrix = FloatArray(9)
+  private val orientationAngles = FloatArray(3)
+
   private var mSensorManager: SensorManager =
     context.getSystemService(SENSOR_SERVICE) as SensorManager
-
   private var mRotationSensor: Sensor? =
     mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-  private var mAccelerometerSensor: Sensor? =
-    mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-  private var mMagneticFieldSensor: Sensor? =
-    mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-
   private var hasRotationSensor: Boolean =
-   mRotationSensor != null
-  private var hasAccelerometerAndMagneticFieldSensors: Boolean =
-    mAccelerometerSensor != null && mMagneticFieldSensor != null
+    mRotationSensor != null
 
-  private val accelerometerReading = FloatArray(3)
-  private val magnetometerReading = FloatArray(3)
+  private var lastComputedDeviceOrientation = Orientation.UNKNOWN
+  private var lastComputedFaceOrientation = Orientation.UNKNOWN
 
-  private var lastComputedOrientationAngles = FloatArray(3)
-  private var onOrientationAnglesChangedCallback: ((orientationAngles: FloatArray) -> Unit)? = null
-
-  fun setOnOrientationAnglesChangedCallback(callback: (orientation: FloatArray) -> Unit) {
-    onOrientationAnglesChangedCallback = callback
+  private var onDeviceOrientationChangedCallback: ((deviceOrientation: Orientation) -> Unit)? = null
+  fun setOnDeviceOrientationChangedCallback(callback: (deviceOrientation: Orientation) -> Unit) {
+    onDeviceOrientationChangedCallback = callback
   }
 
-  override fun onSensorChanged(event: SensorEvent?) {
-    if (event == null) {
-      return
-    }
+  override fun enable() {
+    super.enable()
 
-    if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR) {
-      computeOrientationFromRotationSensor(event.values);
-      return
-    }
-
-    computeOrientationFromOtherSensors(event)
-  }
-
-  override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-
-  fun enable() {
     if (hasRotationSensor) {
       mSensorManager.registerListener(
         this,
@@ -60,70 +43,83 @@ class OrientationSensorsEventListener(
       )
       return
     }
+  }
 
-    if (hasAccelerometerAndMagneticFieldSensors) {
-      mSensorManager.registerListener(
-        this,
-        mAccelerometerSensor,
-        SensorManager.SENSOR_DELAY_NORMAL,
-        SensorManager.SENSOR_DELAY_UI
-      )
-      mSensorManager.registerListener(
-        this,
-        mMagneticFieldSensor,
-        SensorManager.SENSOR_DELAY_NORMAL,
-        SensorManager.SENSOR_DELAY_UI
-      )
-      return
+  override fun disable() {
+    super.disable()
+
+    if (hasRotationSensor) {
+      mSensorManager.unregisterListener(this)
     }
   }
 
-  fun disable() {
-    mSensorManager.unregisterListener(this)
+  override fun onOrientationChanged(angleDegrees: Int) {
+    if (angleDegrees == ORIENTATION_UNKNOWN) {
+      lastComputedDeviceOrientation = Orientation.UNKNOWN
+      return
+    }
+
+    val currentDeviceOrientation = when (angleDegrees) {
+      in LANDSCAPE_RIGHT_START .. LANDSCAPE_RIGHT_END -> Orientation.LANDSCAPE_RIGHT
+      in PORTRAIT_UPSIDE_DOWN_START..PORTRAIT_UPSIDE_DOWN_END -> Orientation.PORTRAIT_UPSIDE_DOWN
+      in LANDSCAPE_LEFT_START..LANDSCAPE_LEFT_END -> Orientation.LANDSCAPE_LEFT
+      else -> Orientation.PORTRAIT
+    }
+
+    if (currentDeviceOrientation == lastComputedDeviceOrientation) return
+
+    notifyDeviceOrientationChanged(currentDeviceOrientation)
   }
 
-  private fun computeOrientationFromRotationSensor(values: FloatArray) {
-    val rotationMatrix = FloatArray(9)
-    SensorManager.getRotationMatrixFromVector(rotationMatrix, values)
+  override fun onSensorChanged(event: SensorEvent) {
+    if (event.sensor.type != Sensor.TYPE_ROTATION_VECTOR) return
 
-    val orientationAngles = FloatArray(3)
+    if (lastComputedDeviceOrientation != Orientation.UNKNOWN) {
+      lastComputedFaceOrientation = Orientation.UNKNOWN
+      return
+    }
+
+    SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
 
-    notifyOrientationAnglesChanged(orientationAngles)
+    val pitch = Math.toDegrees(orientationAngles[1].toDouble()).toFloat()
+    val roll = Math.toDegrees(orientationAngles[2].toDouble()).toFloat()
+    val absPitch = abs(pitch)
+    val absRoll = abs(roll)
+
+    val currentFaceOrientation = when {
+      absPitch < FACE_UP_LIMIT && absRoll < FACE_UP_LIMIT -> Orientation.FACE_UP
+      absPitch > FACE_DOWN_LIMIT || absRoll > FACE_DOWN_LIMIT -> Orientation.FACE_DOWN
+      else -> null
+    }
+
+    if (currentFaceOrientation == null) return
+
+    if (currentFaceOrientation == lastComputedFaceOrientation) return
+
+    notifyFaceOrientationChanged(currentFaceOrientation)
   }
 
-  private fun computeOrientationFromOtherSensors(event: SensorEvent) {
-    if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-      System.arraycopy(event.values, 0, accelerometerReading, 0, accelerometerReading.size)
-    }
-
-    if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-      System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
-    }
-
-    val rotationMatrix = FloatArray(9)
-    val didComputeMatrix = SensorManager.getRotationMatrix(
-      rotationMatrix,
-      null,
-      accelerometerReading,
-      magnetometerReading
-    )
-    if (!didComputeMatrix) {
-      return
-    }
-
-    val orientationAngles = FloatArray(3)
-    SensorManager.getOrientation(rotationMatrix, orientationAngles)
-
-    notifyOrientationAnglesChanged(orientationAngles)
+  private fun notifyDeviceOrientationChanged(deviceOrientation: Orientation) {
+    onDeviceOrientationChangedCallback?.invoke(deviceOrientation)
+    lastComputedDeviceOrientation = deviceOrientation
   }
 
-  private fun notifyOrientationAnglesChanged(orientationAngles: FloatArray) {
-    if (lastComputedOrientationAngles.contentEquals(orientationAngles)) {
-      return
-    }
+  private fun notifyFaceOrientationChanged(faceOrientation: Orientation) {
+    onDeviceOrientationChangedCallback?.invoke(faceOrientation)
+    lastComputedFaceOrientation = faceOrientation
+  }
 
-    onOrientationAnglesChangedCallback?.invoke(orientationAngles)
-    lastComputedOrientationAngles = orientationAngles
+  override fun onAccuracyChanged(p0: Sensor?, p1: Int) {}
+
+  companion object {
+    private const val LANDSCAPE_RIGHT_START = 45
+    private const val LANDSCAPE_RIGHT_END = 134
+    private const val PORTRAIT_UPSIDE_DOWN_START = 135
+    private const val PORTRAIT_UPSIDE_DOWN_END = 224
+    private const val LANDSCAPE_LEFT_START = 225
+    private const val LANDSCAPE_LEFT_END = 314
+    private const val FACE_UP_LIMIT = 15f
+    private const val FACE_DOWN_LIMIT = 155f
   }
 }
