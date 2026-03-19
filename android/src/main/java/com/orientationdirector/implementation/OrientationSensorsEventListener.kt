@@ -87,14 +87,10 @@ class OrientationSensorsEventListener(
     SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
     SensorManager.getOrientation(rotationMatrix, orientationAngles)
 
-    val pitch = Math.toDegrees(orientationAngles[1].toDouble()).toFloat()
-    val roll = Math.toDegrees(orientationAngles[2].toDouble()).toFloat()
-    val absPitch = abs(pitch)
-    val absRoll = abs(roll)
-
+    val zUp = rotationMatrix[8]
     val currentFaceOrientation = when {
-      absPitch < FACE_UP_LIMIT && absRoll < FACE_UP_LIMIT -> Orientation.FACE_UP
-      absPitch > FACE_DOWN_LIMIT || absRoll > FACE_DOWN_LIMIT -> Orientation.FACE_DOWN
+      zUp > FACE_UP_Z_THRESHOLD -> Orientation.FACE_UP
+      zUp < -FACE_DOWN_Z_THRESHOLD -> Orientation.FACE_DOWN
       else -> null
     }
 
@@ -124,7 +120,7 @@ class OrientationSensorsEventListener(
     private const val PORTRAIT_UPSIDE_DOWN_END = 224
     private const val LANDSCAPE_LEFT_START = 225
     private const val LANDSCAPE_LEFT_END = 314
-    private const val FACE_UP_LIMIT = 15f
-    private const val FACE_DOWN_LIMIT = 155f
+    private const val FACE_UP_Z_THRESHOLD   = 0.906f
+    private const val FACE_DOWN_Z_THRESHOLD = 0.906f
   }
 }
