@@ -5,10 +5,8 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 import android.view.OrientationEventListener
 import com.facebook.react.bridge.ReactApplicationContext
-import kotlin.math.abs
 
 class OrientationSensorsEventListener(
   context: ReactApplicationContext,
