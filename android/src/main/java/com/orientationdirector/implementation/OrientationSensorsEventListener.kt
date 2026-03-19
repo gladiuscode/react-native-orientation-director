@@ -100,13 +100,13 @@ class OrientationSensorsEventListener(
   }
 
   private fun notifyDeviceOrientationChanged(deviceOrientation: Orientation) {
-    onDeviceOrientationChangedCallback?.invoke(deviceOrientation)
     lastComputedDeviceOrientation = deviceOrientation
+    onDeviceOrientationChangedCallback?.invoke(deviceOrientation)
   }
 
   private fun notifyFaceOrientationChanged(faceOrientation: Orientation) {
-    onDeviceOrientationChangedCallback?.invoke(faceOrientation)
     lastComputedFaceOrientation = faceOrientation
+    onDeviceOrientationChangedCallback?.invoke(faceOrientation)
   }
 
   override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
