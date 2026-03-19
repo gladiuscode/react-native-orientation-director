@@ -12,7 +12,6 @@ class OrientationSensorsEventListener(
   context: ReactApplicationContext,
 ) : SensorEventListener, OrientationEventListener(context, SensorManager.SENSOR_DELAY_UI) {
   private val rotationMatrix = FloatArray(9)
-  private val orientationAngles = FloatArray(3)
 
   private var mSensorManager: SensorManager =
     context.getSystemService(SENSOR_SERVICE) as SensorManager
@@ -83,7 +82,6 @@ class OrientationSensorsEventListener(
     }
 
     SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
-    SensorManager.getOrientation(rotationMatrix, orientationAngles)
 
     val zUp = rotationMatrix[8]
     val currentFaceOrientation = when {
