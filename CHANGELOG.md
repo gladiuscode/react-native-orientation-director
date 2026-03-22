@@ -1,5 +1,19 @@
 # Changelog
 
+# [3.0.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.6.5...v3.0.0) (2026-03-22)
+
+
+### Bug Fixes
+
+* **plugin:** missing typescript dependency ([#104](https://github.com/gladiuscode/react-native-orientation-director/issues/104)) ([725c832](https://github.com/gladiuscode/react-native-orientation-director/commit/725c832b6d1738361326096acdf562684498733c))
+
+
+### Features
+
+* **android:** rewrite sensor logic to improve reliability ([#103](https://github.com/gladiuscode/react-native-orientation-director/issues/103)) ([ba58945](https://github.com/gladiuscode/react-native-orientation-director/commit/ba589455f73714f115df6ab9eb7d080ddcfcff77))
+* drop old arch support ([#102](https://github.com/gladiuscode/react-native-orientation-director/issues/102)) ([32e6a84](https://github.com/gladiuscode/react-native-orientation-director/commit/32e6a84d0b768d3e6391c698d10d291e6e7e3c94))
+* upgrade react native to latest ([#101](https://github.com/gladiuscode/react-native-orientation-director/issues/101)) ([073e134](https://github.com/gladiuscode/react-native-orientation-director/commit/073e134c8a390da975317fdbe96f2c2297568b02))
+
 ## <small>2.6.5 (2025-12-17)</small>
 
 * fix(#98): initial device computation breaking sensor usages on android (#100) ([d877a78](https://github.com/gladiuscode/react-native-orientation-director/commit/d877a78)), closes [#98](https://github.com/gladiuscode/react-native-orientation-director/issues/98) [#100](https://github.com/gladiuscode/react-native-orientation-director/issues/100)
