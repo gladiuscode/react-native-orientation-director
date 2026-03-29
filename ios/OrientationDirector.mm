@@ -10,11 +10,12 @@
 #import "OrientationDirector/OrientationDirector-Swift.h"
 #endif
 
+#include <exception>
+
 static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
-///https://github.com/react-native-community/RNNewArchitectureLibraries/tree/feat/swift-event-emitter
 @interface OrientationDirector() <OrientationEventEmitterDelegate>
 @end
 ///
@@ -43,17 +44,33 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         EVENT EMITTER SETUP
 ///
--(void)emitOnDeviceOrientationDidChangeWithParams:(NSDictionary*)params {
-  [self emitOnDeviceOrientationChanged:params];
+
+@synthesize enabled;
+
+-(void)emitDeviceOrientationChangedWithParams:(NSDictionary*)params {
+  try {
+    [self emitOnDeviceOrientationChanged:params];
+  } catch (std::exception &e) {
+    // Ignore if no listeners
+  }
 }
 
--(void)emitOnInterfaceOrientationDidChangeWithParams:(NSDictionary*)params {
-  [self emitOnInterfaceOrientationChanged:params];
+-(void)emitInterfaceOrientationChangedWithParams:(NSDictionary*)params {
+  try {
+    [self emitOnInterfaceOrientationChanged:params];
+  } catch (std::exception &e) {
+    // Ignore if no listeners
+  }
 }
 
 -(void)emitOnLockChangedWithParams:(NSDictionary*)params {
-  [self emitOnLockChanged:params];
+  try {
+    [self emitOnLockChanged:params];
+  } catch (std::exception &e) {
+    // Ignore if no listeners
+  }
 }
+
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,6 +121,15 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
     });
 }
 
+- (void)disableOrientationSensors {
+  [self setEnabled:false];
+}
+
+
+- (void)enableOrientationSensors {
+  [self setEnabled:true];
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         STUBS
 ///
@@ -112,11 +138,6 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
 {
     return @(NO);
 }
-
-- (void)disableOrientationSensors {}
-
-
-- (void)enableOrientationSensors {}
 
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
