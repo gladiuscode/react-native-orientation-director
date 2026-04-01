@@ -45,8 +45,6 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
 ///         EVENT EMITTER SETUP
 ///
 
-@synthesize enabled;
-
 -(void)emitDeviceOrientationChangedWithParams:(NSDictionary*)params {
   try {
     [self emitOnDeviceOrientationChanged:params];
@@ -121,15 +119,6 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
     });
 }
 
-- (void)disableOrientationSensors {
-  [self setEnabled:false];
-}
-
-
-- (void)enableOrientationSensors {
-  [self setEnabled:true];
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////
 ///         STUBS
 ///
@@ -138,6 +127,11 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
 {
     return @(NO);
 }
+
+- (void)disableOrientationSensors {}
+
+
+- (void)enableOrientationSensors {}
 
 ///
 ///////////////////////////////////////////////////////////////////////////////////////

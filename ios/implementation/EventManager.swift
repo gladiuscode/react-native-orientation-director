@@ -14,10 +14,6 @@ public class EventManager: NSObject {
         guard let delegate = delegate else {
             return
         }
-
-        if delegate.enabled == false {
-            return
-        }
       
         let params = Dictionary(dictionaryLiteral: ("orientation", value))
         delegate.emitDeviceOrientationChanged(params: params as NSDictionary)
@@ -25,10 +21,6 @@ public class EventManager: NSObject {
 
     func sendInterfaceOrientationDidChange(value: Int) {
         guard let delegate = delegate else {
-            return
-        }
-      
-        if delegate.enabled == false {
             return
         }
 
@@ -40,10 +32,6 @@ public class EventManager: NSObject {
         guard let delegate = delegate else {
             return
         }
-      
-        if delegate.enabled == false {
-            return
-        }
 
         let params = Dictionary(dictionaryLiteral: ("locked", value))
         delegate.emitOnLockChanged(params: params as NSDictionary)
@@ -51,8 +39,6 @@ public class EventManager: NSObject {
 }
 
 @objc public protocol OrientationEventEmitterDelegate {
-    @objc var enabled: Bool { get set }
-
     func emitOnLockChanged(params: NSDictionary)
     func emitDeviceOrientationChanged(params: NSDictionary)
     func emitInterfaceOrientationChanged(params: NSDictionary)
