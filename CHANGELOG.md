@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.1](https://github.com/gladiuscode/react-native-orientation-director/compare/v3.0.0...v3.0.1) (2026-04-02)
+
+
+### Bug Fixes
+
+* bug_report.yml ([#106](https://github.com/gladiuscode/react-native-orientation-director/issues/106)) ([8c800df](https://github.com/gladiuscode/react-native-orientation-director/commit/8c800dff418b45de0563025965b93f7a2e1f79b1))
+* **iOS:** missing listeners enabled check ([#108](https://github.com/gladiuscode/react-native-orientation-director/issues/108)) ([2e38ae3](https://github.com/gladiuscode/react-native-orientation-director/commit/2e38ae34eee0b93afcaa4ac604f1bfb9a5cafabf))
+
 # [3.0.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v2.6.5...v3.0.0) (2026-03-22)
 
 
