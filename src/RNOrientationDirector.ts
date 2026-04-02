@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import Module from './module';
+import NativeOrientationDirector from './NativeOrientationDirector';
 import type { HumanReadableOrientationsResource } from './types/HumanReadableOrientationsResource.type';
 import { Orientation } from './types/Orientation.enum';
 import { AutoRotation } from './types/AutoRotation.enum';
@@ -39,11 +39,11 @@ class RNOrientationDirector {
   }
 
   static getInterfaceOrientation(): Promise<Orientation> {
-    return Module.getInterfaceOrientation();
+    return NativeOrientationDirector.getInterfaceOrientation();
   }
 
   static getDeviceOrientation(): Promise<Orientation> {
-    return Module.getDeviceOrientation();
+    return NativeOrientationDirector.getDeviceOrientation();
   }
 
   /**
@@ -69,42 +69,42 @@ class RNOrientationDirector {
     orientationType: OrientationType = OrientationType.interface
   ) {
     if (orientationType === OrientationType.interface) {
-      Module.lockTo(orientation);
+      NativeOrientationDirector.lockTo(orientation);
       return;
     }
 
     if (orientation === Orientation.landscapeLeft) {
-      Module.lockTo(Orientation.landscapeRight);
+      NativeOrientationDirector.lockTo(Orientation.landscapeRight);
       return;
     }
 
     if (orientation === Orientation.landscapeRight) {
-      Module.lockTo(Orientation.landscapeLeft);
+      NativeOrientationDirector.lockTo(Orientation.landscapeLeft);
       return;
     }
 
-    Module.lockTo(orientation);
+    NativeOrientationDirector.lockTo(orientation);
   }
 
   static unlock() {
-    Module.unlock();
+    NativeOrientationDirector.unlock();
   }
 
   static isLocked() {
-    return Module.isLocked();
+    return NativeOrientationDirector.isLocked();
   }
 
   static isAutoRotationEnabled() {
     if (Platform.OS !== 'android') {
       return AutoRotation.unknown;
     }
-    return Module.isAutoRotationEnabled()
+    return NativeOrientationDirector.isAutoRotationEnabled()
       ? AutoRotation.enabled
       : AutoRotation.disabled;
   }
 
   static resetSupportedInterfaceOrientations() {
-    Module.resetSupportedInterfaceOrientations();
+    NativeOrientationDirector.resetSupportedInterfaceOrientations();
   }
 
   static listenForDeviceOrientationChanges(

@@ -1,5 +1,5 @@
-import { Platform, type EventSubscription } from 'react-native';
-import Module from './module';
+import { type EventSubscription, Platform } from 'react-native';
+import NativeOrientationDirector from './NativeOrientationDirector';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockedEvent } from './types/LockedEvent.interface';
 
@@ -9,7 +9,8 @@ class EventEmitter {
   static addDeviceOrientationDidChangeListener(
     callback: (orientation: OrientationEvent) => void
   ) {
-    let listener = Module.onDeviceOrientationChanged(callback);
+    let listener =
+      NativeOrientationDirector.onDeviceOrientationChanged(callback);
 
     if (Platform.OS !== 'android') {
       return listener;
@@ -17,7 +18,7 @@ class EventEmitter {
 
     EventEmitter.androidListenerCount++;
     if (EventEmitter.androidListenerCount === 1) {
-      Module.enableOrientationSensors();
+      NativeOrientationDirector.enableOrientationSensors();
     }
 
     return EventEmitter.createDeviceOrientationListenerProxy(listener);
@@ -26,11 +27,11 @@ class EventEmitter {
   static addInterfaceOrientationDidChangeListener(
     callback: (orientation: OrientationEvent) => void
   ) {
-    return Module.onInterfaceOrientationChanged(callback);
+    return NativeOrientationDirector.onInterfaceOrientationChanged(callback);
   }
 
   static addLockDidChangeListener(callback: (event: LockedEvent) => void) {
-    return Module.onLockChanged(callback);
+    return NativeOrientationDirector.onLockChanged(callback);
   }
 
   private static createDeviceOrientationListenerProxy(
@@ -50,7 +51,7 @@ class EventEmitter {
     function disableOrientationSensorsIfLastListener() {
       if (EventEmitter.androidListenerCount === 1) {
         EventEmitter.androidListenerCount = 0;
-        Module.disableOrientationSensors();
+        NativeOrientationDirector.disableOrientationSensors();
         return;
       }
 
