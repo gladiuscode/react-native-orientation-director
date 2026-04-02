@@ -50,15 +50,27 @@ class OrientationDirectorModule(reactContext: ReactApplicationContext) :
   }
 
   override fun sendOnDeviceOrientationChanged(params: WritableMap) {
-    emitOnDeviceOrientationChanged(params)
+    try {
+      emitOnDeviceOrientationChanged(params)
+    } catch(_: Exception) {
+      // No listener instance yet
+    }
   }
 
   override fun sendOnInterfaceOrientationChanged(params: WritableMap) {
-    emitOnInterfaceOrientationChanged(params)
+    try {
+      emitOnInterfaceOrientationChanged(params)
+    } catch(_: Exception) {
+      // No listener instance yet
+    }
   }
 
   override fun sendOnLockChanged(params: WritableMap) {
-    emitOnLockChanged(params)
+    try {
+      emitOnLockChanged(params)
+    } catch(_: Exception) {
+      // No listener instance yet
+    }
   }
 
   companion object {
