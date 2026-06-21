@@ -2,6 +2,23 @@
 
 React Native turbo-module library (Kotlin + ObjC, new architecture only). Monorepo with Yarn workspaces.
 
+## Prerequisites
+
+Tool versions are managed via [**mise**](https://mise.jdx.dev/). After cloning, run:
+
+```sh
+mise install    # installs pinned Node, Yarn, and Ruby versions
+```
+
+| Tool | Version |
+|------|---------|
+| Node | 22.20.0 |
+| Yarn | 4.11.0 |
+| Ruby | 3.4.4 |
+
+> Yarn is vendored at `.yarn/releases/yarn-4.11.0.cjs` — the `mise` entry is a
+> convenience to ensure the correct version is used system-wide.
+
 ## Commands
 
 | Command | Purpose |
