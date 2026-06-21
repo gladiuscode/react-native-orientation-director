@@ -39,4 +39,15 @@ describe('withIosConfiguration', function () {
     const result = swiftFileUpdater(appDelegate, '54.0.0');
     expect(result).toMatchSnapshot();
   });
+
+  it('updates the AppDelegate55.swift with the method implementation having public override when sdk is >= 55 and uses @main', async function () {
+    const appDelegatePath = path.join(
+      __dirname,
+      './fixtures/AppDelegate55.swift'
+    );
+    const appDelegate = await fs.promises.readFile(appDelegatePath, 'utf-8');
+
+    const result = swiftFileUpdater(appDelegate, '56.0.0');
+    expect(result).toMatchSnapshot();
+  });
 });
