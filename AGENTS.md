@@ -32,7 +32,7 @@ CI runs: lint → typecheck → test → build-library → build-android → bui
 - **New architecture only** (Fabric, TurboModules). Old arch not supported since v3.0.0.
 - `lib/` is gitignored (generated). After modifying source, run `yarn prepare` to rebuild.
 - JS changes hot-reload in example app; native changes need `yarn example android` / `yarn example ios` rebuild.
-- Plugin runs via Expo config plugins (SDK 50+).
+- Plugin runs via Expo config plugins (SDK 54+).
 - Commits must follow [conventional commits](https://www.conventionalcommits.org/) — enforced by commitlint + lefthook.
 - Pre-commit hooks lint + typecheck staged files in parallel.
 
