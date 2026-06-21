@@ -79,7 +79,7 @@
     "jest": "^29.7.0",
     "lefthook": "^2.0.3",
     "prettier": "^3.0.3",
-    "react": "19.2.0",
+    "react": "19.2.3",
     "react-native": "0.86.0",
     "react-native-builder-bob": "^0.40.18",
     "release-it": "^19.0.4",
