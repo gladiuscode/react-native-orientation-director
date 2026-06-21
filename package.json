@@ -88,7 +88,7 @@
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "expo": ">=47.0.0",
+    "expo": ">=56.0.0",
     "react": "*",
     "react-native": "*"
   },
