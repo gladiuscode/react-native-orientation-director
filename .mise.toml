@@ -1,0 +1,7 @@
+[min_version]
+mise = "2024"
+
+[tools]
+node = "22.20.0"
+yarn = "4.11.0"
+ruby = "3.4.4"
