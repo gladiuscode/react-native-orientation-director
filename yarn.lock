@@ -12825,6 +12825,7 @@ __metadata:
     expo: "npm:^56.0.0"
     expo-module-scripts: "npm:56.0.3"
     glob: "npm:11.0.3"
+    jest: "npm:^29.7.0"
     typescript: "npm:^5.9.2"
   peerDependencies:
     expo: ">=56.0.0"
