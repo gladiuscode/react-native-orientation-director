@@ -14,10 +14,12 @@ import UIKit
     private let bundleManager: BundleManager = BundleManager()
     private let utils: Utils = Utils()
     private let sensorListener: SensorListener = SensorListener()
+    private lazy var sceneGeometryListener: SceneGeometryListener = SceneGeometryListener(utils: utils)
     private let eventManager: EventManager = EventManager()
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
+    private var lastUIDeviceOrientation = UIDeviceOrientation.unknown
     private var isLocked = false
 
     /// # Only on iOS < 16
@@ -40,6 +42,13 @@ import UIKit
         isLocked = initIsLocked()
 
         supportedInterfaceOrientations = initialSupportedInterfaceOrientations
+
+        sceneGeometryListener.setOnGeometryDidChange(callback: self.onSceneGeometryChanged)
+        sceneGeometryListener.attach()
+        // The scene might not be connected yet when this module is initialized
+        DispatchQueue.main.async { [weak self] in
+            self?.sceneGeometryListener.attach()
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +102,11 @@ import UIKit
         self.requestInterfaceUpdateTo(mask: UIInterfaceOrientationMask.all)
 
         updateIsLockedTo(value: false)
+
+        if #available(iOS 16.0, *) {
+            return
+        }
+
         self.adaptInterfaceTo(deviceOrientation: lastDeviceOrientation)
     }
 
@@ -134,7 +148,8 @@ import UIKit
     }
 
     private func initDeviceOrientation() -> Orientation {
-        return utils.convertToOrientationFrom(deviceOrientation: UIDevice.current.orientation)
+        lastUIDeviceOrientation = UIDevice.current.orientation
+        return getDeviceOrientationRelativeToDisplay()
     }
 
     private func initIsLocked() -> Bool {
@@ -173,16 +188,39 @@ import UIKit
     }
 
     private func onOrientationChanged(uiDeviceOrientation: UIDeviceOrientation) {
-        let deviceOrientation = utils.convertToOrientationFrom(deviceOrientation: uiDeviceOrientation)
+        lastUIDeviceOrientation = uiDeviceOrientation
+        let deviceOrientation = getDeviceOrientationRelativeToDisplay()
+        updateLastDeviceOrientationTo(value: deviceOrientation)
 
-        if (!self.isLocking) {
-          self.eventManager.sendDeviceOrientationDidChange(value: deviceOrientation.rawValue)
+        /// On iOS >= 16 the interface orientation is driven by the scene
+        /// geometry listener, see onSceneGeometryChanged.
+        if #available(iOS 16.0, *) {
+            return
         }
 
-        lastDeviceOrientation = deviceOrientation
         adaptInterfaceTo(deviceOrientation: deviceOrientation)
     }
 
+    /// # Only on iOS >= 16
+    /// The scene geometry is the source of truth for the interface orientation:
+    /// it reflects what the system actually displays, even when the supported
+    /// interface orientations are ignored (e.g. iPhone Duo inner display) and
+    /// when the scene moves to another screen (fold / unfold).
+    private func onSceneGeometryChanged() {
+        // The scene might have moved to a display with a different
+        // alignment to the chassis (e.g. iPhone Duo fold / unfold)
+        updateLastDeviceOrientationTo(value: getDeviceOrientationRelativeToDisplay())
+
+        let interfaceOrientation = utils.getInterfaceOrientation()
+        if interfaceOrientation == .unknown {
+            return
+        }
+
+        let newInterfaceOrientation = utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
+        updateLastInterfaceOrientationTo(value: newInterfaceOrientation)
+    }
+
+    /// # Only on iOS < 16
     private func adaptInterfaceTo(deviceOrientation: Orientation) {
         let supportsLandscape = self.supportedInterfaceOrientations.contains(.landscape)
         if isLocked && !supportsLandscape {
@@ -202,9 +240,30 @@ import UIKit
         isLocked = value
     }
 
+    private func updateLastDeviceOrientationTo(value: Orientation) {
+        if value == lastDeviceOrientation {
+            return
+        }
+
+        if !self.isLocking {
+            self.eventManager.sendDeviceOrientationDidChange(value: value.rawValue)
+        }
+
+        lastDeviceOrientation = value
+    }
+
     private func updateLastInterfaceOrientationTo(value: Orientation) {
-      self.eventManager.sendInterfaceOrientationDidChange(value: value.rawValue)
+        if value == lastInterfaceOrientation {
+            return
+        }
+
+        self.eventManager.sendInterfaceOrientationDidChange(value: value.rawValue)
         lastInterfaceOrientation = value
+    }
+
+    private func getDeviceOrientationRelativeToDisplay() -> Orientation {
+        let deviceOrientation = utils.convertToDisplayRelativeFrom(deviceOrientation: lastUIDeviceOrientation)
+        return utils.convertToOrientationFrom(deviceOrientation: deviceOrientation)
     }
 
     private func getOrientationFromInterface() -> Orientation {
