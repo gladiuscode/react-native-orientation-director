@@ -11,6 +11,7 @@
     "prepublishOnly": "expo-module prepublishOnly"
   },
   "devDependencies": {
+    "eslint": "^9.35.0",
     "expo": "^56.0.0",
     "expo-module-scripts": "56.0.3",
     "glob": "11.0.3",

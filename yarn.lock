@@ -12821,6 +12821,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-native-orientation-director-expo-plugin@workspace:plugin"
   dependencies:
+    eslint: "npm:^9.35.0"
     expo: "npm:^56.0.0"
     expo-module-scripts: "npm:56.0.3"
     glob: "npm:11.0.3"

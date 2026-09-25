@@ -1,10 +1,10 @@
-import { type ConfigPlugin } from 'expo/config-plugins';
 import {
   type ExportedConfigWithProps,
   withMainActivity,
 } from '@expo/config-plugins';
 import type { ApplicationProjectFile } from '@expo/config-plugins/build/android/Paths';
 import { mergeContents } from '@expo/config-plugins/build/utils/generateCode';
+import { type ConfigPlugin } from 'expo/config-plugins';
 
 export const withAndroidConfiguration: ConfigPlugin = (config) => {
   return withMainActivity(config, readMainActivityFileAndUpdateContents);
