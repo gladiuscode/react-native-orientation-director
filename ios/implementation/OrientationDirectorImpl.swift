@@ -79,6 +79,14 @@ import UIKit
 
         updateIsLockedTo(value: true)
 
+        /// On iOS >= 16 the scene geometry listener reports the orientation
+        /// actually applied by the system, which might differ from the requested
+        /// one or ignore it entirely (e.g. iPhone Duo inner display).
+        if #available(iOS 16.0, *) {
+            self.isLocking = false
+            return
+        }
+
         let orientationCanBeUpdatedDirectly = jsOrientation != Orientation.LANDSCAPE
         if orientationCanBeUpdatedDirectly {
             updateLastInterfaceOrientationTo(value: jsOrientation)
@@ -114,6 +122,12 @@ import UIKit
         self.supportedInterfaceOrientations = self.initialSupportedInterfaceOrientations
         self.requestInterfaceUpdateTo(mask: self.supportedInterfaceOrientations)
         self.updateIsLockedTo(value: self.initIsLocked())
+
+        /// On iOS >= 16 the scene geometry listener reports the orientation
+        /// actually applied by the system.
+        if #available(iOS 16.0, *) {
+            return
+        }
 
         let lastMask = utils.convertToMaskFrom(jsOrientation: lastInterfaceOrientation)
         let isLastMaskSupported = self.supportedInterfaceOrientations.contains(lastMask)
