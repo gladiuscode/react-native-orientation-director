@@ -219,9 +219,6 @@ On foldable devices the app moves between the outer and the inner display when t
    outer one. `isLocked` still reports whether a lock has been requested, and the interface orientation always
    reports the orientation actually displayed.
 
-Apple recommends relying on size classes rather than on the interface orientation for layout decisions in resizable
-environments. More info in [Modernize your UIKit app (WWDC26)](https://developer.apple.com/videos/play/wwdc2026/278/).
-
 ### Android
 
 Since on Android we need to deal with sensors and their usage, it is worth noting that the device orientation computation works
