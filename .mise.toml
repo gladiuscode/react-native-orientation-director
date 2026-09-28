@@ -1,5 +1,4 @@
-[min_version]
-mise = "2024"
+min_version = "2024.1.0"
 
 [tools]
 node = "22.20.0"
