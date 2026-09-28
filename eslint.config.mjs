@@ -1,22 +1,14 @@
 import { fixupConfigRules } from '@eslint/compat';
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
+import reactNativeConfig from '@react-native/eslint-config/flat';
+import prettierConfig from 'eslint-config-prettier';
 import prettier from 'eslint-plugin-prettier';
 import { defineConfig } from 'eslint/config';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
 
 export default defineConfig([
   {
-    extends: fixupConfigRules(compat.extends('@react-native', 'prettier')),
+    // fixupConfigRules shims plugins still using removed ESLint 8 APIs
+    // (e.g. eslint-plugin-ft-flow).
+    extends: [fixupConfigRules(reactNativeConfig), prettierConfig],
     plugins: { prettier },
     rules: {
       'react/react-in-jsx-scope': 'off',
