@@ -1,13 +1,19 @@
 name: Setup
-description: Setup Node.js and install dependencies
+description: Setup tools from .mise.toml and install dependencies
+
+inputs:
+  tools:
+    description: Space-separated list of .mise.toml tools to install (Yarn is vendored in .yarn/releases)
+    required: false
+    default: node
 
 runs:
   using: composite
   steps:
-    - name: Setup Node.js
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+    - name: Setup tools with mise
+      uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
       with:
-        node-version-file: .nvmrc
+        install_args: ${{ inputs.tools }}
 
     - name: Restore dependencies
       id: yarn-cache
