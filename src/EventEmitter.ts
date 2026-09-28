@@ -2,6 +2,7 @@ import { type EventSubscription, Platform } from 'react-native';
 import NativeOrientationDirector from './NativeOrientationDirector';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockedEvent } from './types/LockedEvent.interface';
+import type { DisplayChangedEvent } from './types/DisplayChangedEvent.interface';
 
 class EventEmitter {
   private static androidListenerCount = 0;
@@ -32,6 +33,12 @@ class EventEmitter {
 
   static addLockDidChangeListener(callback: (event: LockedEvent) => void) {
     return NativeOrientationDirector.onLockChanged(callback);
+  }
+
+  static addDisplayDidChangeListener(
+    callback: (event: DisplayChangedEvent) => void
+  ) {
+    return NativeOrientationDirector.onDisplayChanged(callback);
   }
 
   private static createDeviceOrientationListenerProxy(

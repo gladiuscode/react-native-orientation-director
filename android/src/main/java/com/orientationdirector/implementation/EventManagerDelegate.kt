@@ -6,4 +6,5 @@
        fun sendOnDeviceOrientationChanged(params: WritableMap)
        fun sendOnInterfaceOrientationChanged(params: WritableMap)
        fun sendOnLockChanged(params: WritableMap)
+       fun sendOnDisplayChanged(params: WritableMap)
    }
