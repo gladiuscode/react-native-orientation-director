@@ -24,6 +24,8 @@ mise install    # installs pinned Node, Yarn, and Ruby versions
 | Command | Purpose |
 |---|---|
 | `yarn` | Install deps (Yarn 4.11.0, **npm won't work**) |
+| `cd example && bundle install` | Install Ruby gems for the example app (CocoaPods version pinned in `example/Gemfile.lock`) |
+| `cd example/ios && bundle exec pod install` | Install iOS pods for the example app |
 | `yarn lint` | ESLint on `src/` + `example/` |
 | `yarn expo-plugin lint` | ESLint on `plugin/` |
 | `yarn typecheck` | tsc (root) |
@@ -46,6 +48,9 @@ CI runs: lint → typecheck → test → build-library → build-android → bui
 ## Key constraints
 
 - **Only Yarn** (v4.11.0, nodeLinker: node-modules). Do not use npm.
+- **CocoaPods only through Bundler** (`bundle exec pod …`), never a global `pod`: the version is pinned in
+  `example/Gemfile.lock` and must match the `COCOAPODS:` line of `example/ios/Podfile.lock`. The `Gemfile` follows the
+  React Native template (`xcodeproj < 1.26.0`), which caps CocoaPods at 1.15.x.
 - **New architecture only** (Fabric, TurboModules). Old arch not supported since v3.0.0.
 - `lib/` is gitignored (generated). After modifying source, run `yarn prepare` to rebuild.
 - JS changes hot-reload in example app; native changes need `yarn example android` / `yarn example ios` rebuild.

@@ -11,6 +11,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2A603DDB2D59212A00CE7330 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A603DDA2D59212A00CE7330 /* AppDelegate.swift */; };
 		46F4B524B930F94B9315F63A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1B92D7FA4703F1B0B676C06C /* PrivacyInfo.xcprivacy */; };
+		5CE0D0012E80000000A0B001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0D0002E80000000A0B001 /* SceneDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 		2A603DDA2D59212A00CE7330 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = OrientationDirectorExample/AppDelegate.swift; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-OrientationDirectorExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrientationDirectorExample.debug.xcconfig"; path = "Target Support Files/Pods-OrientationDirectorExample/Pods-OrientationDirectorExample.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-OrientationDirectorExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrientationDirectorExample.release.xcconfig"; path = "Target Support Files/Pods-OrientationDirectorExample/Pods-OrientationDirectorExample.release.xcconfig"; sourceTree = "<group>"; };
+		5CE0D0002E80000000A0B001 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = OrientationDirectorExample/SceneDelegate.swift; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-OrientationDirectorExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrientationDirectorExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = OrientationDirectorExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -49,6 +51,7 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				1B92D7FA4703F1B0B676C06C /* PrivacyInfo.xcprivacy */,
 				2A603DDA2D59212A00CE7330 /* AppDelegate.swift */,
+				5CE0D0002E80000000A0B001 /* SceneDelegate.swift */,
 			);
 			name = OrientationDirectorExample;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A603DDB2D59212A00CE7330 /* AppDelegate.swift in Sources */,
+				5CE0D0012E80000000A0B001 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +397,7 @@
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -475,6 +480,7 @@
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;

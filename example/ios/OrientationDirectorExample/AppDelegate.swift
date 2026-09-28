@@ -6,7 +6,9 @@ import OrientationDirector
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
+  // Owned by SceneDelegate. Kept here because RN still reads
+  // `delegate.window` (e.g. RCTLogBoxView dealloc) — react/react-native#56571
+  @objc weak var window: UIWindow?
 
   var reactNativeDelegate: ReactNativeDelegate?
   var reactNativeFactory: RCTReactNativeFactory?
@@ -21,14 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory
-
-    window = UIWindow(frame: UIScreen.main.bounds)
-
-    factory.startReactNative(
-      withModuleName: "OrientationDirectorExample",
-      in: window,
-      launchOptions: launchOptions
-    )
 
     return true
   }
