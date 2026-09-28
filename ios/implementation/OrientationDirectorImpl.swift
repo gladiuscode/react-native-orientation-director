@@ -21,6 +21,11 @@ import UIKit
     private var lastDeviceOrientation = Orientation.UNKNOWN
     private var isLocked = false
 
+    /// # Only on iOS >= 16
+    /// The screen the scene was on at the last geometry change,
+    /// used to detect when the app moves to another display (e.g. fold / unfold).
+    private weak var lastScreen: UIScreen?
+
     /// # Only on iOS < 16
     /// This variable is needed to prevent a loop where
     /// we lock the interface to a specific orientation
@@ -218,6 +223,8 @@ import UIKit
     /// interface orientations are ignored (e.g. iPhone Duo inner display) and
     /// when the scene moves to another screen (fold / unfold).
     private func onSceneGeometryChanged(scene: UIWindowScene) {
+        checkDisplay(of: scene)
+
         let interfaceOrientation = utils.getInterfaceOrientation(scene: scene)
         if interfaceOrientation == .unknown {
             return
@@ -225,6 +232,24 @@ import UIKit
 
         let newInterfaceOrientation = utils.convertToOrientationFrom(uiInterfaceOrientation: interfaceOrientation)
         updateLastInterfaceOrientationTo(value: newInterfaceOrientation)
+    }
+
+    private func checkDisplay(of scene: UIWindowScene) {
+        let screen = scene.screen
+
+        let previousScreen = lastScreen
+        lastScreen = screen
+
+        // First sync, nothing changed yet
+        guard let previousScreen = previousScreen else {
+            return
+        }
+
+        if previousScreen === screen {
+            return
+        }
+
+        eventManager.sendDisplayDidChange(size: screen.bounds.size)
     }
 
     /// # Only on iOS < 16
