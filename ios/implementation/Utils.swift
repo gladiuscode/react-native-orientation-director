@@ -42,50 +42,6 @@ class Utils {
         }
     }
 
-    /**
-     UIDevice.orientation is relative to the device chassis. On foldable devices
-     (iPhone Duo) the inner display is mounted rotated by 90° relative to the chassis,
-     so while the scene is on that display we rotate the device orientation
-     to make it relative to the display the user is looking at.
-     */
-    public func convertToDisplayRelativeFrom(deviceOrientation: UIDeviceOrientation) -> UIDeviceOrientation {
-        if !isSceneOnRotatedDisplay() {
-            return deviceOrientation
-        }
-
-        switch deviceOrientation {
-        case .portrait:
-            return .landscapeRight
-        case .landscapeRight:
-            return .portraitUpsideDown
-        case .portraitUpsideDown:
-            return .landscapeLeft
-        case .landscapeLeft:
-            return .portrait
-        default:
-            return deviceOrientation
-        }
-    }
-
-    /**
-     On iPhone the main screen is always aligned with the chassis, even on iPhone Duo
-     where it's the outer display. When unfolded, the scene moves to the inner display,
-     which is a different screen.
-     Note: UIScreen.main is deprecated since iOS 26, but it's the only way to identify
-     the device's built-in screen from a scene placed on another one.
-     */
-    private func isSceneOnRotatedDisplay() -> Bool {
-        guard UIDevice.current.userInterfaceIdiom == .phone else {
-            return false
-        }
-
-        guard let screen = self.getCurrentWindow()?.windowScene?.screen else {
-            return false
-        }
-
-        return screen !== UIScreen.main
-    }
-
     public func convertToOrientationFrom(jsValue: NSNumber) -> Orientation {
         switch jsValue {
         case 2:

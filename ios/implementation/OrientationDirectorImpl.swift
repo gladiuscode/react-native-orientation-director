@@ -19,7 +19,6 @@ import UIKit
     private var initialSupportedInterfaceOrientations: UIInterfaceOrientationMask = UIInterfaceOrientationMask.all
     private var lastInterfaceOrientation = Orientation.UNKNOWN
     private var lastDeviceOrientation = Orientation.UNKNOWN
-    private var lastUIDeviceOrientation = UIDeviceOrientation.unknown
     private var isLocked = false
 
     /// # Only on iOS < 16
@@ -162,8 +161,7 @@ import UIKit
     }
 
     private func initDeviceOrientation() -> Orientation {
-        lastUIDeviceOrientation = UIDevice.current.orientation
-        return getDeviceOrientationRelativeToDisplay()
+        return utils.convertToOrientationFrom(deviceOrientation: UIDevice.current.orientation)
     }
 
     private func initIsLocked() -> Bool {
@@ -202,8 +200,7 @@ import UIKit
     }
 
     private func onOrientationChanged(uiDeviceOrientation: UIDeviceOrientation) {
-        lastUIDeviceOrientation = uiDeviceOrientation
-        let deviceOrientation = getDeviceOrientationRelativeToDisplay()
+        let deviceOrientation = utils.convertToOrientationFrom(deviceOrientation: uiDeviceOrientation)
         updateLastDeviceOrientationTo(value: deviceOrientation)
 
         /// On iOS >= 16 the interface orientation is driven by the scene
@@ -221,10 +218,6 @@ import UIKit
     /// interface orientations are ignored (e.g. iPhone Duo inner display) and
     /// when the scene moves to another screen (fold / unfold).
     private func onSceneGeometryChanged() {
-        // The scene might have moved to a display with a different
-        // alignment to the chassis (e.g. iPhone Duo fold / unfold)
-        updateLastDeviceOrientationTo(value: getDeviceOrientationRelativeToDisplay())
-
         let interfaceOrientation = utils.getInterfaceOrientation()
         if interfaceOrientation == .unknown {
             return
@@ -273,11 +266,6 @@ import UIKit
 
         self.eventManager.sendInterfaceOrientationDidChange(value: value.rawValue)
         lastInterfaceOrientation = value
-    }
-
-    private func getDeviceOrientationRelativeToDisplay() -> Orientation {
-        let deviceOrientation = utils.convertToDisplayRelativeFrom(deviceOrientation: lastUIDeviceOrientation)
-        return utils.convertToOrientationFrom(deviceOrientation: deviceOrientation)
     }
 
     private func getOrientationFromInterface() -> Orientation {
