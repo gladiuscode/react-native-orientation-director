@@ -162,6 +162,7 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 | listenForDeviceOrientationChanges        | Triggers a provided callback each time the device orientation changes             |
 | listenForInterfaceOrientationChanges     | Triggers a provided callback each time the interface orientation changes          |
 | listenForLockChanges                     | Triggers a provided callback each time the interface orientation status changes   |
+| listenForDisplayChanges                  | Triggers a provided callback each time the app moves to a different display       |
 | convertOrientationToHumanReadableString  | Returns a human readable string based on the given orientation                    |
 | convertAutoRotationToHumanReadableString | Returns a human readable string based on the given auto rotation                  |
 | setHumanReadableOrientations             | Sets the mapping needed to convert orientation values to human readable strings   |
@@ -219,6 +220,9 @@ On foldable devices the app moves between the outer and the inner display when t
    ignores them there. This means that `lockTo` has no effect on the inner display, while it keeps working on the
    outer one. `isLocked` still reports whether a lock has been requested, and the interface orientation always
    reports the orientation actually displayed.
+
+To be notified when the app moves to another display (e.g. fold / unfold), use `listenForDisplayChanges`: the
+orientation values alone might not change in that case.
 
 ### Android
 
