@@ -18,7 +18,7 @@ import UIKit
 /// https://developer.apple.com/documentation/uikit/uiwindowscene/effectivegeometry
 public class SceneGeometryListener {
     private let utils: Utils
-    private var onGeometryDidChangeCallback: (() -> Void)?
+    private var onGeometryDidChangeCallback: ((UIWindowScene) -> Void)?
     private var observation: NSKeyValueObservation?
     private weak var observedScene: UIWindowScene?
 
@@ -38,7 +38,7 @@ public class SceneGeometryListener {
         observation?.invalidate()
     }
 
-    func setOnGeometryDidChange(callback: @escaping () -> Void) {
+    func setOnGeometryDidChange(callback: @escaping (UIWindowScene) -> Void) {
         self.onGeometryDidChangeCallback = callback
     }
 
@@ -68,21 +68,21 @@ public class SceneGeometryListener {
 
         observedScene = scene
         observation?.invalidate()
-        observation = scene.observe(\.effectiveGeometry, options: [.new]) { [weak self] _, _ in
-            self?.notifyGeometryDidChange()
+        observation = scene.observe(\.effectiveGeometry, options: [.new]) { [weak self] scene, _ in
+            self?.notifyGeometryDidChange(scene: scene)
         }
 
-        notifyGeometryDidChange()
+        notifyGeometryDidChange(scene: scene)
     }
 
-    private func notifyGeometryDidChange() {
+    private func notifyGeometryDidChange(scene: UIWindowScene) {
         guard Thread.isMainThread else {
             DispatchQueue.main.async { [weak self] in
-                self?.notifyGeometryDidChange()
+                self?.notifyGeometryDidChange(scene: scene)
             }
             return
         }
 
-        onGeometryDidChangeCallback?()
+        onGeometryDidChangeCallback?(scene)
     }
 }

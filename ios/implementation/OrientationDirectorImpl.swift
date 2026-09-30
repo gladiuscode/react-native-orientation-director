@@ -217,8 +217,8 @@ import UIKit
     /// it reflects what the system actually displays, even when the supported
     /// interface orientations are ignored (e.g. iPhone Duo inner display) and
     /// when the scene moves to another screen (fold / unfold).
-    private func onSceneGeometryChanged() {
-        let interfaceOrientation = utils.getInterfaceOrientation()
+    private func onSceneGeometryChanged(scene: UIWindowScene) {
+        let interfaceOrientation = utils.getInterfaceOrientation(scene: scene)
         if interfaceOrientation == .unknown {
             return
         }
