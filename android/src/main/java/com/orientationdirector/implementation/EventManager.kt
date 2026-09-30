@@ -27,6 +27,14 @@ class EventManager(private val delegate: EventManagerDelegate) {
     delegate.sendOnLockChanged(params)
   }
 
+  fun sendDisplayDidChange(width: Double, height: Double) {
+    val params = Arguments.createMap().apply {
+      putDouble("width", width)
+      putDouble("height", height)
+    }
+    delegate.sendOnDisplayChanged(params)
+  }
+
   companion object {
     const val NAME = "OrientationEventManager"
   }

@@ -28,6 +28,10 @@ export interface Spec extends TurboModule {
     orientation: number;
   }>;
   readonly onLockChanged: CodegenTypes.EventEmitter<{ locked: boolean }>;
+  readonly onDisplayChanged: CodegenTypes.EventEmitter<{
+    width: number;
+    height: number;
+  }>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('OrientationDirector');

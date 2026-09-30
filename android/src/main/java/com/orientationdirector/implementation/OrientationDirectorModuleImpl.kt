@@ -16,6 +16,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
   )
   private var mLifecycleListener = LifecycleListener()
   private var mBroadcastReceiver = ConfigurationChangedBroadcastReceiver(context)
+  private var mDisplayChangesListener = DisplayChangesListener(context)
 
   private var initialSupportedInterfaceOrientations = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
   private var lastInterfaceOrientation = Orientation.UNKNOWN
@@ -36,6 +37,10 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       checkInterfaceOrientation(false)
     }
 
+    mDisplayChangesListener.setOnDisplayChangedCallback { width, height ->
+      mEventManager.sendDisplayDidChange(width, height)
+    }
+
     // NOTE(1.init): This is needed to compute the initial device orientation
     mOrientationSensorsEventListener.enable()
 
@@ -46,6 +51,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       }
       mAutoRotationObserver.enable()
       mBroadcastReceiver.register()
+      mDisplayChangesListener.register()
     }
     mLifecycleListener.setOnHostPauseCallback {
       if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
@@ -53,6 +59,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       }
       mAutoRotationObserver.disable()
       mBroadcastReceiver.unregister()
+      mDisplayChangesListener.unregister()
     }
     mLifecycleListener.setOnHostDestroyCallback {
       if (!didComputeInitialDeviceOrientation || areOrientationSensorsEnabled) {
@@ -60,6 +67,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
       }
       mAutoRotationObserver.disable()
       mBroadcastReceiver.unregister()
+      mDisplayChangesListener.unregister()
     }
 
     initialSupportedInterfaceOrientations =

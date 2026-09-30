@@ -7,6 +7,7 @@ import { OrientationType } from './types/OrientationType.enum';
 import type { OrientationEvent } from './types/OrientationEvent.interface';
 import type { LockableOrientation } from './types/LockableOrientation.type';
 import type { LockedEvent } from './types/LockedEvent.interface';
+import type { DisplayChangedEvent } from './types/DisplayChangedEvent.interface';
 import type { HumanReadableAutoRotationsResource } from './types/HumanReadableAutoRotationsResource.type';
 import EventEmitter from './EventEmitter';
 
@@ -121,6 +122,19 @@ class RNOrientationDirector {
 
   static listenForLockChanges(callback: (event: LockedEvent) => void) {
     return EventEmitter.addLockDidChangeListener(callback);
+  }
+
+  /**
+   * Triggers the provided callback each time the app moves to a different
+   * physical display, e.g. when a foldable device is folded or unfolded.
+   * It is not triggered by rotations or by window resizes (split view, multi-window).
+   *
+   * @param callback invoked with the new display size
+   */
+  static listenForDisplayChanges(
+    callback: (event: DisplayChangedEvent) => void
+  ) {
+    return EventEmitter.addDisplayDidChangeListener(callback);
   }
 
   static convertOrientationToHumanReadableString(orientation: Orientation) {

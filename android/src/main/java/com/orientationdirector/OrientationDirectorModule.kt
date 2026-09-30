@@ -73,6 +73,14 @@ class OrientationDirectorModule(reactContext: ReactApplicationContext) :
     }
   }
 
+  override fun sendOnDisplayChanged(params: WritableMap) {
+    try {
+      emitOnDisplayChanged(params)
+    } catch(_: Exception) {
+      // No listener instance yet
+    }
+  }
+
   companion object {
     const val NAME = OrientationDirectorModuleImpl.NAME
   }
