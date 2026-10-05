@@ -50,6 +50,13 @@ public class SceneGeometryListener {
     }
 
     @objc private func sceneDidActivate(_ notification: Notification) {
+        /// Apps can have multiple scenes: once the React Native scene is observed,
+        /// activations of unrelated scenes must not replace it. A new scene is picked
+        /// only when the observed one is gone, as observedScene is weak.
+        if observedScene != nil {
+            return
+        }
+
         attach(to: notification.object as? UIWindowScene)
     }
 

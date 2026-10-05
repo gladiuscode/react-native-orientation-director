@@ -39,7 +39,7 @@ class DisplayChangesListener internal constructor(private val context: ReactAppl
     isRegistered = true
 
     // The display might have changed while the listener was unregistered
-    checkDisplay()
+    sync()
   }
 
   fun unregister() {
@@ -56,10 +56,15 @@ class DisplayChangesListener internal constructor(private val context: ReactAppl
   override fun onDisplayRemoved(displayId: Int) = Unit
 
   override fun onDisplayChanged(displayId: Int) {
-    checkDisplay()
+    sync()
   }
 
-  private fun checkDisplay() {
+  /**
+   * Compares the current display with the last known one.
+   * It is also needed when the activity moves between existing displays,
+   * as DisplayManager doesn't notify it since no display has changed.
+   */
+  fun sync() {
     val size = computeDisplaySize() ?: return
     val physicalSize = Pair(minOf(size.x, size.y), maxOf(size.x, size.y))
 

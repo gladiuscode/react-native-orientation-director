@@ -35,6 +35,7 @@ class OrientationDirectorModuleImpl internal constructor(private val context: Re
 
     mBroadcastReceiver.setOnReceiveCallback {
       checkInterfaceOrientation(false)
+      mDisplayChangesListener.sync()
     }
 
     mDisplayChangesListener.setOnDisplayChangedCallback { width, height ->
