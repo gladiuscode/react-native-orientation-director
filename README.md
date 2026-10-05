@@ -177,6 +177,7 @@ In addition, the library exposes the following hooks:
 | [useInterfaceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useInterfaceOrientation.hook.ts)                 | Returns the current interface orientation and listens to changes        |
 | [useDeviceOrientation](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDeviceOrientation.hook.ts)                       | Returns the current device orientation and listens to changes           |
 | [useIsInterfaceOrientationLocked](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useIsInterfaceOrientationLocked.hook.ts) | Returns the current interface orientation status and listens to changes |
+| [useDisplay](https://github.com/gladiuscode/react-native-orientation-director/blob/main/src/hooks/useDisplay.hook.ts) | Returns the size of the current display and listens to display changes |
 
 Head over to the [example project](example) to see how to use the library.
 

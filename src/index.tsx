@@ -11,5 +11,8 @@ export { useInterfaceOrientation };
 import useIsInterfaceOrientationLocked from './hooks/useIsInterfaceOrientationLocked.hook';
 export { useIsInterfaceOrientationLocked };
 
+import useDisplay from './hooks/useDisplay.hook';
+export { useDisplay };
+
 import RNOrientationDirector from './RNOrientationDirector';
 export default RNOrientationDirector;
