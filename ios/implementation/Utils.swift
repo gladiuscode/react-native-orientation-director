@@ -93,9 +93,13 @@ class Utils {
       }
     }
 
-    public func getInterfaceOrientation() -> UIInterfaceOrientation {
-        guard let windowScene = self.getCurrentWindow()?.windowScene else {
+    public func getInterfaceOrientation(scene: UIWindowScene? = nil) -> UIInterfaceOrientation {
+        guard let windowScene = scene ?? self.getCurrentWindow()?.windowScene else {
             return UIInterfaceOrientation.unknown
+        }
+
+        if #available(iOS 16.0, *) {
+            return windowScene.effectiveGeometry.interfaceOrientation
         }
 
         return windowScene.interfaceOrientation
@@ -110,6 +114,7 @@ class Utils {
             .shared
             .connectedScenes
             .compactMap { $0 as? UIWindowScene }
+            .filter { $0.session.role == .windowApplication }
             .flatMap { $0.windows }
             .last { $0.isKeyWindow }
     }

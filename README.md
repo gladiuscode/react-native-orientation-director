@@ -130,6 +130,21 @@ func application(_ application: UIApplication, supportedInterfaceOrientationsFor
 
 ```
 
+Starting from iOS 27, `application(_:supportedInterfaceOrientationsFor:)` is deprecated in favor of
+`UIWindowSceneDelegate.supportedInterfaceOrientations(for:)`. The AppDelegate method above still works, but if your
+app adopts the UIScene lifecycle and you build with the iOS 27 SDK, you can implement the new method in your
+SceneDelegate instead:
+
+```swift
+
+import OrientationDirector
+
+func supportedInterfaceOrientations(for windowScene: UIWindowScene) -> UIInterfaceOrientationMask {
+  return SharedOrientationDirectorImpl.shared.supportedInterfaceOrientations
+}
+
+```
+
 If you need help, you can check the example project.
 
 ## Usage
@@ -183,6 +198,27 @@ documentation:
 1. [iOS - UIInterfaceOrientation](https://developer.apple.com/documentation/uikit/uiinterfaceorientation)
 2. [iOS - UIDeviceOrientation](https://developer.apple.com/documentation/uikit/uideviceorientation)
 3. [Android - getRotation](<https://developer.android.com/reference/android/view/Display#getRotation()>)
+
+### iOS
+
+Starting from iOS 16, the interface orientation is read from the window scene geometry, which reflects what the
+system actually displays. As a consequence, after calling `lockTo` or `resetSupportedInterfaceOrientations` the new
+interface orientation is delivered through the listeners (and hooks) as soon as the system applies it, instead of
+being assumed right away.
+
+#### Foldable devices (iPhone Duo)
+
+On foldable devices the app moves between the outer and the inner display when the device is folded or unfolded:
+
+1. The interface orientation is updated on fold / unfold, even though the device itself is not rotated;
+2. The device orientation is the one reported by iOS (`UIDevice.orientation`), which is relative to the device body
+   and does not change on fold / unfold. The iPhone Duo inner display is mounted rotated by 90° relative to the
+   body, so an unfolded device can report a `portrait` device orientation together with a landscape interface
+   orientation, exactly like a native app would read them;
+3. The inner display is a resizable environment: iOS treats the supported interface orientations as a preference and
+   ignores them there. This means that `lockTo` has no effect on the inner display, while it keeps working on the
+   outer one. `isLocked` still reports whether a lock has been requested, and the interface orientation always
+   reports the orientation actually displayed.
 
 ### Android
 
