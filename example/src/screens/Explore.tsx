@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { exploreStyle } from './styles';
 import RNOrientationDirector, {
   useDeviceOrientation,
+  useDisplay,
   useInterfaceOrientation,
   useIsInterfaceOrientationLocked,
 } from 'react-native-orientation-director';
@@ -14,16 +14,7 @@ function Explore() {
   const interfaceOrientation = useInterfaceOrientation();
   const deviceOrientation = useDeviceOrientation();
   const isInterfaceOrientationLocked = useIsInterfaceOrientationLocked();
-  const [lastDisplayChange, setLastDisplayChange] = useState<string>('None');
-
-  useEffect(() => {
-    const subscription = RNOrientationDirector.listenForDisplayChanges(
-      ({ width, height }) => {
-        setLastDisplayChange(`${Math.round(width)}x${Math.round(height)}`);
-      }
-    );
-    return () => subscription.remove();
-  }, []);
+  const display = useDisplay();
 
   const handleGoToInnerExploreOnPress = () => {
     navigation.navigate('InnerExplore' as never);
@@ -56,7 +47,8 @@ function Explore() {
           {isInterfaceOrientationLocked ? 'Yes' : 'No'}
         </Text>
         <Text style={[exploreStyle.text, exploreStyle.marginBottom]}>
-          Last Display Change:{lastDisplayChange}
+          Current Display:{Math.round(display.width)}x
+          {Math.round(display.height)}
         </Text>
       </View>
     </View>
