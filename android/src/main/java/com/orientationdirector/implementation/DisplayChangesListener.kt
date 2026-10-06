@@ -10,11 +10,12 @@ import android.view.WindowManager
 import com.facebook.react.bridge.ReactApplicationContext
 
 /**
- * Notifies when the app moves to a display with a different physical size,
+ * Notifies when the app moves to a display with a different size in dp,
  * e.g. when a foldable device is folded or unfolded.
  *
  * DisplayManager notifies any display change, rotations included, so the
- * physical size is compared regardless of its orientation.
+ * size is compared regardless of its orientation. It is compared in dp so that
+ * density changes with the same pixel size are notified as well.
  */
 class DisplayChangesListener internal constructor(private val context: ReactApplicationContext) :
   DisplayManager.DisplayListener {
@@ -22,7 +23,7 @@ class DisplayChangesListener internal constructor(private val context: ReactAppl
   private val displayManager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
   private val handler = Handler(Looper.getMainLooper())
   private var isRegistered = false
-  private var lastPhysicalSize: Pair<Int, Int>? = null
+  private var lastSizeDp: Pair<Double, Double>? = null
 
   private var onDisplayChangedCallback: ((widthDp: Double, heightDp: Double) -> Unit)? = null
 
@@ -66,18 +67,20 @@ class DisplayChangesListener internal constructor(private val context: ReactAppl
    */
   fun sync() {
     val size = computeDisplaySize() ?: return
-    val physicalSize = Pair(minOf(size.x, size.y), maxOf(size.x, size.y))
+    val density = computeDensity()
+    val widthDp = size.x / density
+    val heightDp = size.y / density
+    val sizeDp = Pair(minOf(widthDp, heightDp), maxOf(widthDp, heightDp))
 
-    val previousPhysicalSize = lastPhysicalSize
-    lastPhysicalSize = physicalSize
+    val previousSizeDp = lastSizeDp
+    lastSizeDp = sizeDp
 
     // First sync, nothing changed yet
-    if (previousPhysicalSize == null || previousPhysicalSize == physicalSize) {
+    if (previousSizeDp == null || previousSizeDp == sizeDp) {
       return
     }
 
-    val density = computeDensity()
-    onDisplayChangedCallback?.invoke(size.x / density, size.y / density)
+    onDisplayChangedCallback?.invoke(widthDp, heightDp)
   }
 
   /**
