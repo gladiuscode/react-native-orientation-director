@@ -36,10 +36,20 @@ public class EventManager: NSObject {
         let params = Dictionary(dictionaryLiteral: ("locked", value))
         delegate.emitOnLockChanged(params: params as NSDictionary)
     }
+
+    func sendDisplayDidChange(size: CGSize) {
+        guard let delegate = delegate else {
+            return
+        }
+
+        let params: [String: Any] = ["width": size.width, "height": size.height]
+        delegate.emitDisplayChanged(params: params as NSDictionary)
+    }
 }
 
 @objc public protocol OrientationEventEmitterDelegate {
     func emitOnLockChanged(params: NSDictionary)
     func emitDeviceOrientationChanged(params: NSDictionary)
     func emitInterfaceOrientationChanged(params: NSDictionary)
+    func emitDisplayChanged(params: NSDictionary)
 }

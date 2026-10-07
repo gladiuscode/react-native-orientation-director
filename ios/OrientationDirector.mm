@@ -69,6 +69,14 @@ static OrientationDirectorImpl *_director = SharedOrientationDirectorImpl.shared
   }
 }
 
+-(void)emitDisplayChangedWithParams:(NSDictionary*)params {
+  try {
+    [self emitOnDisplayChanged:params];
+  } catch (std::exception &e) {
+    // Ignore if no listeners
+  }
+}
+
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
 

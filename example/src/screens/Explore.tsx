@@ -2,6 +2,7 @@ import { Button, Text, View } from 'react-native';
 import { exploreStyle } from './styles';
 import RNOrientationDirector, {
   useDeviceOrientation,
+  useDisplay,
   useInterfaceOrientation,
   useIsInterfaceOrientationLocked,
 } from 'react-native-orientation-director';
@@ -13,6 +14,7 @@ function Explore() {
   const interfaceOrientation = useInterfaceOrientation();
   const deviceOrientation = useDeviceOrientation();
   const isInterfaceOrientationLocked = useIsInterfaceOrientationLocked();
+  const display = useDisplay();
 
   const handleGoToInnerExploreOnPress = () => {
     navigation.navigate('InnerExplore' as never);
@@ -43,6 +45,10 @@ function Explore() {
         <Text style={[exploreStyle.text, exploreStyle.marginBottom]}>
           Is Interface Orientation Locked:
           {isInterfaceOrientationLocked ? 'Yes' : 'No'}
+        </Text>
+        <Text style={[exploreStyle.text, exploreStyle.marginBottom]}>
+          Current Display:{Math.round(display.width)}x
+          {Math.round(display.height)}
         </Text>
       </View>
     </View>
