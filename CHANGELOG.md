@@ -1,5 +1,19 @@
 # Changelog
 
+# [3.1.0](https://github.com/gladiuscode/react-native-orientation-director/compare/v3.0.2...v3.1.0) (2026-10-11)
+
+
+### Bug Fixes
+
+* **ci:** read tool versions from .mise.toml via mise-action ([#119](https://github.com/gladiuscode/react-native-orientation-director/issues/119)) ([fee072e](https://github.com/gladiuscode/react-native-orientation-director/commit/fee072e229811074f63c49e089461db8180aa7cb))
+* **ios:** update orientations on fold / unfold (iPhone Duo) ([#116](https://github.com/gladiuscode/react-native-orientation-director/issues/116)) ([e8ada7e](https://github.com/gladiuscode/react-native-orientation-director/commit/e8ada7ec12824d176aae906efd855230c65e0e96))
+* restore eslint and jest in root and plugin workspaces ([#117](https://github.com/gladiuscode/react-native-orientation-director/issues/117)) ([e17f5f0](https://github.com/gladiuscode/react-native-orientation-director/commit/e17f5f05f4146c844f9cd12508ac0e7f9ac5adad))
+
+
+### Features
+
+* add onDisplayChanged event (listenForDisplayChanges) ([#120](https://github.com/gladiuscode/react-native-orientation-director/issues/120)) ([3433f9f](https://github.com/gladiuscode/react-native-orientation-director/commit/3433f9f1e77cf25c2d79ac620bae4558d3130277))
+
 ## [3.0.2](https://github.com/gladiuscode/react-native-orientation-director/compare/v3.0.1...v3.0.2) (2026-04-02)
 
 
