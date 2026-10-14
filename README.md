@@ -155,7 +155,7 @@ This library exports a class called: [RNOrientationDirector](https://github.com/
 |------------------------------------------|-----------------------------------------------------------------------------------|
 | getInterfaceOrientation                  | Returns the last interface orientation                                            |
 | getDeviceOrientation                     | Returns the last device orientation                                               |
-| lockTo                                   | Locks the interface to a specific orientation                                     |
+| lockTo                                   | Locks the interface to a specific orientation (some restrictions, see below)      |
 | unlock                                   | Unlock the interface                                                              |
 | isLocked                                 | Returns the current interface orientation status (locked / unlocked)              |
 | isAutoRotationEnabled                    | (Android Only) Returns if auto rotation is enabled                                |
@@ -235,6 +235,14 @@ differently than on iOS, mainly in the following ways:
 3. After the last device orientation listener is removed, all required sensors are disabled;
 
 This behavior allows us to follow Google's best practices related to the Sensors Framework. More [here](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview#sensors-practices).
+
+#### Large Screen Devices
+
+On Android 16+ (API level 36), devices with a width >= 600dp will ignore calls to lock orientation with only some exceptions such as for games - more info in the [adaptive apps guide](https://developer.android.com/develop/adaptive-apps/guides/app-orientation-aspect-ratio-resizability)
+and [Android 16 behavior changes](https://developer.android.com/about/versions/16/behavior-changes-16#ignore-orientation).
+
+A **temporary** workaround for **Android 16 only** specifically is to enable the `PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY` property - this property is ignored in Android 17+ (API Level 37).
+This is primarily to encourage adaptive layouts.
 
 ## Contributing
 
